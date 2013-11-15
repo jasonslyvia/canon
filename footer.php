@@ -7,7 +7,7 @@
 
     <script type="text/javascript" src="<?php echo URL;?>/js/grid.js">
     </script>
-
+    <?php //wp_footer();?>
   </body>
 
 </html>

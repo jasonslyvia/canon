@@ -15,11 +15,13 @@
       <div class="headerSpacer">
       </div>
 
+      <?php if(!is_user_logged_in()): ?>
       <!--  欢迎语   -->
       <div id="siteIntro">
           <h2>欢迎来到小摄郎，在这里发现并分享美丽的影与像。</h2>
           <a href="http://www.wookmark.com/signup" class="actionButton blueButton">现在加入</a>
       </div>
+      <?php endif; ?>
 
       <!--  内容  -->
       <div id="images">

@@ -1,0 +1,665 @@
+
+#images {
+position: relative;
+}
+
+#userInfo,
+#userInfoExplore {
+background-color: #fff;
+width: 236px;
+padding: 0 0 0 0;
+border: 1px solid #dedede;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+display: none;
+}
+
+#userInfo .picture,
+#userInfoExplore .picture {
+margin-bottom: 5px;
+position: relative;
+}
+
+#userInfo .plusSeal,
+#userInfoExplore .plusSeal {
+position: absolute;
+top: -2px;
+right: 17px;
+display: block;
+}
+
+#userInfo .picture .plusSeal {
+top: 7px;
+right: 23px;
+}
+
+#userInfo h1,
+#userInfo .stats,
+#userInfo .groups,
+#userInfo .sources,
+#userInfo .following {
+padding: 5px 5px 5px 5px;
+}
+
+#userInfo .stats {
+line-height: 16px;
+}
+
+#userInfo .statistics {
+margin: 5px 0 10px 0;
+padding: 12px 0 10px 18px;
+border-top: 1px solid #ededed;
+border-bottom: 1px solid #ededed;
+}
+
+#userInfo .statistics:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+#userInfo .statistics p {
+float: left;
+width: 60px;
+margin: 5px 10px 5px 0;
+font-size: 14px;
+line-height: 14px;
+color: #333;
+font-weight: bold;
+}
+
+#userInfo .statistics p span {
+font-size: 11px;
+color: #777;
+font-weight: normal;
+/*解决中文样式下偏移问题*/
+position: relative;
+left: -1px;
+}
+
+#userInfo .statistics p a:hover span {
+  color: #008ed3;
+}
+
+#userInfo .statistics p a {
+display: block;
+}
+
+#userInfo .picture {
+padding: 8px 0 0 18px;
+}
+
+#userInfo .picture.blank {
+  background: transparent url('/assets/profile-blank-200.jpg') no-repeat center center;
+  width: 218px;
+  height: 218px;
+  margin: 0 9px 0px 9px;
+  padding: 0;
+}
+
+#userInfo .picture.blank a {
+  display: block;
+  text-align: center;
+  vertical-align: bottom;
+  padding-top: 160px;
+  padding-bottom: 40px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(255,255,255,.25);
+}
+
+#userInfo h1 {
+font-weight: 300;
+font-size: 18px;
+margin-bottom: 10px;
+color: #666;
+padding: 11px 5px 12px 18px;
+border-top-left-radius: 3px;
+border-top-right-radius: 3px;
+background-color: #f4f4f4;
+background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f4f4f4));
+background-image: -webkit-linear-gradient(top, #ffffff, #f4f4f4);
+background-image: -moz-linear-gradient(top, #ffffff, #f4f4f4);
+background-image: -ms-linear-gradient(top, #ffffff, #f4f4f4);
+background-image: -o-linear-gradient(top, #ffffff, #f4f4f4);
+background-image: linear-gradient(top, #ffffff, #f4f4f4);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#f4f4f4');
+border-bottom: 1px solid #ddd;
+}
+
+#userInfo h1 b {
+color: #333;
+}
+
+#userInfo .stats {
+color: #777;
+font-style: italic;
+margin: 0;
+padding: 5px 18px 5px 18px;
+}
+
+#userInfo .stats {
+font-weight: normal;
+font-size: 11px;
+}
+
+#userInfo .groups,
+#userInfo .sources,
+#userInfo .following {
+margin-top: 10px;
+padding: 0 18px 5px 18px;
+}
+
+#userInfo .groups h3 {
+font-size: 11px;
+margin-top: 5px;
+}
+
+#userInfo .groups h3 {
+font-size: 11px;
+margin: 5px 0 3px 0;
+}
+
+#userInfo .groups ol {
+margin-left: 10px;
+}
+
+#userInfo .groups h2,
+#userInfo .sources h2,
+#userInfo .following h2 {
+font-size: 13px;
+font-weight: bold;
+margin: 0 0 5px 0;
+}
+
+#userInfo .groups li img {
+vertical-align: top;
+padding-left: 3px;
+}
+
+#userInfo li {
+font-size: 11px;
+line-height: 17px;
+}
+
+#userInfo .sources li span,
+#userInfo .groups li span {
+color: #999;
+opacity: 0;
+filter: alpha(opacity=0);
+  -moz-transition: all 0.35s ease-out;
+  -o-transition: all 0.15s ease-out;
+  -webkit-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  transition: all 0.5s ease-out;
+}
+
+#userInfo:hover .sources li span,
+#userInfo:hover .groups li span {
+opacity: 1;
+filter: alpha(opacity=100);
+}
+
+#userInfo .following .hider {
+cursor: pointer;
+}
+
+#userInfo .groups li span img {
+vertical-align: middle;
+margin-bottom: 2px;
+}
+
+#userInfo .groups li.archived {
+display: none;
+}
+
+#userInfo .groups li.expand a {
+color: #999999;
+}
+
+#userInfo .groups li.expand a:hover {
+color: #008ed3;
+}
+
+#userInfo .following .hider:hover {
+text-decoration: underline;
+}
+
+#userInfo .following .hidden {
+display: none;
+}
+
+#userInfo li a {
+color: #555;
+}
+
+#userInfo li a:hover {
+color: #4a77bc;
+}
+
+#userInfo .options {
+margin: 15px 18px 15px 18px;
+}
+
+#userInfo .options .linkButton a {
+font-size: 11px;
+line-height: 24px;
+text-decoration: underline;
+margin-left: 5px;
+}
+
+#userInfo .options:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+#userInfo .options .actionButton {
+display: inline-block;
+margin-right: 5px;
+float: left;
+padding: 0;
+}
+
+#userInfo .options .actionButton a {
+  padding: 6px 17px 5px 18px;
+height: 12px;
+display: block;
+}
+
+#userInfo .followButton {
+display: inline-block;
+font-size: 11px;
+text-align: center;
+}
+
+#userInfo .secOptions,
+#userInfoExplore .secOptions {
+margin-top: 8px;
+border-top: 1px solid #ededed;
+-moz-border-radius-bottomleft: 2px;
+-moz-border-radius-bottomright: 2px;
+-webkit-border-bottom-left-radius: 2px;
+-webkit-border-bottom-right-radius: 2px;
+border-bottom-left-radius: 2px;
+border-bottom-right-radius: 2px;
+background-color: #f8f8f8;
+}
+
+#userInfo .secOptions:after,
+#userInfoExplore .secOptions:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+#userInfo .secOptions .linkButton,
+#userInfoExplore .secOptions .linkButton {
+border-right: 1px solid #ffffff;
+float: left;
+}
+
+#userInfo .secOptions .linkButton:first-child,
+#userInfoExplore .secOptions .linkButton:first-child {
+border-left: 0px;
+}
+
+#userInfo .secOptions .linkButton a,
+#userInfoExplore .secOptions .linkButton a {
+display: block;
+line-height: 31px;
+font-size: 11px;
+padding: 0 15px 1px 15px;
+border-right: 1px solid #e4e4e4;
+}
+
+#userInfo .secOptions .linkButton img,
+#userInfoExplore .secOptions .linkButton img {
+vertical-align: middle;
+margin-bottom: 2px;
+}
+
+#userInfo .secOptions .linkButton a:link,
+#userInfo .secOptions .linkButton a:visited,
+#userInfoExplore .secOptions .linkButton a:link,
+#userInfoExplore .secOptions .linkButton a:visited {
+color: #666666;
+}
+
+#userInfo .secOptions .linkButton a:hover,
+#userInfoExplore .secOptions .linkButton a:hover {
+color: #008ed3;
+}
+
+/** Empty profile **/
+.emptyProfile {
+width: 540px;
+padding: 0;
+margin: 0 auto;
+}
+
+.emptyProfile h1 {
+font-size: 30px;
+color: #112b3b;
+padding: 0 0 20px 0;
+margin: 35px 0 0 0;
+font-weight: normal;
+margin-bottom: 3px;
+text-align: center;
+}
+
+.emptyProfile p {
+font-size: 16px;
+line-height: 22px;
+color: #4c4c4c;
+text-align: center;
+margin: 0 0 0 0;
+}
+
+.emptyProfile ul {
+margin: 50px 0 0 0;
+}
+
+.emptyProfile li {
+float: left;
+width: 180px;
+margin: 0 0 0 0;
+}
+
+.emptyProfile li p.number {
+border: 2px solid #00aeef;
+border-radius: 100px;
+width: 50px;
+height: 50px;
+padding: 0 0 0 0;
+line-height: 50px;
+color: #00aeef;
+font-weight: bold;
+font-size: 24px;
+margin: 0 auto 15px auto;
+}
+
+.emptyProfile li p.number.two {
+border-color: #32b08c;
+color: #32b08c;
+}
+
+.emptyProfile li p.number.three {
+border-color: #e77f00;
+color: #e77f00;
+}
+
+.emptyProfile li p.info {
+font-size: 16px;
+line-height: 20px;
+color: #4c4c4c;
+}
+
+.emptyProfile li p.info a {
+color: #4c4c4c;
+aborder-bottom: 1px solid #ccc;
+}
+
+.emptyProfile li p.info a:hover {
+color: #008ed3;
+aborder-color: #008ed3;
+}
+
+.emptyProfile .explore {
+text-align: center;
+font-size: 22px;
+color: #112b3b;
+font-weight: bold;
+margin: 60px 0 0 0;
+}
+
+/** New user info box **/
+
+#userInfoNew {
+margin: 0 auto;
+padding-bottom: 30px;
+width: 860px;
+}
+
+#userInfoNew .picture {
+padding: 10px;
+  border: 1px solid #dedede;
+background-color: #ffffff;
+display: inline-block;
+float: left;
+margin-right: 20px;
+}
+
+#userInfoNew .picture img {
+display: block;
+width: 100px;
+height: auto;
+}
+
+#userInfoNew .summary {
+display: block;
+width: 300px;
+float: left;
+margin-right: 30px;
+}
+
+#userInfoNew .summary h1 {
+font-size: 24px;
+font-weight: 300;
+margin: 7px 0 10px 0;
+}
+
+#userInfoNew .summary h1 img {
+float: right;
+}
+
+#userInfoNew .summary p {
+font-size: 13px;
+line-height: 18px;
+color: #777777;
+}
+
+#userInfoNew .statistics {
+display: block;
+width: 230px;
+float: left;
+padding-top: 6px;
+border-right: 1px solid #cccccc;
+border-left: 1px solid #cccccc;
+padding-left: 30px;
+margin-right: 30px;
+}
+
+#userInfoNew .statistics p {
+width: 70px;
+float: left;
+font-size: 22px;
+line-height: 16px;
+color: #777777;
+margin: 10px 0 10px 0;
+}
+
+#userInfoNew .statistics p span {
+font-size: 12px;
+color: #777777;
+}
+
+#userInfoNew .options {
+padding: 10px 0 0 0;
+}
+
+#userInfoNew .options .actionButton {
+display: inline-block;
+padding-left: 15px;
+padding-right: 15px;
+margin: 0 0 15px 0;
+}
+
+/** User nav **/
+#userNav {
+position: absolute;
+top: 25px;
+left: 250px;
+display: none;
+}
+
+#userNav p {
+float: left;
+border-right: 1px solid #d1d1d1;
+margin: 0;
+line-height: 16px;
+}
+
+#userNav p:last-child {
+border-right: none;
+}
+
+#userNav p {
+font-size: 13px;
+text-align: center;
+position: relative;
+color: red;
+}
+
+#userNav p span {
+font-size: 11px;
+color: #666666;
+}
+
+#userNav p a:link {
+display: block;
+padding: 0px 18px 0px 18px;
+-moz-transition: all .15s ease-out;
+-webkit-transition: all .15s ease-out;
+-ms-transition: all .15s ease-out;
+-o-transition: all .15s ease-out;
+transition: all .15s ease-out;
+}
+
+#userNav p a.single {
+line-height: 33px;
+font-size: 12px;
+}
+
+#userNav p a.active span {
+color: #000000;
+}
+
+#userNav p a:after {
+content: url('/assets/icons/arrow-down.png');
+position: absolute;
+left: 40%;
+top: 25px;
+opacity: 0;
+filter: alpha(opacity=0);
+-moz-transition: all .15s ease-out;
+-webkit-transition: all .15s ease-out;
+-ms-transition: all .15s ease-out;
+-o-transition: all .15s ease-out;
+transition: all .15s ease-out;
+}
+
+#userNav p a:hover:after {
+opacity: 0.25;
+filter: alpha(opacity=25);
+top: 38px;
+}
+
+#userNav p a.active:after {
+opacity: 1;
+filter: alpha(opacity=100);
+top: 38px;
+}
+
+#userNav p a:hover span {
+  color: #008ed3;
+}
+
+/** New user info tile */
+
+#userInfoExplore {
+  display: none;
+}
+
+#userInfoExplore h1,
+#userInfoExplore .bio,
+#userInfoExplore .link,
+#userInfoExplore .options {
+padding: 10px 14px 0 14px;
+display: block;
+margin: 0;
+}
+
+#userInfoExplore .link a:link {
+color: #666666;
+}
+
+#userInfoExplore .link a:hover {
+color: #008ed3;
+}
+
+#userInfoExplore h1 {
+font-size: 13px;
+margin-bottom: 0px;
+margin-top: 5px;
+}
+
+#userInfoExplore p {
+font-size: 11px;
+line-height: 16px;
+color: #666666;
+margin: 5px 0 25px 0;
+}
+
+#userInfoExplore .picture {
+margin: 9px 0 0 9px;
+}
+
+#userInfoExplore .picture.noImage {
+width: 218px;
+height: 218px;
+background: #e9e9e9;
+-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.15);
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.15);
+-ms-box-shadow: inset 0 1px 1px rgba(0,0,0,.15);
+-o-box-shadow: inset 0 1px 1px rgba(0,0,0,.15);
+box-shadow: inset 0 1px 1px rgba(0,0,0,.15);
+text-align: center;
+}
+
+#userInfoExplore .picture.noImage .blankatar {
+background: transparent url('/assets/icons/blankatar.png') no-repeat center center;
+display: block;
+height: 100%;
+}
+
+#userInfoExplore .picture .actionButton {
+margin-top: 90px;
+}
+
+#userInfoExplore .secOptions {
+margin-top: 10px;
+}
+
+#userInfoExplore .options {
+border-top: 1px solid #ededed;
+padding: 15px 14px 5px 14px;
+margin-top: 15px;
+}
+
+#userInfoExplore .picture .actionButton,
+#userInfoExplore .options .actionButton {
+display: inline-block;
+padding: 0 15px 2px 15px;
+line-height: 24px;
+font-size: 12px;
+}
