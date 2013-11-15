@@ -30,7 +30,7 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="<?php echo URL;?>/style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="<?php echo URL;?>/css/home.css" type="text/css" media="all" />
-    <?php if(is_page('login')): ?>
+    <?php if(is_page('login') || is_page('upload')): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/login.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_page('profile')): ?>
@@ -71,11 +71,11 @@
           <a href="/profile/<?php echo $user->ID; ?>/activity" title="看看大家最近在干什么">动态</a>
         </li>
         <li class="upload">
-          <a href="/upload/" title="分享你的新照片吧">上传</a>
+          <a href="/upload/" class="actionButton blueButton" title="分享你的新照片吧">上传</a>
         </li>
         <?php endif; ?>
 
-        <li class="popular" data-type="popular">
+        <li class="popular<?php if(is_home()) echo ' active';?>" data-type="popular">
           <a href="/" title="看看最近什么比较热门">热门</a>
         </li>
 

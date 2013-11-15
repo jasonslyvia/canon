@@ -9,3 +9,5 @@
 *test*
 *.json
 *.xmind
+*.min.*
+uploads/

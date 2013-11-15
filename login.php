@@ -61,27 +61,6 @@ if ($_GET['forget'] == 1) {
 
     <div id="panelLogin" class="panel"></div>
 
-    <!-- <div class="social clearfix">
-
-      <div class="fbLogin">
-
-        <a href="http://www.wookmark.com/facebook/login" class="actionButton">
-          <img src="http://www.wookmark.com/assets/icons/facebook-18.png" width="18" height="18" alt=""/>
-          Log in via Facebook
-        </a>
-
-      </div>
-
-      <div class="twitterLogin">
-
-        <a href="http://www.wookmark.com/twitter/login" class="actionButton">
-          <img src="http://www.wookmark.com/assets/icons/twitter-18.png" width="24" height="18" alt=""/>
-          Log in via Twitter
-        </a>
-
-      </div>
-    </div> -->
-
     <div class="wrapSignupForm">
 
       <h2>通过邮箱登录</h2>

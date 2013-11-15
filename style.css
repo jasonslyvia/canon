@@ -325,21 +325,17 @@ text-align: center;
 font-weight: 700;
 }
 
-#kaori li.upload a{
-  display: block;
+
+#kaori li.active a {
+
+display: block;
 background-color: #ffffff;
-background: #ffffff;
 padding: 0 0 3px 0;
 color: #122b3b;
 font-size: 14px;
-line-height: 28px;
+line-height: 33px;
 border-radius: 3px;
-text-align: center;
 font-weight: 700;
-}
-
-#kaori li.active a {
-font-weight: bold;
 }
 
 #kaori li a,
