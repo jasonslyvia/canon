@@ -1045,9 +1045,6 @@
             Advertisements
           </p>
         </div>
-
-        <div class="clear">
-        </div>
       </div>
 
       <script type="text/javascript">

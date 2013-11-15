@@ -6,3 +6,5 @@
 *.bmp
 *cache*
 *sublime*
+*test*
+*.json

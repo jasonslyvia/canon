@@ -394,197 +394,198 @@ gbks.common.CommentPopup = function () {
 };
 
 
-var gbks = gbks || {};
-gbks.Header = function () {
-    this.init = function () {
-        this.searchDefault = "Search";
-        this.searchField = $("#header .options .search input");
-        this.searchField.focus($.proxy(this.onFocusSearch, this));
-        this.searchBlurMethod = $.proxy(this.onBlurSearch, this);
-        this.keyUpMethod = $.proxy(this.onKeyUp, this);
-        this.searchHolder = $("#header .options .search");
-        this.autoComplete = null;
-        this.searchFocused = !1;
-        this.isAuthenticated = $("body").hasClass("auth");
-        this.badWords = [];
-        this.updateCookie();
-        $("#header .dropdown").mouseover($.proxy(this.onMouseOverDropdown, this));
-        $("#header .dropdown").mouseout($.proxy(this.onMouseOutDropdown, this));
-        this.activeDropdown = null;
-        this.checkPlusMessage();
-        console.log("nsfw", $(".nsfwCover"));
-        setTimeout($.proxy(this.trackPixelDensity, this), 100)
-    };
-    this.updateCookie = function () {
-        var e = window.devicePixelRatio ? window.devicePixelRatio : 1;
-        gbks.common.Cookie("devicePixelRatio", e, {
-            path: "/"
-        });
-        gbks.common.Cookie("viewport", $(window).width(), {
-            path: "/"
-        })
-    };
-    this.trackPixelDensity = function (e) {
-        var t = window.devicePixelRatio ? window.devicePixelRatio : 1;
-        if (t > 1) {
-            var n = $(window),
-                r = n.width() + "x" + n.height();
-            gbks.common.track("Info", "dpr" + t, r)
-        }
-    };
-    this.onClickNSFWCover = function (e) {
-        var t = $(e.currentTarget),
-            n = t.parents(".nsfw");
-        console.log("onClickNSFWCover", e, n);
-        if (n.length > 0) {
-            var r = $(n[0]);
-            r.removeClass("nsfw");
-            e.preventDefault();
-            e.stopPropagation()
-        }
-    };
-    this.checkPlusMessage = function () {
-        var e = $("#plusMessage");
-        if (e.length == 0) return;
-        $(".close", e).click($.proxy(this.onClickClosePlusMessage, this));
-        $("a", e).click($.proxy(this.onClickPlusMessageLink, this));
-        var t = gbks.common.Cookie("plusMessageHidden");
-        t || e.show()
-    };
-    this.onClickPlusMessageLink = function (e) {
-        gbks.common.track("Header", "PlusMessage", "Link");
-        this.closePlusMessage()
-    };
-    this.onClickClosePlusMessage = function (e) {
-        gbks.common.track("Header", "PlusMessage", "Close");
-        this.closePlusMessage()
-    };
-    this.closePlusMessage = function (e) {
-        var t = $("#plusMessage");
-        t.hide();
-        gbks.common.Cookie("plusMessageHidden", !0, {
-            path: "/",
-            expires: 300
-        })
-    };
-    this.onMouseOverDropdown = function (e) {
-        var t = $(e.currentTarget);
-        $("#header .dropdown").removeClass("active");
-        this.activeDropdown != null && this.activeDropdown != t;
-        this.activeDropdown = t;
-        this.activeDropdown.addClass("active");
-        this.onDropdownTimer()
-    };
-    this.onMouseOutDropdown = function (e) {
-        var t = $(e.currentTarget);
-        this.activeDropdown = null
-    };
-    this.onDropdownTimer = function () {
-        if (this.activeDropdown == null) $("#header .dropdown").removeClass("active");
-        else {
-            this.activeDropdown.addClass("active");
-            setTimeout($.proxy(this.onDropdownTimer, this), 500)
-        }
-    };
-    this.onFocusSearch = function (e) {
-        this.searchFocused = !0;
-        this.searchField.blur(this.searchBlurMethod);
-        $(document).keyup(this.keyUpMethod);
-        var t = this.searchField.val();
-        if (t == this.searchDefault) {
-            this.searchField.val("");
-            this.searchField.addClass("active")
-        }
-        this.updateAutoComplete()
-    };
-    this.onBlurSearch = function (e) {
-        this.searchFocused = !1;
-        this.searchField.unbind("blur", this.searchBlurMethod);
-        $(document).unbind("keyup", this.keyUpMethod);
-        var t = this.searchField.val();
-        if (t == "") {
-            this.searchField.val(this.searchDefault);
-            this.searchField.removeClass("active")
-        }
-        setTimeout($.proxy(this.hideAutoComplete, this), 500)
-    };
-    this.onKeyUp = function (e) {
-        switch (e.which) {
-        case 13:
-            this.performSearch()
-        }
-        this.autoComplete ? this.updateAutoComplete() : this.loadAutoComplete()
-    };
-    this.performSearch = function () {
-        var e = this.searchField.val();
-        e.length > 0 && e !== this.searchDefault && (window.location.href = "/search/" + encodeURIComponent(e))
-    };
-    this.updateAutoComplete = function () {
-        var e = this.searchField.val(),
-            t = e.length < 3 ? 3 : 5,
-            n = $(".section", this.autoComplete),
-            r = this.autoComplete && n.length > 0 && this.searchFocused,
-            i = 0,
-            s;
-        if (r && e.length > 0) {
-            var o = 0,
-                u = n.length,
-                a;
-            for (; o < u; o++) {
-                a = $(n[o]);
-                s = this.updateAutoCompleteSection(e, a, t);
-                i += s;
-                s == 0 ? a.hide() : a.show()
-            }
-        }
-        this.badWords.indexOf(e) != -1 ? this.searchField.addClass("isBad") : this.searchField.removeClass("isBad");
-        if (!r || i == 0) this.hideAutoComplete();
-        else {
-            gbks.common.positionPopup(this.autoComplete, this.searchField);
-            gbks.common.zapIn(this.autoComplete);
-            this.autoComplete.show()
-        }
-    };
-    this.updateAutoCompleteSection = function (e, t, n) {
-        var r = $("li", t),
-            i = 0,
-            s = 0,
-            o = r.length,
-            u, a;
-        for (; s < o; s++) {
-            u = $(r[s]);
-            a = u.attr("data-name");
-            if (a && e.length == 0 || a.toLowerCase().indexOf(e) != -1 && i < n) {
-                u.show();
-                i++
-            } else u.hide()
-        }
-        return i
-    };
-    this.hideAutoComplete = function () {
-        this.autoComplete && gbks.common.zapOut(this.autoComplete, $.proxy(this.doHideAutoComplete, this), !0)
-    };
-    this.doHideAutoComplete = function () {
-        this.autoComplete.hide()
-    };
-    this.evalAutoComplete = function () {
-        var e = this.searchField.val();
-        return e.length > 0 && e !== this.searchDefault
-    };
-    this.loadAutoComplete = function () {
-        if (!this.autoComplete) {
-            var e = gbks.common.wrapPopupContent("searchAutoComplete", '<div class="content"></div>', !1);
-            this.autoComplete = $(e);
-            $(".content", this.autoComplete).load("/autocomplete", $.proxy(this.onLoadAutoComplete, this))
-        }
-    };
-    this.onLoadAutoComplete = function () {
-        $("body").append(this.autoComplete);
-        this.badWords = $("#badWords").attr("data-words").split(",");
-        console.log("onLoadA", $("#badWords"), $("#badWords").attr("data-words"), this.badWords);
-        this.updateAutoComplete()
-    }
-};
+// var gbks = gbks || {};
+// gbks.Header = function () {
+//     this.init = function () {
+//         this.searchDefault = "Search";
+//         this.searchField = $("#header .options .search input");
+//         this.searchField.focus($.proxy(this.onFocusSearch, this));
+//         this.searchBlurMethod = $.proxy(this.onBlurSearch, this);
+//         this.keyUpMethod = $.proxy(this.onKeyUp, this);
+//         this.searchHolder = $("#header .options .search");
+//         this.autoComplete = null;
+//         this.searchFocused = !1;
+//         this.isAuthenticated = $("body").hasClass("auth");
+//         this.badWords = [];
+//         this.updateCookie();
+//         $("#header .dropdown").mouseover($.proxy(this.onMouseOverDropdown, this));
+//         $("#header .dropdown").mouseout($.proxy(this.onMouseOutDropdown, this));
+//         this.activeDropdown = null;
+//         this.checkPlusMessage();
+//         console.log("nsfw", $(".nsfwCover"));
+//         setTimeout($.proxy(this.trackPixelDensity, this), 100)
+//     };
+//     this.updateCookie = function () {
+//         var e = window.devicePixelRatio ? window.devicePixelRatio : 1;
+//         gbks.common.Cookie("devicePixelRatio", e, {
+//             path: "/"
+//         });
+//         gbks.common.Cookie("viewport", $(window).width(), {
+//             path: "/"
+//         })
+//     };
+//     this.trackPixelDensity = function (e) {
+//         var t = window.devicePixelRatio ? window.devicePixelRatio : 1;
+//         if (t > 1) {
+//             var n = $(window),
+//                 r = n.width() + "x" + n.height();
+//             gbks.common.track("Info", "dpr" + t, r)
+//         }
+//     };
+//     this.onClickNSFWCover = function (e) {
+//         var t = $(e.currentTarget),
+//             n = t.parents(".nsfw");
+//         console.log("onClickNSFWCover", e, n);
+//         if (n.length > 0) {
+//             var r = $(n[0]);
+//             r.removeClass("nsfw");
+//             e.preventDefault();
+//             e.stopPropagation()
+//         }
+//     };
+//     this.checkPlusMessage = function () {
+//         var e = $("#plusMessage");
+//         if (e.length == 0) return;
+//         $(".close", e).click($.proxy(this.onClickClosePlusMessage, this));
+//         $("a", e).click($.proxy(this.onClickPlusMessageLink, this));
+//         var t = gbks.common.Cookie("plusMessageHidden");
+//         t || e.show()
+//     };
+//     this.onClickPlusMessageLink = function (e) {
+//         gbks.common.track("Header", "PlusMessage", "Link");
+//         this.closePlusMessage()
+//     };
+//     this.onClickClosePlusMessage = function (e) {
+//         gbks.common.track("Header", "PlusMessage", "Close");
+//         this.closePlusMessage()
+//     };
+//     this.closePlusMessage = function (e) {
+//         var t = $("#plusMessage");
+//         t.hide();
+//         gbks.common.Cookie("plusMessageHidden", !0, {
+//             path: "/",
+//             expires: 300
+//         })
+//     };
+//     this.onMouseOverDropdown = function (e) {
+//         var t = $(e.currentTarget);
+//         $("#header .dropdown").removeClass("active");
+//         this.activeDropdown != null && this.activeDropdown != t;
+//         this.activeDropdown = t;
+//         this.activeDropdown.addClass("active");
+//         this.onDropdownTimer()
+//     };
+//     this.onMouseOutDropdown = function (e) {
+//         var t = $(e.currentTarget);
+//         this.activeDropdown = null
+//     };
+//     this.onDropdownTimer = function () {
+//         if (this.activeDropdown == null) $("#header .dropdown").removeClass("active");
+//         else {
+//             this.activeDropdown.addClass("active");
+//             setTimeout($.proxy(this.onDropdownTimer, this), 500)
+//         }
+//     };
+//     this.onFocusSearch = function (e) {
+//         this.searchFocused = !0;
+//         this.searchField.blur(this.searchBlurMethod);
+//         $(document).keyup(this.keyUpMethod);
+//         var t = this.searchField.val();
+//         if (t == this.searchDefault) {
+//             this.searchField.val("");
+//             this.searchField.addClass("active")
+//         }
+//         this.updateAutoComplete()
+//     };
+//     this.onBlurSearch = function (e) {
+//         this.searchFocused = !1;
+//         this.searchField.unbind("blur", this.searchBlurMethod);
+//         $(document).unbind("keyup", this.keyUpMethod);
+//         var t = this.searchField.val();
+//         if (t == "") {
+//             this.searchField.val(this.searchDefault);
+//             this.searchField.removeClass("active")
+//         }
+//         setTimeout($.proxy(this.hideAutoComplete, this), 500)
+//     };
+//     this.onKeyUp = function (e) {
+//         switch (e.which) {
+//         case 13:
+//             this.performSearch()
+//         }
+//         this.autoComplete ? this.updateAutoComplete() : this.loadAutoComplete()
+//     };
+//     this.performSearch = function () {
+//         var e = this.searchField.val();
+//         e.length > 0 && e !== this.searchDefault && (window.location.href = "/search/" + encodeURIComponent(e))
+//     };
+//     this.updateAutoComplete = function () {
+//         var e = this.searchField.val(),
+//             t = e.length < 3 ? 3 : 5,
+//             n = $(".section", this.autoComplete),
+//             r = this.autoComplete && n.length > 0 && this.searchFocused,
+//             i = 0,
+//             s;
+//         if (r && e.length > 0) {
+//             var o = 0,
+//                 u = n.length,
+//                 a;
+//             for (; o < u; o++) {
+//                 a = $(n[o]);
+//                 s = this.updateAutoCompleteSection(e, a, t);
+//                 i += s;
+//                 s == 0 ? a.hide() : a.show()
+//             }
+//         }
+//         this.badWords.indexOf(e) != -1 ? this.searchField.addClass("isBad") : this.searchField.removeClass("isBad");
+//         if (!r || i == 0) this.hideAutoComplete();
+//         else {
+//             gbks.common.positionPopup(this.autoComplete, this.searchField);
+//             gbks.common.zapIn(this.autoComplete);
+//             this.autoComplete.show()
+//         }
+//     };
+//     this.updateAutoCompleteSection = function (e, t, n) {
+//         var r = $("li", t),
+//             i = 0,
+//             s = 0,
+//             o = r.length,
+//             u, a;
+//         for (; s < o; s++) {
+//             u = $(r[s]);
+//             a = u.attr("data-name");
+//             if (a && e.length == 0 || a.toLowerCase().indexOf(e) != -1 && i < n) {
+//                 u.show();
+//                 i++
+//             } else u.hide()
+//         }
+//         return i
+//     };
+//     this.hideAutoComplete = function () {
+//         this.autoComplete && gbks.common.zapOut(this.autoComplete, $.proxy(this.doHideAutoComplete, this), !0)
+//     };
+//     this.doHideAutoComplete = function () {
+//         this.autoComplete.hide()
+//     };
+//     this.evalAutoComplete = function () {
+//         var e = this.searchField.val();
+//         return e.length > 0 && e !== this.searchDefault
+//     };
+//     this.loadAutoComplete = function () {
+//         if (!this.autoComplete) {
+//             var e = gbks.common.wrapPopupContent("searchAutoComplete", '<div class="content"></div>', !1);
+//             this.autoComplete = $(e);
+//             $(".content", this.autoComplete).load("/autocomplete", $.proxy(this.onLoadAutoComplete, this))
+//         }
+//     };
+//     this.onLoadAutoComplete = function () {
+//         $("body").append(this.autoComplete);
+//         this.badWords = $("#badWords").attr("data-words").split(",");
+//         console.log("onLoadA", $("#badWords"), $("#badWords").attr("data-words"), this.badWords);
+//         this.updateAutoComplete()
+//     }
+// };
+
 window.console || (console = {
     log: function () {}
 });
@@ -616,14 +617,9 @@ gbks.common.Loader.onHide = function (e) {
 gbks.common.Loader.getLoader = function () {
     return $("#loader")
 };
-gbks.common.track = function (e, t, n) {
-    typeof _gaq != "undefined" && _gaq.push(["_trackEvent", e, t, n])
+gbks.common.track = function () {
 };
 gbks.common.onWindowError = function (e, t, n) {
-    if (typeof _gaq != "undefined") {
-        var r = "[" + t + " (" + n + ")] " + e;
-        _gaq.push(["_trackEvent", "Exceptions", "Application", r, null, !0])
-    }
 };
 gbks.common.wrapPopupContent = function (e, t, n) {
     var r = n ? " horizontal" : "",
@@ -868,7 +864,7 @@ gbks.common.zapOut = function (e, t, n) {
 };
 
 
-
+//核心功能，实现点击图片弹出窗口展现主要内容
 var gbks = gbks || {};
 gbks.common = gbks.common || {};
 gbks.common.lightboxInstance = null;
@@ -878,7 +874,10 @@ gbks.common.Lightbox = function () {
         gbks.common.lightboxInstance = null
     }
     gbks.common.lightboxInstance = this;
+
+    //初始化
     this.init = function () {
+        console.log("initing");
         this.canvas = null;
         this.hideTimer = null;
         this.savePopup = null;
@@ -892,11 +891,15 @@ gbks.common.Lightbox = function () {
         this.resizeMethod = $.proxy(this.onResize, this);
         this.scrollMethod = $.proxy(this.onScroll, this)
     };
+
+    //更新Histroy对象
     this.updateHistory = function () {
         this.initHistory = window.location.href;
         this.initTitle = window.document.title
     };
     this.display = function () {};
+
+    //隐藏详细内容，同时更新history对象
     this.hide = function () {
         if (this.canvas) {
             this.canvas.unbind("scroll", this.scrollMethod);
@@ -917,8 +920,11 @@ gbks.common.Lightbox = function () {
         $("body").removeClass("lightboxActive");
         gbks.tilesInstance.startEndlessScroll()
     };
+
+    //创建弹窗
     this.createCanvas = function () {
         if (!this.canvas) {
+            console.log("creating canvas");
             var e = "";
             Modernizr.cssanimations && Modernizr.opacity ? e = '<div id="lightbox" data-id="0">' : e = '<div id="lightbox" data-id="0">';
             e += '  <div class="cover"></div>';
@@ -929,13 +935,17 @@ gbks.common.Lightbox = function () {
             e += '  <div class="closeButton"></div>';
             e += "</div>";
             $("body").append(e);
+
             this.canvas = $("#lightbox");
             this.canvas.click($.proxy(this.onClickLightbox, this));
+
             $(".similar li a", this.canvas).live("click", $.proxy(this.onClickSimilarImage, this));
+
             $(document).keyup(this.keyUpMethod);
             $(window).bind("resize", this.resizeMethod);
+
             this.canvas.bind("scroll", this.scrollMethod);
-            this.layoutMode == "big" && this.canvas.addClass("biggy")
+            this.layoutMode == "big" && this.canvas.addClass("biggy");
         }
         $("body").addClass("lightboxActive");
         this.canvas.focus()
@@ -943,6 +953,8 @@ gbks.common.Lightbox = function () {
     this.fadeIn = function () {
         this.canvas.removeClass("hidden")
     };
+
+    //点击相似图像
     this.onClickSimilarImage = function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -951,11 +963,15 @@ gbks.common.Lightbox = function () {
             n = t.attr("data-id");
         this.updateFromId(n)
     };
+
+    //判断是否全屏
     this.detectFullscreen = function () {
         for (var e = 0; e < Modernizr._domPrefixes.length; e++)
             if (document[Modernizr._domPrefixes[e].toLowerCase() + "CancelFullScreen"]) return !0;
         return !!document.cancelFullScreen || !1
     };
+
+    //若点击的不是链接或图片，则关闭弹窗
     this.onClickLightbox = function (e) {
         var t = $(e.target),
             n = t.parents("#lightboxDetails").length > 0;
@@ -966,6 +982,8 @@ gbks.common.Lightbox = function () {
             $(document).unbind("keyup", this.keyUpMethod)
         }
     };
+
+    //判断键盘操作
     this.onKeyUp = function (e) {
         var t = $("*:focus");
         if (t.length > 0) return;
@@ -980,12 +998,16 @@ gbks.common.Lightbox = function () {
             this.goFullScreen()
         }
     };
+
+    //进入全屏
     this.goFullScreen = function () {
         if (this.detectFullscreen()) {
             var e = this.canvas[0];
             e.requestFullScreen ? e.requestFullScreen() : e.mozRequestFullScreen ? e.mozRequestFullScreen() : e.webkitRequestFullScreen && e.webkitRequestFullScreen()
         }
     };
+
+    //获取前一幅图像
     this.previous = function (e) {
         gbks.common.track("Polaroid", "Lightbox", "Previous");
         var t = $(".tile"),
@@ -1016,6 +1038,8 @@ gbks.common.Lightbox = function () {
         }
         this.hideSharePopup()
     };
+
+    //获取下一幅图像
     this.next = function (e) {
         gbks.common.track("Polaroid", "Lightbox", "Next");
         var t = $(".tile"),
@@ -1053,7 +1077,7 @@ gbks.common.Lightbox = function () {
         this.imageId = n[1];
         if (!this.canvas) {
             this.createCanvas();
-            this.createPlaceholder(e)
+            this.createPlaceholder(e);
         }
         this.updateFromId(this.imageId)
     };
@@ -1127,7 +1151,10 @@ gbks.common.Lightbox = function () {
         });
         this.updateLayout()
     };
+
+
     this.createPlaceholder = function () {
+        console.log("creating placeholder");
         var e = $("#image_" + this.imageId),
             t = e.attr("data-w"),
             n = e.attr("data-h"),
@@ -1163,6 +1190,8 @@ gbks.common.Lightbox = function () {
             y = Math.max(s, h + 40);
         h >= s - 40 ? g.css("height", y + "px") : g.css("height", "")
     };
+
+
     this.updateLayout = function () {
         var e = $(window),
             t = e.width(),
@@ -1260,11 +1289,11 @@ gbks.common.Lightbox = function () {
     this.loadDetails = function () {
         this.canvas.addClass("loading");
         $.ajax({
-            url: "/lightbox/get?imageId=" + this.imageId,
-            dataType: "jsonp",
+            url: "/wp-content/themes/canon/js/testjson.json",//"/lightbox/get?imageId=" + this.imageId,
+            dataType: "json",
             type: "POST",
             success: $.proxy(this.onLoadDetails, this)
-        })
+        });
     };
     this.resizeImage = function () {
         var e = $(".image .wrap img", this.canvas);
@@ -1319,6 +1348,8 @@ gbks.common.Lightbox = function () {
         }
         this.canvas.removeClass("loading")
     };
+
+    //添加评论按钮
     this.onClickAddNote = function (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -1336,6 +1367,8 @@ gbks.common.Lightbox = function () {
             this.commentPopup.display(n, $(e.currentTarget), $.proxy(this.onCommentAdded, this))
         }
     };
+
+    //隐藏评论弹框
     this.hideCommentPopup = function () {
         $(".details #addNoteButton", this.canvas).removeClass("active");
         if (this.commentPopup) {
@@ -1343,6 +1376,8 @@ gbks.common.Lightbox = function () {
             this.commentPopup = null
         }
     };
+
+    //增加评论
     this.onCommentAdded = function (e) {
         $("#addNoteButton", this.canvas).removeClass("active");
         var t = $(".comments", this.canvas);
@@ -1354,6 +1389,8 @@ gbks.common.Lightbox = function () {
             $(".info", this.canvas).append(t)
         }
     };
+
+
     this.onClickExpand = function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1424,7 +1461,7 @@ gbks.common.Lightbox = function () {
             type: "POST",
             dataType: "jsonp",
             success: $.proxy(this.onAddImageComplete, this)
-        })
+        });
     };
     this.onAddImageComplete = function (e) {
         var t = $(".details #addImageButton", this.canvas);
@@ -1457,7 +1494,7 @@ gbks.common.Lightbox = function () {
             type: "POST",
             success: $.proxy(this.onLikeComplete, this),
             error: $.proxy(this.onLikeComplete, this)
-        })
+        });
     };
     this.onLikeComplete = function (e) {
         $(".details #likeImageButton", this.canvas).removeClass("loading");
@@ -1553,237 +1590,12 @@ gbks.common.Lightbox = function () {
     this.onSaveComment = function (e, t, n) {
         var r = $("#commentForm", this.canvas);
         $(e).insertBefore(r);
-        r.remove()
+        r.remove();
     }
 };
 
 
-
-var gbks = gbks || {};
-gbks.common = gbks.common || {};
-gbks.common.Lukas = function () {
-    this.init = function () {
-        this.canvas = $("#lukas");
-        this.expandClass = "expand";
-        this.expandTimer = null;
-        this.autoComplete = null;
-        this.badWords = [];
-        this.searchFocused = !1;
-        new FastClick(document.body);
-        $(".hamburger", this.canvas).click(function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $("#lukas").toggleClass("expand")
-        });
-        if (!Modernizr.cssanimations || Modernizr.touch) {
-            this.canvas.bind("mouseenter", $.proxy(this.enter, this));
-            this.canvas.bind("mouseleave", $.proxy(this.leave, this))
-        }
-        $("li", this.canvas).click($.proxy(this.clickNavItem, this));
-        this.searchField = $("li.search input", this.canvas);
-        this.searchField.focus($.proxy(this.focusSearch, this));
-        this.searchBlurMethod = $.proxy(this.blurSearch, this);
-        this.keyUpMethod = $.proxy(this.keyUp, this)
-    };
-    this.toggle = function () {
-        var e = this.canvas.hasClass(this.expandClass);
-        Modernizr.cssanimations ? $("#lukas").toggleClass(this.expandClass) : e ? this.collapse() : this.expand();
-        return !e
-    };
-    this.enter = function (e) {
-        if (Modernizr.cssanimations) this.canvas.addClass("expand");
-        else {
-            clearTimeout(this.expandTimer);
-            this.expandTimer = setTimeout($.proxy(this.expand, this), 250)
-        }
-    };
-    this.leave = function (e) {
-        if (Modernizr.cssanimations) this.canvas.removeClass("expand");
-        else {
-            clearTimeout(this.expandTimer);
-            this.expandTimer = setTimeout($.proxy(this.collapse, this), 250)
-        }
-    };
-    this.expand = function (e) {
-        clearTimeout(this.expandTimer);
-        $("#lukas").addClass(this.expandClass);
-        $(".cover", this.canvas).animate({
-            right: -180
-        }, 350);
-        this.canvas.animate({
-            width: 180
-        }, 350)
-    };
-    this.collapse = function (e) {
-        clearTimeout(this.expandTimer);
-        $("#lukas").removeClass(this.expandClass);
-        $(".cover", this.canvas).animate({
-            right: -50
-        }, 350);
-        this.canvas.animate({
-            width: 60
-        }, 350)
-    };
-    this.clickNavItem = function (e) {
-        var t = $(e.currentTarget);
-        if (t.hasClass("arrow")) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.canvas.toggleClass("showall")
-        } else {
-            var n = t.attr("data-type"),
-                r = t.attr("data-id"),
-                i = gbks.tilesInstance;
-            if (i && n && n.length > 0) {
-                i.config = {
-                    type: n,
-                    page: 0,
-                    id: r
-                };
-                i.currentPage = -1;
-                i.itemCount = null;
-                i.clear();
-                i.loadMore();
-                $("li", this.canvas).removeClass("active");
-                t.addClass("active");
-                var s = $("a", t),
-                    o = s.attr("title"),
-                    u = s.attr("href");
-                gbks.common.history.push(u, o);
-                window.scrollTo(0, 0);
-                gbks.common.track("Lukas", n, r ? r : "");
-                Modernizr.touch && this.canvas.removeClass("expand");
-                e.preventDefault();
-                e.stopPropagation()
-            } else if (Modernizr.touch && t.hasClass("search")) {
-                var a = this.toggle();
-                a && this.searchField.focus()
-            }
-        }
-    };
-    this.isExpanded = function () {
-        return this.lukas.hasClass(this.expandClass)
-    };
-    this.focusSearch = function (e) {
-        this.searchFocused = !0;
-        this.searchField.blur(this.searchBlurMethod);
-        $(document).keyup(this.keyUpMethod);
-        var t = this.searchField.val();
-        if (t == this.searchField.attr("placeholder")) {
-            this.searchField.val("");
-            this.searchField.addClass("active")
-        }
-        this.canvas.addClass("searching");
-        this.updateAutoComplete()
-    };
-    this.blurSearch = function (e) {
-        this.searchFocused = !1;
-        this.searchField.unbind("blur", this.searchBlurMethod);
-        $(document).unbind("keyup", this.keyUpMethod);
-        var t = this.searchField.val();
-        if (t == "") {
-            this.searchField.val(this.searchField.attr("placeholder"));
-            this.searchField.removeClass("active")
-        }
-        setTimeout($.proxy(this.hideAutoComplete, this), 150)
-    };
-    this.keyUp = function (e) {
-        switch (e.which) {
-        case 13:
-            this.performSearch()
-        }
-        this.autoComplete ? this.updateAutoComplete() : this.loadAutoComplete()
-    };
-    this.performSearch = function () {
-        var e = this.searchField.val();
-        e.length > 0 && e !== this.searchField.attr("placeholder") && (window.location.href = "/search/" + encodeURIComponent(e))
-    };
-    this.updateAutoComplete = function () {
-        var e = [],
-            t = [],
-            n = [],
-            r = [],
-            i = this.searchField.val(),
-            s = i.length < 3 ? 3 : 5,
-            o = $(".section", this.autoComplete),
-            u = this.autoComplete && o.length > 0 && this.searchFocused,
-            a = 0,
-            f;
-        if (u && i.length > 0) {
-            var l = 0,
-                c = o.length,
-                h;
-            for (; l < c; l++) {
-                h = $(o[l]);
-                f = this.updateAutoCompleteSection(i, h, s, e, t);
-                a += f;
-                f == 0 ? r.push(h) : n.push(h)
-            }
-        }
-        this.badWords.indexOf(i) != -1 ? this.searchField.addClass("isBad") : this.searchField.removeClass("isBad");
-        if (!u || a == 0) this.autoComplete && this.autoComplete.removeClass("active");
-        else {
-            for (l = 0; l < e.length; l++) e[l].show();
-            for (l = 0; l < t.length; l++) t[l].hide();
-            for (l = 0; l < n.length; l++) n[l].show();
-            for (l = 0; l < r.length; l++) r[l].hide();
-            var p = $(".wrap", this.autoComplete),
-                d = this.searchField.offset().top + this.searchField.height() / 2 - p.height() / 2,
-                v = $(window).height() - p.height();
-            console.log(this.searchField.offset().top, this.searchField.height(), p.height(), v, d);
-            d = Math.min(d, v);
-            d = Math.max(d, 0);
-            console.log(d);
-            p.css("padding-top", Math.round(d) + "px");
-            this.autoComplete.addClass("active")
-        }
-    };
-    this.updateAutoCompleteSection = function (e, t, n, r, i) {
-        var s = $("li", t),
-            o = 0,
-            u = 0,
-            a = s.length,
-            f, l;
-        for (; u < a; u++) {
-            f = $(s[u]);
-            l = f.attr("data-name");
-            if (l && e.length == 0 || l.toLowerCase().indexOf(e) != -1 && o < n) {
-                r.push(f);
-                o++
-            } else i.push(f)
-        }
-        return o
-    };
-    this.hideAutoComplete = function () {
-        this.canvas.removeClass("searching");
-        this.autoComplete && this.autoComplete.removeClass("active")
-    };
-    this.doHideAutoComplete = function () {
-        this.autoComplete.removeClass("active")
-    };
-    this.evalAutoComplete = function () {
-        var e = this.searchField.val();
-        return e.length > 0 && e !== this.searchDefault
-    };
-    this.loadAutoComplete = function () {
-        if (!this.autoComplete) {
-            var e = '<div id="searchResults"><div class="content"><div class="wrap"></div></div></div>';
-            this.autoComplete = $(e);
-            $(".wrap", this.autoComplete).load("/autocomplete", $.proxy(this.onLoadAutoComplete, this))
-        }
-    };
-    this.onLoadAutoComplete = function () {
-        $("body").append(this.autoComplete);
-        this.badWords = $("#badWords").attr("data-words").split(",");
-        console.log("onLoadA", $("#badWords"), $("#badWords").attr("data-words"), this.badWords, this.autoComplete);
-        this.updateAutoComplete()
-    }
-};
-gbks.common.lukasInstance = new gbks.common.Lukas;
-gbks.common.lukasInstance.init();
-
-
-
+//保存弹窗
 var gbks = gbks || {};
 gbks.common = gbks.common || {};
 gbks.common.savePopupInstance = null;
@@ -2016,7 +1828,7 @@ gbks.common.SavePopup = function () {
 };
 
 
-
+//分享弹窗
 var gbks = gbks || {};
 gbks.common = gbks.common || {};
 gbks.common.sharePopupInstance = null;
@@ -2089,7 +1901,7 @@ gbks.common.SharePopup = function () {
 
 
 
-
+//侧边栏相关
 var gbks = gbks || {};
 gbks.common = gbks.common || {};
 gbks.common.Kaori = function () {
@@ -2105,9 +1917,6 @@ gbks.common.Kaori = function () {
         this.hamburgerTime = null;
         $(".hamburger", this.nav).click($.proxy(this.onClickHamburger, this));
         $("#images").length > 0 && $("li", this.canvas).click($.proxy(this.clickNavItem, this));
-        this.searchField = $(".search input", this.canvas);
-        this.searchField.focus($.proxy(this.focusSearch, this));
-        this.searchBlurMethod = $.proxy(this.blurSearch, this);
         this.keyUpMethod = $.proxy(this.keyUp, this);
         this.resizeTimer = null;
         $(window).resize($.proxy(this.onWindowResize, this));
@@ -2202,29 +2011,6 @@ gbks.common.Kaori = function () {
     this.isExpanded = function () {
         return this.lukas.hasClass(this.expandClass)
     };
-    this.focusSearch = function (e) {
-        this.searchFocused = !0;
-        this.searchField.blur(this.searchBlurMethod);
-        $(document).keyup(this.keyUpMethod);
-        var t = this.searchField.val();
-        if (t == this.searchField.attr("placeholder")) {
-            this.searchField.val("");
-            this.searchField.addClass("active")
-        }
-        this.canvas.addClass("searching");
-        this.updateAutoComplete()
-    };
-    this.blurSearch = function (e) {
-        this.searchFocused = !1;
-        this.searchField.unbind("blur", this.searchBlurMethod);
-        $(document).unbind("keyup", this.keyUpMethod);
-        var t = this.searchField.val();
-        if (t == "") {
-            this.searchField.val(this.searchField.attr("placeholder"));
-            this.searchField.removeClass("active")
-        }
-        setTimeout($.proxy(this.hideAutoComplete, this), 150)
-    };
     this.keyUp = function (e) {
         switch (e.which) {
         case 13:
@@ -2232,85 +2018,6 @@ gbks.common.Kaori = function () {
         }
         this.autoComplete ? this.updateAutoComplete() : this.loadAutoComplete()
     };
-    this.performSearch = function () {
-        var e = this.searchField.val();
-        e.length > 0 && e !== this.searchField.attr("placeholder") && (window.location.href = "/search/" + encodeURIComponent(e))
-    };
-    this.updateAutoComplete = function () {
-        var e = [],
-            t = [],
-            n = [],
-            r = [],
-            i = this.searchField.val(),
-            s = i.length < 3 ? 3 : 5,
-            o = $(".section", this.autoComplete),
-            u = this.autoComplete && o.length > 0 && this.searchFocused,
-            a = 0,
-            f, l = 0,
-            c = o.length,
-            h;
-        if (u && i.length > 0)
-            for (; l < c; l++) {
-                h = $(o[l]);
-                f = this.updateAutoCompleteSection(i, h, s, e, t);
-                a += f;
-                f == 0 ? r.push(h) : n.push(h)
-            }
-        this.badWords.indexOf(i) != -1 ? this.searchField.addClass("isBad") : this.searchField.removeClass("isBad");
-        if (!u || a == 0) this.autoComplete && this.autoComplete.removeClass("active");
-        else {
-            for (l = 0; l < e.length; l++) e[l].show();
-            for (l = 0; l < t.length; l++) t[l].hide();
-            for (l = 0; l < n.length; l++) n[l].show();
-            for (l = 0; l < r.length; l++) r[l].hide();
-            var p = $(".wrap", this.autoComplete),
-                d = this.searchField.offset().top + this.searchField.height() / 2 - p.height() / 2,
-                v = $(window).height() - p.height();
-            d = Math.min(d, v);
-            d = Math.max(d, 0);
-            this.autoComplete.addClass("active")
-        }
-    };
-    this.updateAutoCompleteSection = function (e, t, n, r, i) {
-        var s = $("li", t),
-            o = 0,
-            u = 0,
-            a = s.length,
-            f, l;
-        for (; u < a; u++) {
-            f = $(s[u]);
-            l = f.attr("data-name");
-            if (l && e.length == 0 || l.toLowerCase().indexOf(e) != -1 && o < n) {
-                r.push(f);
-                o++
-            } else i.push(f)
-        }
-        return o
-    };
-    this.hideAutoComplete = function () {
-        this.canvas.removeClass("searching");
-        this.autoComplete && this.autoComplete.removeClass("active")
-    };
-    this.doHideAutoComplete = function () {
-        this.autoComplete.removeClass("active")
-    };
-    this.evalAutoComplete = function () {
-        var e = this.searchField.val();
-        return e.length > 0 && e !== this.searchDefault
-    };
-    this.loadAutoComplete = function () {
-        if (!this.autoComplete) {
-            var e = '<div id="searchResults"><div class="content"><div class="wrap"></div></div></div>';
-            this.autoComplete = $(e);
-            $(".wrap", this.autoComplete).load("/autocomplete", $.proxy(this.onLoadAutoComplete, this))
-        }
-    };
-    this.onLoadAutoComplete = function () {
-        $("body").append(this.autoComplete);
-        this.badWords = $("#badWords").attr("data-words").split(",");
-        console.log("onLoadA", $("#badWords"), $("#badWords").attr("data-words"), this.badWords, this.autoComplete);
-        this.updateAutoComplete()
-    }
 };
 
 
