@@ -2,7 +2,6 @@
 
 /*
  * Template Name: login
- *
  */
 
 
@@ -13,6 +12,9 @@ if ($_POST) {
     if (is_email($_POST['user_email'])) {
         $user_login = get_user_by('email', $_POST['user_email'])->user_login;
     }
+    else{
+        $user_login = $_POST['user_email'];
+    }
 
     $creds = array("user_login" => $user_login,
                     "user_password" => $_POST['user_password'],
@@ -21,7 +23,7 @@ if ($_POST) {
     $user = wp_signon($creds, false);
     if (is_wp_error($user)) {
         //登录失败
-        echo $user->get_error_message();
+        $login_error = $user->get_error_message();
     }
     else{
         //登录成功
@@ -41,19 +43,13 @@ if ($_GET['forget'] == 1) {
 
 
 <div id="luka">
-  <div class="hamburger">
-  </div>
-  <p>
-    <a href="/">
-      <?php echo get_bloginfo(); ?>
-    </a>
-  </p>
+  <div class="hamburger"></div>
+  <p><a href="/"><?php echo get_bloginfo(); ?></a></p>
 </div>
 
 <div id="page">
 
-  <div class="headerSpacer">
-  </div>
+  <div class="headerSpacer"></div>
 
   <div id="maincontent" class="center">
 
@@ -61,10 +57,15 @@ if ($_GET['forget'] == 1) {
 
     <div id="panelLogin" class="panel"></div>
 
+    <?php if (isset($login_error)): ?>
+        <div class="error">
+            <p><?php echo($login_error); ?></p>
+        </div>
+    <?php endif ?>
+
     <div class="wrapSignupForm">
 
       <h2>通过邮箱登录</h2>
-
       <form action="/login" method="post" accept-charset="utf-8" id="form_login">
 
         <label for="email">Email</label>
@@ -82,25 +83,13 @@ if ($_GET['forget'] == 1) {
         <input type="submit" name="send" value="登录" />
 
       </form>
-
     </div>
 
     <div class="resetPassword">
-
-      <p>
-        <a href="/login?forget=1">忘记密码</a>
-      </p>
-
-    </div>
-
-    <div class="clear">
+      <p><a href="/login?forget=1">忘记密码</a></p>
     </div>
 
   </div>
-
-  <div class="clear">
-  </div>
-
 </div>
 
 <div id="loader">

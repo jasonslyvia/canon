@@ -54,7 +54,11 @@ get_header();
     <div class="tile" id="userInfo">
       <h1><b><a href="/profile/<?php echo $uid; ?>"><?php echo $name; ?></a></b></h1>
       <div class="picture">
-        <a href="/profile/<?php echo $uid; ?>"><img src="/images/profile/200/22250_jason.yang.79677471.jpg" width="200" height="204.44444444444" alt="Jason Yang"></a>
+        <a href="/profile/<?php echo $uid; ?>">
+          <img src="<?php echo URL.AVATAR;?>default_avatar.png"
+                width="200" height="200"
+                alt="<?php echo $name; ?>">
+        </a>
       </div>
       <div class="statistics clearfix">
         <p>

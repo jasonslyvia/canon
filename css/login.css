@@ -81,13 +81,12 @@ font-size: 14px;
 }
 
 #maincontent .error {
-border: 1px solid #ddd;
+border-top: 1px solid #ddd;
 background-color: #f8f8f8;
 padding: 10px 15px 10px 15px;
 font-size: 14px;
 line-height: 18px;
 color: #333;
-margin-bottom: 20px;
 }
 
 #maincontent .social {
@@ -253,4 +252,43 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
     line-height: 25px;
     width: 100px;
     text-align: center;
+}
+
+#maincontent #form_signup{
+    width: 400px;
+    margin: 0 auto;
+}
+
+#maincontent #form_signup input{
+    width: 288px;
+    margin-right: 0;
+}
+
+#maincontent #form_signup .signupButton{
+    display: inline-block;
+    margin-right: 0;
+    width: 300px;
+    line-height: 30px;
+}
+
+#maincontent #form_signup label{
+    display: block;
+    margin: 15px 0 5px;
+    font-size: 14px;
+}
+
+#maincontent .signup-social {
+    margin-top: 0;
+}
+
+#maincontent .social .weibo-login-div .weibo-login{
+    display: inline-block;
+    background: url(../img/sina.png) no-repeat 5px center;
+    padding-left: 26px;
+}
+
+#maincontent .social .qq-login-div .qq-login{
+    display: inline-block;
+    background: url(../img/qq.png) no-repeat 5px center;
+    padding-left: 26px;
 }

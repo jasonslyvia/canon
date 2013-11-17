@@ -30,7 +30,7 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="<?php echo URL;?>/style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="<?php echo URL;?>/css/home.css" type="text/css" media="all" />
-    <?php if(is_page('login') || is_page('upload')): ?>
+    <?php if(is_page('login') || is_page('upload') || is_page('signup')): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/login.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_page('profile')): ?>
@@ -52,8 +52,8 @@
       <?php if (is_user_logged_in()): $user = wp_get_current_user(); ?>
       <div class="profileImage">
       <a href="/profile/<?php echo $user->ID; ?>">
-        <img src="http://www.wookmark.com/images/profile/60/22250_jason.yang.79677471.jpg"
-              width="30" height="30" alt="">
+        <img src="<?php echo URL.AVATAR;?>default_avatar_small.png"
+              width="30" height="30" alt="<?php echo $user->display_name; ?>">
         </a>
       </div>
     <?php endif; ?>
@@ -80,15 +80,15 @@
         </li>
 
         <li class="recent" data-type="recent">
-          <a href=/"recent" title="最新上传的图片">最新</a>
+          <a href="/recent" title="最新上传的图片">最新</a>
         </li>
 
         <li class="categories">
-          <a href=/"categories" title="按照分类浏览">分类</a>
+          <a href="/categories" title="按照分类浏览">分类</a>
         </li>
 
         <li class="colors">
-          <a href=/"colors">色彩</a>
+          <a href="/colors">色彩</a>
         </li>
 
       </ol>

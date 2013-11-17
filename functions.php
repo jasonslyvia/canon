@@ -7,6 +7,7 @@
 \*****************************************/
 define("URL", get_template_directory_uri());
 define("HOME", get_settings('home'));
+define("AVATAR", '/uploads/avatar/');
 
 
 
