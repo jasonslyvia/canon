@@ -13,31 +13,24 @@ if (!is_user_logged_in()) {
 
  ?>
 
-
+<script type="text/javascript">
+  var nonce = '<?php echo wp_create_nonce("upload_pic"); ?>';
+</script>
 
 <div id="luka">
-  <div class="hamburger">
-  </div>
-  <p>
-    <a href="/">
-      <?php echo get_bloginfo(); ?>
-    </a>
-  </p>
+  <div class="hamburger"> </div>
+  <p> <a href="/"> <?php echo get_bloginfo(); ?> </a> </p>
 </div>
 
 <div id="page">
 
-  <div class="headerSpacer">
-  </div>
-
+  <div class="headerSpacer"> </div>
   <div id="maincontent" class="center" style="width:700px;">
 
     <h1>上传新照片</h1>
-
     <div id="panelLogin" class="panel"></div>
 
     <div id="uploadDiv" class="wrapSignupForm">
-
       <h2>选择本地文件上传</h2>
 
       <input type="file" name="file_upload" id="file_upload" />
@@ -53,6 +46,8 @@ if (!is_user_logged_in()) {
       <h2>或直接获取网络照片</h2>
 
     </div>
+
+
   </div>
 </div>
 

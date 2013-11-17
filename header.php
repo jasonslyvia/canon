@@ -38,6 +38,12 @@
     <?php endif; ?>
 
     <script src="<?php echo URL;?>/js/modernizr.js"></script>
+    <script type="text/javascript">
+      var URL = '<?php echo URL;?>';
+      <?php if (is_user_logged_in()): ?>
+      var USER_ID = '<?php echo get_current_user_id();?>';
+      <?php endif; ?>
+    </script>
     <?php //wp_head(); ?>
 </head>
 <body<?php if(is_user_logged_in()) echo " class='auth'";?>>
@@ -54,7 +60,7 @@
       <a href="/profile/<?php echo $user->ID; ?>">
         <img src="<?php echo URL.AVATAR;?>default_avatar_small.png"
               width="30" height="30" alt="<?php echo $user->display_name; ?>">
-        </a>
+      </a>
       </div>
     <?php endif; ?>
 

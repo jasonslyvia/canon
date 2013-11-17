@@ -292,3 +292,13 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
     background: url(../img/qq.png) no-repeat 5px center;
     padding-left: 26px;
 }
+
+.ajax-message{
+    line-height: 16px;
+    margin: 5px 0;
+}
+
+.ajax-message img,
+.ajax-message span{
+    vertical-align: middle;
+}
