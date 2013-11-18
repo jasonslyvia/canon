@@ -14,43 +14,37 @@ header('Content-Type: application/json');
 
 if ($_POST) {
 
-    $wp_load = '/Code/Develop Environment/Wordpress/wp-load.php';
-    while (!realpath($wp_load)) {
-        $wp_load = '../'.$wp_load;
-    }
-    require_once($wp_load);
+    require('settings.php');
+    define('WP_USE_THEMES', false);
+    require(ABSPATH.'wp-load.php');
+    require('common.php');
 
     //首先验证权限
     $nonce = $_POST['nonce'];
     if (!wp_verify_nonce($nonce, 'upload_pic')) {
-        echo(json_encode(array("error" => true,
-                               "message" => "权限验证失败")));
+        send_result(true, "权限验证失败");
     }
     else{
         $filename = $_POST['filename'];
         if (!$filename) {
-            echo(json_encode(array("error" => true,
-                               "message" => "未设置文件名")));
-            exit();
+            send_result(true, "未设置文件名");
         }
 
         $userId = $_POST['userId'];
         if (!$userId) {
-            echo(json_encode(array("error" => true,
-                               "message" => "未设置用户ID")));
-            exit();
+            send_result(true, "未设置用户ID");
         }
 
         //添加新文章
         $post_name = basename($filename);
         $post_id = wp_insert_post(array("post_author" => $userId,
-                                        "post_name" => $post_name,
+                                        "post_name" => substr(md5(time().$post_name),
+                                                              5,
+                                                              26),
                                         "post_content" => $filename,
                                         "post_status" => 'publish'));
         if (!$post_id) {
-            echo(json_encode(array("error" => true,
-                               "message" => "无法创建新内容")));
-            exit();
+            send_result(true, "无法创建新内容");
         }
         else{
             //增加文章信息
@@ -59,16 +53,12 @@ if ($_POST) {
             add_post_meta($post_id, 'width', $_POST['width']);
             add_post_meta($post_id, 'height', $_POST['height']);
 
-            echo(json_encode(array("error" => false,
-                                    "message" => "照片发布成功！",
-                                    "postId" => $post_id)));
+            send_result(false, "照片发布成功！", array("postId" => $post_id));
         }
     }
 }
 else{
-    echo json_encode(array("error" => true,
-                "message" => "未知错误"));
-    exit();
+    send_result(true, "未知错误");
 }
 
 

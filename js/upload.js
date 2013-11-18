@@ -8,10 +8,12 @@ gbks.common.upload = function(){
 
     var self = gbks.common.upload;
 
-    if (typeof URL === undefined || typeof USER_ID === undefined) {
+    if (typeof URL === undefined || typeof pageConfig === undefined) {
         console.log("获取全局信息错误！");
         return false;
     }
+
+    var USER_ID = pageConfig.userId;
 
     //防止表单重复提交
     self.ajaxFlag = false;

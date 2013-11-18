@@ -1049,11 +1049,6 @@
         </div>
       </div>
 
-      <script type="text/javascript">
-        var pageConfig = {
-          type: 'popular'
-        };
-      </script>
 
     </div>
 

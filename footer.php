@@ -1,5 +1,22 @@
 
     <script src="<?php echo URL;?>/js/jquery.min.js"> </script>
+
+    <script type="text/javascript">
+    <?php if (is_home()) { ?>
+        var pageConfig = {
+          type: 'popular'
+        };
+    <?php } else if (is_page('profile')) { ?>
+
+        var pageConfig = {
+          type: 'user',
+          userId: '<?php get_current_user_id(); ?>',
+          page: 1
+        };
+    <?php } ?>
+    </script>
+
+
     <script type="text/javascript" src="<?php echo URL;?>/js/common.js"> </script>
     <script type="text/javascript" src="<?php echo URL;?>/js/grid.js"> </script>
     <?php if (is_page('upload')): ?>
