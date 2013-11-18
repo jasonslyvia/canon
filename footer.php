@@ -6,7 +6,7 @@
         var pageConfig = {
           type: 'popular'
         };
-    <?php } else if (is_page('profile')) { ?>
+    <?php } else if (is_page('profile') || is_page('upload')) { ?>
 
         var pageConfig = {
           type: 'user',
