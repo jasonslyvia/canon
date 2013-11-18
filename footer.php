@@ -10,7 +10,7 @@
 
         var pageConfig = {
           type: 'user',
-          userId: '<?php get_current_user_id(); ?>',
+          userId: '<?php echo get_current_user_id(); ?>',
           page: 1
         };
     <?php } ?>
