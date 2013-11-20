@@ -37,8 +37,8 @@ gbks.common.upload = function(){
 
     self.uploadify = function(){
         $("#file_upload").uploadify({
-            swf: URL + '/uploads/uploadify.swf',
-            uploader: URL + '/uploads/uploadify.php',
+            swf: ABSPATH + '/uploads/uploadify.swf',
+            uploader: ABSPATH + '/uploads/uploadify.php',
             buttonText: '上传',
             fileSizeLimit: '5MB',
             formData: {userId: USER_ID},
@@ -53,7 +53,7 @@ gbks.common.upload = function(){
 
         width = width || 620;
         $("<div class='preview'>"+
-            "<img src='"+ URL +"/uploads/images/"+ USER_ID+"/"+
+            "<img src='"+ ABSPATH +"/uploads/images/"+ USER_ID+"/"+
                     filename +
                     "' width='"+ width +"' />"+
             "<div class='op'>"+
@@ -97,7 +97,7 @@ gbks.common.upload = function(){
                             "</div>");
 
             $.ajax({
-                url: URL + '/functions/add_pic.php',
+                url: ABSPATH + '/functions/add_pic.php',
                 type: 'post',
                 dataType: 'json',
                 data: {

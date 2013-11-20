@@ -14,14 +14,13 @@ header('Content-Type: application/json');
 
 if ($_POST) {
 
-    require('settings.php');
-    define('WP_USE_THEMES', false);
-    require(ABSPATH.'wp-load.php');
     require('common.php');
+    define('WP_USE_THEMES', false);
+    require_once(ABSPATH.'wp-load.php');
 
     //首先验证权限
     $nonce = $_POST['nonce'];
-    if (!wp_verify_nonce($nonce, 'upload_pic')) {
+    if (!wp_verify_nonce($nonce, 'upload_pic_'.$_POST['userId'])) {
         send_result(true, "权限验证失败");
     }
     else{
@@ -52,6 +51,7 @@ if ($_POST) {
             add_post_meta($post_id, 'save_count', 1);
             add_post_meta($post_id, 'width', $_POST['width']);
             add_post_meta($post_id, 'height', $_POST['height']);
+            add_post_meta($post_id, 'referrer', $_POST['referrer']);
 
             send_result(false, "照片发布成功！", array("postId" => $post_id));
         }

@@ -5,20 +5,33 @@
  *  @param {int} imageId 图像id（即post_id）
  *  @return {json}
  */
-
-require('settings.php');
-require('common.php');
-define('WP_USE_THEMES', false);
-require(ABSPATH.'wp-load.php');
+header('Content-Type: application/json');
 
 if (isset($_GET['imageId'])) {
+
+    require('settings.php');
+    require('common.php');
+    define('WP_USE_THEMES', false);
+    require(ABSPATH.'wp-load.php');
+
     $image_id = $_GET['imageId'];
     $post = get_post($image_id);
 
     $author = $post->post_author;
     $author_name = get_userdata($author)->display_name;
     $pic = IMAGE_PATH . $author . '/' . $post->post_content;
-    $referer = $referer == '' ? '原创' : $referer;
+
+    $referer = get_post_meta($image_id, 'referrer', true);
+    if ($referer != '') {
+        //获取refer的域名部分
+        $short_referer = parse_url($referer)["host"];
+    }
+    else{
+        $referer = '原创';
+        $short_referer = '/profile/'.$author;
+    }
+
+
     $title = $post->post_name;
     $history = '';
 
@@ -86,7 +99,7 @@ html;
                             </a>
                         </div>
                         <h4><a href="/profile/{$author}" class="userLink">{$author_name}</a><br/>
-                        来自 <a href="#">{$referer}</a></h4>
+                        来自 <a href="{$referer}">{$short_referer}</a></h4>
                         <button type="button" class="follow blue active" data-type="1" data-id="7650">已关注</button>
                     </div>
                     <!-- Owners & likers -->
@@ -140,6 +153,9 @@ html;
                                  "html" => $html,
                                  "history" => ""),
                 true);
+}
+else{
+    send_result(true, "未知错误");
 }
 
 

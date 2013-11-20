@@ -39,10 +39,7 @@
 
     <script src="<?php echo URL;?>/js/modernizr.js"></script>
     <script type="text/javascript">
-      var URL = '<?php echo URL;?>';
-      <?php if (is_user_logged_in()): ?>
-      var USER_ID = '<?php echo get_current_user_id();?>';
-      <?php endif; ?>
+      var ABSPATH = '<?php echo URL;?>';
     </script>
     <?php //wp_head(); ?>
 </head>

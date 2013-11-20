@@ -1097,7 +1097,7 @@ gbks.common.Lightbox = function () {
     this.loadDetails = function () {
         this.canvas.addClass("loading");
         $.ajax({
-            url: URL + '/functions/get_pic_detail.php?imageId='+this.imageId,//"/wp-content/themes/canon/js/testjson.json",//"/lightbox/get?imageId=" + this.imageId,
+            url: ABSPATH + '/functions/get_pic_detail.php?imageId='+this.imageId,//"/wp-content/themes/canon/js/testjson.json",//"/lightbox/get?imageId=" + this.imageId,
             dataType: "json",
             type: "POST",
             success: $.proxy(this.onLoadDetails, this)
@@ -1285,7 +1285,10 @@ gbks.common.Lightbox = function () {
         var e = $(".details #addImageButton", this.canvas);
         e.removeClass("active")
     };
+
+    //点击喜欢按钮
     this.onClickLikeImage = function (e) {
+
         e.stopPropagation();
         e.preventDefault();
         var t = $(e.currentTarget),
@@ -1293,48 +1296,61 @@ gbks.common.Lightbox = function () {
             r = !t.hasClass("active");
         r ? t.addClass("active") : t.removeClass("active");
         t.addClass("loading");
-        gbks.common.track("Image", "like", n);
+
         $.ajax({
-            url: "/likes/like",
+            url: ABSPATH + "/functions/like_pic.php",
             data: {
-                imageId: n
+                imageId: n,
+                userId: pageConfig.userId,
+                nonce: nonce
             },
             type: "POST",
             success: $.proxy(this.onLikeComplete, this),
             error: $.proxy(this.onLikeComplete, this)
         });
     };
+
     this.onLikeComplete = function (e) {
-        $(".details #likeImageButton", this.canvas).removeClass("loading");
-        $(".details #unlikeImageButton", this.canvas).removeClass("loading")
+        if (e.error) {
+            alert(e.message);
+        }
+        else{
+            $(".details #likeImageButton", this.canvas).removeClass("loading");
+            $(".details #unlikeImageButton", this.canvas).removeClass("loading");
+        }
     };
+
     this.onClickFollowButton = function (e) {
         e.preventDefault();
         e.stopPropagation();
+
         var t = $(e.currentTarget),
             n = t.attr("data-type"),
             r = t.attr("data-id"),
             i = t.hasClass("active");
+
         console.log("onClickFollowButton", n, r, i);
-        if (r && n) {
-            var s = "/following/follow",
-                o = "Following";
-            if (i) {
-                s = "/following/unfollow";
-                o = "Follow";
-                t.removeClass("active")
-            } else t.addClass("active");
-            t.html(o);
-            $.ajax({
-                url: s,
-                data: {
-                    targetId: r,
-                    type: n
-                },
-                type: "POST",
-                success: $.proxy(this.onSubmitFollow, this)
-            })
-        }
+
+        // if (r && n) {
+        //     var s = "/following/follow",
+        //         o = "Following";
+        //     if (i) {
+        //         s = "/following/unfollow";
+        //         o = "Follow";
+        //         t.removeClass("active")
+        //     } else t.addClass("active");
+        //     t.html(o);
+        //     $.ajax({
+        //         url: s,
+        //         data: {
+        //             targetId: r,
+        //             type: n
+        //         },
+        //         type: "POST",
+        //         success: $.proxy(this.onSubmitFollow, this)
+        //     });
+        // }
+
     };
     this.onSubmitFollow = function (e, t, n) {
         console.log("onSubmitFollow", e)

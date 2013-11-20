@@ -35,6 +35,9 @@ get_header();
 
 ?>
 
+<script type="text/javascript">
+var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()); ?>';
+</script>
 
 <div id="luka">
   <div class="hamburger"> </div>

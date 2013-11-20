@@ -16,7 +16,7 @@ require('settings.php');
  *  @param {bool} only_extra 是否仅显示额外的信息
  *  @return {返回类型}
  */
-function send_result($error, $message, $extra = null, $only_extra = false){
+function send_result($error, $message, $extra = array(), $only_extra = false){
 
     if ($only_extra) {
         echo json_encode($extra);

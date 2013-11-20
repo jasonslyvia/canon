@@ -14,7 +14,7 @@ if (!is_user_logged_in()) {
  ?>
 
 <script type="text/javascript">
-  var nonce = '<?php echo wp_create_nonce("upload_pic"); ?>';
+  var nonce = '<?php echo wp_create_nonce("upload_pic_".get_current_user_id()); ?>';
 </script>
 
 <div id="luka">
