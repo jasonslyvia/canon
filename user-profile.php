@@ -17,10 +17,8 @@ else{
   $name = $user->display_name;
 }
 
-
 //获取当前登录的用户信息
 $c_user_id = get_current_user_id();
-
 
 //判断当前被浏览用户与当前登录用户是否为同一人
 global $same_user;

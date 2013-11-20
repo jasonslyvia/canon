@@ -1097,7 +1097,8 @@ gbks.common.Lightbox = function () {
     this.loadDetails = function () {
         this.canvas.addClass("loading");
         $.ajax({
-            url: ABSPATH + '/functions/get_pic_detail.php?imageId='+this.imageId,//"/wp-content/themes/canon/js/testjson.json",//"/lightbox/get?imageId=" + this.imageId,
+            url: ABSPATH + '/functions/get_pic_detail.php?imageId='+this.imageId+
+                '&userId='+ pageConfig.userId,
             dataType: "json",
             type: "POST",
             success: $.proxy(this.onLoadDetails, this)

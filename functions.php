@@ -35,7 +35,7 @@ function rw_title($title, $sep, $direction){
         $title .= "{$sep}{$desc}";
     }
 
-    if ($paged >=2 || $page >= 2) {
+    if ($paged >=2 || $page >= 2 && !is_page('profile')) {
         $title .= "{$sep}"."第".max($page, $paged)."页";
     }
 
