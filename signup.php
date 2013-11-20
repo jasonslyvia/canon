@@ -24,7 +24,8 @@ if ($_POST) {
         $signup_error = "请设置您的昵称";
     }
     else{
-        if (strlen($display_name) < 2 || strlen($display_name) > 10) {
+        if (mb_strlen($display_name, "utf8") < 2 &&
+            strlen($display_name, "utf8") > 10) {
             $signup_error = "昵称有效长度为 2 - 10 个字符";
         }
         else if (!preg_match('/^[a-zA-Z0-9\x{4e00}-\x{9fa5}]+$/u', $display_name)) {
