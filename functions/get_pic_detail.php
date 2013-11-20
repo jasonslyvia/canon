@@ -18,6 +18,8 @@ if (isset($_GET['imageId'])) {
     $image_id = $_GET['imageId'];
     $post = get_post($image_id);
     $user_id = $_GET['userId'];
+    //若用户id不存在则设为0，模拟用户未登录情况
+    $user_id = get_user_by('id', $user_id) ? $user_id : 0;
 
     //作者id
     $author = $post->post_author;
@@ -25,7 +27,7 @@ if (isset($_GET['imageId'])) {
     $author_name = get_userdata($author)->display_name;
     //图片地址
     $pic = IMAGE_PATH . $author . '/' . $post->post_content;
-
+    //来源
     $referer = get_post_meta($image_id, 'referrer', true);
     if ($referer != '') {
         //获取refer的域名部分
@@ -35,57 +37,19 @@ if (isset($_GET['imageId'])) {
         $short_referer = '原创';
         $referer = '/profile/'.$author;
     }
-
+    //标题
     $title = $post->post_name;
     $history = '';
 
     //heredoc 常数
     $AVATAR = AVATAR;
 
-    global $wpdb;
-    //当前用户是否喜欢该图片
-    $current_user_like = $wpdb->get_var(
-            $wpdb->prepare('
-                    SELECT count(*) FROM pic_like
-                    WHERE pic_id = %d AND user_id = %d
-                ', $image_id, $user_id)
-        );
-    $current_user_like = $current_user_like == 0 ? '' : ' active';
-
-    //获取保存和喜欢的数据
-    $like_row = $wpdb->get_results(
-        $wpdb->prepare('
-            SELECT * FROM pic_like
-            WHERE pic_id = %d
-            ORDER BY time DESC
-        ', $image_id)
-    );
-
-    if ($like_row) {
-        $like_count = count($like_row);
-
-        $like_user_a = $like_row[0]->user_id;
-        $like_user_a_name = get_userdata($like_user_a)->display_name;
-
-        $like_user_b = $like_row[1]->user_id;
-        $like_user_b_name = get_userdata($like_user_b)->display_name;
-
-        $like_record_arr = array();
-        if ($like_user_a) {
-            array_push($like_record_arr, array("id" => $like_user_a,
-                                             "name" => $like_user_a_name
-                                        ));
-        }
-        if ($like_user_b) {
-            array_push($like_record_arr, array("id" => $like_user_b,
-                                               "name" => $like_user_b_name
-                                        ));
-        }
-    }
-    else{
-        send_result(true, "喜欢记录读取失败");
-    }
-
+    //喜欢与保存数据
+    require_once('get_pic_save_like.php');
+    $op_result = get_pic_save_like($image_id, $user_id);
+    $like_arr = $op_result["like"];
+    $save_arr = $op_result["save"];
+    $save_op = $save_arr['class_name'] == '' ? '保存': '编辑';
 
 
 
@@ -114,12 +78,18 @@ if (isset($_GET['imageId'])) {
             <div class="header">
                 <div class="options clearfix">
                     <p id="tagOptions">
-                        <a href="#" class="saveButton" id="addImageButton"
-                            data-id="{$image_id}" title="保存这张图片"><em></em> <span>编辑</span></a>
-                        <a href="#" class="likeButton{$current_user_like}" id="likeImageButton"
-                            data-id="{$image_id}" title="喜欢这张图片"><em></em> <span>喜欢</span></a>
-                        <a href="#" class="shareButton" id="shareImageButton" title="分享给你的好友"
-                            data-id="{$image_id}"><em></em><span>分享</span></a>
+                        <a href="#" class="saveButton{$save_arr['class_name']}"
+                            id="addImageButton"
+                            data-id="{$image_id}" title="保存这张图片"><em></em> <span>{$save_op}</span>
+                        </a>
+                        <a href="#" class="likeButton{$like_arr['class_name']}"
+                            id="likeImageButton"
+                            data-id="{$image_id}" title="喜欢这张图片"><em></em> <span>喜欢</span>
+                        </a>
+                        <a href="#" class="shareButton" id="shareImageButton"
+                            title="分享给你的好友"
+                            data-id="{$image_id}"><em></em><span>分享</span>
+                        </a>
                     </p>
                 </div>
             </div>
@@ -154,30 +124,8 @@ html;
                         <button type="button" class="follow blue active" data-type="1" data-id="7650">已关注</button>
                     </div>
                     <div class="stats saves clearfix">
-html;
-
-    //若存在喜欢记录，则渲染相关内容
-    if (count($like_record_arr) > 0) {
-
-        $like_html = '';
-        foreach($like_record_arr as $like_record){
-            $like_html .= "<a href='/profile/{$like_record['id']}'>{$like_record['name']}</a> ";
-        }
-        preg_replace('/\s$/', '', $like_html);
-        $real_count = $like_count - count($like_record_arr);
-
-        $html .= "<p class='likes'>{$like_html}";
-        if ($real_count > 0) {
-            $html .= " 和 <b>另外{$real_count}个人</b>喜欢这张图";
-        }
-        $html .= "</p>";
-    }
-
-
-    $html .= <<<html
-                        <p class="saves">
-                            <a href="http://www.wookmark.com/profile/badora">badora</a>, <a href="http://www.wookmark.com/profile/alstone-caillier">Alstone Caillier</a> 和 <b>另外 5 个人</b> 喜欢这张图
-                        </p>
+                    {$like_arr["sample_html"]}
+                    {$save_arr["sample_html"]}
                     </div>
                     <div class="activity clearfix">
                         <div id="comments" class="empty">
@@ -204,7 +152,6 @@ html;
     </div>
 </div>
 html;
-
 
     $width = get_post_meta($image_id, 'width', true);
     $height = get_post_meta($image_id, 'height', true);

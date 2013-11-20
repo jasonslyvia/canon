@@ -1,10 +1,9 @@
 <?php
 /*
  *  常用ajax脚本代码
- *
  */
 
-require('settings.php');
+require_once('settings.php');
 
 
 /*

@@ -53,6 +53,11 @@ if ($_POST) {
             add_post_meta($post_id, 'height', $_POST['height']);
             add_post_meta($post_id, 'referrer', $_POST['referrer']);
 
+            global $wpdb;
+            $save_record = $wpdb->insert('pic_save',
+                                         array("pic_id" => $post_id,
+                                               "user_id" => $userId));
+
             send_result(false, "照片发布成功！", array("postId" => $post_id));
         }
     }

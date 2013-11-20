@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Template Name: profile
  *
@@ -26,9 +25,6 @@ if ($user->ID == $c_user_id) {
   $same_user = true;
 }
 
-
-
-
 get_header();
 
 ?>
@@ -48,10 +44,23 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
 
 
 <?php
+  //TODO 修改逻辑，应为用户保存的所有图片，而非用户上传的所有图片
   //获取用户文章信息
   $args = array("author" => $uid);
   $query = new WP_Query($args);
   $post_count = $query->found_posts;
+
+  global $wpdb;
+  $user_like_count = $wpdb->get_var("
+      SELECT count(*) FROM pic_like
+      WHERE user_id = $uid
+    ");
+
+  $user_save_count = $wpdb->get_var("
+      SELECT count(*) FROM pic_save
+      WHERE user_id = $uid
+    ");
+
 ?>
 
     <!-- 用户信息 -->
@@ -74,7 +83,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
           <span>评论</span></a>
         </p>
         <p>
-          <a href="/profile/<?php echo $uid; ?>/likes">0<br>
+          <a href="/profile/<?php echo $uid; ?>/likes"><?php echo $user_like_count; ?><br>
           <span>喜欢</span></a>
         </p>
         <p>

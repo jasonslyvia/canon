@@ -1256,28 +1256,39 @@ gbks.common.Lightbox = function () {
         }
         $("#shareImageButton", this.canvas).removeClass("active")
     };
+
+    //点击保存图片按钮
     this.onClickSaveImage = function (e) {
         e.stopPropagation();
         e.preventDefault();
+
         this.hidePopups("save");
+
         var t = $(e.currentTarget),
             n = t.attr("data-id");
+
         t.addClass("active");
         t.addClass("loading");
-        gbks.common.track("Image", "Save", n);
+
         $.ajax({
-            url: "/bookmark/savetouser?imageId=" + n,
+            url: ABSPATH + "/functions/save_pic.php",
             type: "POST",
-            dataType: "jsonp",
+            data: {userId: pageConfig.userId, imageId: n},
+            dataType: "json",
             success: $.proxy(this.onAddImageComplete, this)
         });
     };
+
     this.onAddImageComplete = function (e) {
+        if (e.error) {
+            alert(e.message);
+        }
         var t = $(".details #addImageButton", this.canvas);
         t.removeClass("loading");
         this.savePopup = new gbks.common.SavePopup;
         this.savePopup.init(t, e, $.proxy(this.onClickRemoveImage, this), $.proxy(this.onCloseSavePopup, this))
     };
+
     this.hideSavePopup = function () {
         this.savePopup && this.savePopup.hide()
     };
@@ -1425,11 +1436,14 @@ var gbks = gbks || {};
 gbks.common = gbks.common || {};
 gbks.common.savePopupInstance = null;
 gbks.common.SavePopup = function () {
+
     if (gbks.common.savePopupInstance) {
         gbks.common.savePopupInstance.hide();
         gbks.common.savePopupInstance = null
     }
+
     gbks.common.savePopupInstance = this;
+
     this.init = function (e, t, n, r) {
         this.button = e;
         this.data = t;
@@ -1439,25 +1453,29 @@ gbks.common.SavePopup = function () {
         this.resizeMethod = $.proxy(this.onResize, this);
         this.clickDocumentMethod = $.proxy(this.onClickDocument, this)
     };
+
     this.createCanvas = function () {
         var e = this.data.groups;
-        if (!e) return;
+        //if (!e) return;
         var t = this.data.html;
         this.canvas && $("#groupsOverlay").remove();
         this.canvas = $(t);
+
         $("body").append(this.canvas);
         this.updatePosition();
-        $("input[type=checkbox]", this.canvas).bind("change", $.proxy(this.onClickGroupOverlayItem, this));
+
+        // $("input[type=checkbox]", this.canvas).bind("change", $.proxy(this.onClickGroupOverlayItem, this));
         $(".closeButton", this.canvas).click($.proxy(this.hide, this));
-        $(".addForm input[type=text]", this.canvas).bind("focus", $.proxy(this.onFocusCreateGroupInput, this));
-        $(".addForm input[type=text]", this.canvas).bind("blur", $.proxy(this.onBlurInput, this));
-        $("#formCreateGroup", this.canvas).submit($.proxy(this.onClickCreateGroup, this));
-        $(".unsaveButton", this.canvas).click($.proxy(this.onClickGroupOverlayUnsave, this));
-        $("#dropboxButton", this.canvas).click($.proxy(this.onClickDropbox, this));
-        $("input[type=radio]", this.canvas).bind("change", $.proxy(this.onClickPrivacyOption, this));
+        // $(".addForm input[type=text]", this.canvas).bind("focus", $.proxy(this.onFocusCreateGroupInput, this));
+        // $(".addForm input[type=text]", this.canvas).bind("blur", $.proxy(this.onBlurInput, this));
+        // $("#formCreateGroup", this.canvas).submit($.proxy(this.onClickCreateGroup, this));
+        // $(".unsaveButton", this.canvas).click($.proxy(this.onClickGroupOverlayUnsave, this));
+        // $("#dropboxButton", this.canvas).click($.proxy(this.onClickDropbox, this));
+        // $("input[type=radio]", this.canvas).bind("change", $.proxy(this.onClickPrivacyOption, this));
         $(document).mousedown(this.clickDocumentMethod);
         $(window).resize(this.resizeMethod)
     };
+
     this.updatePosition = function () {
         var e = $(window).width(),
             t = this.button.offset(),
@@ -1489,6 +1507,8 @@ gbks.common.SavePopup = function () {
         });
         $(".arrow", this.canvas).css("left", o + "px")
     };
+
+    //取消保存图片
     this.unsaveImage = function () {
         $.ajax({
             url: "/bookmark/removefromuser?imageId=" + this.data.imageId,
@@ -1498,6 +1518,7 @@ gbks.common.SavePopup = function () {
         });
         this.hide()
     };
+
     this.onUnsaveImage = function (e) {};
     this.onClickDropbox = function (e) {
         e.preventDefault();
@@ -1509,121 +1530,121 @@ gbks.common.SavePopup = function () {
             url: "/bookmark/dropbox?ref=popup&imageId=" + this.data.imageId,
             type: "POST",
             success: $.proxy(this.onSaveToDropbox, this)
-        })
+        });
     };
-    this.onSaveToDropbox = function (e) {
-        $("#dropboxButton", this.canvas).removeClass("loading")
-    };
-    this.onFocusCreateGroupInput = function (e) {
-        $(".addForm", this.canvas).addClass("active");
-        this.onFocusInput(e)
-    };
-    this.onClickGroupOverlayUnsave = function (e) {
-        this.unsaveImage(this.data.imageId);
-        this.unsaveCallback && this.unsaveCallback(this.data.imageId)
-    };
-    this.onClickCreateGroup = function (e) {
-        e.preventDefault();
-        var t = $("#formCreateGroup", this.canvas),
-            n = $("input[type=text]", t),
-            r = $('input[name="imageId"]', t).val(),
-            i = n.val(),
-            s = n.attr("data-default"),
-            o = "/groups/create";
-        if (i.length > 0 && i != s) {
-            gbks.common.track("Polaroid", "CreateGroup", i);
-            t.removeClass("active");
-            n.val("");
-            $("input", t).attr("disabled", !0);
-            $("input[type=submit]", this.canvas).addClass("loading");
-            var u = {
-                imageId: r,
-                groupName: i
-            };
-            $.ajax({
-                url: o,
-                data: u,
-                type: "POST",
-                success: $.proxy(this.onCreateGroup, this)
-            })
-        }
-    };
-    this.onCreateGroup = function (e) {
-        $("#formCreateGroup input[type=submit]", this.canvas).removeClass("loading");
-        $("#formCreateGroup input", this.canvas).removeAttr("disabled");
-        var t = $.parseJSON(e);
-        t = e;
-        var n = '<li><input type="checkbox" name="groupId" value="' + t.id + '" checked="true" />' + t.name + "</li>",
-            r = $("ul", this.canvas),
-            i = $(r[r.length - 1]);
-        i.append(n);
-        r.removeClass("empty");
-        this.hideLoader()
-    };
-    this.onFocusInput = function (e) {
-        var t = $(e.currentTarget);
-        t.addClass("active");
-        t.val() == t.attr("data-default") && t.val("")
-    };
-    this.onBlurInput = function (e) {
-        var t = $(e.currentTarget);
-        t.addClass("active");
-        t.val() == "" && t.val(t.attr("data-default"))
-    };
-    this.onClickGroupOverlayItem = function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var t = $(e.currentTarget),
-            n = $(t.parents("li")[0]),
-            r = n.attr("data-checked"),
-            i = t.val(),
-            s = r == "true",
-            o = "/groups/removeImageFromGroup",
-            u = "Removing from group";
-        if (s) {
-            t.removeAttr("checked");
-            n.attr("data-checked", !1);
-            gbks.common.track("Polaroid", "RemoveFromGroup", this.data.imageId + "-" + i)
-        } else {
-            o = "/groups/addImageToGroup";
-            u = "Adding to group";
-            t.attr("checked", "checked");
-            n.attr("data-checked", !0);
-            gbks.common.track("Polaroid", "AddToGroup", this.data.imageId + "-" + i)
-        }
-        n.addClass("loading");
-        $.ajax({
-            url: o,
-            data: {
-                imageId: this.data.imageId,
-                groupId: i
-            },
-            type: "POST",
-            success: $.proxy(this.onGroupSaved, this)
-        })
-    };
-    this.onGroupSaved = function (e) {
-        this.canvas && $("li", this.canvas).removeClass("loading")
-    };
-    this.onClickPrivacyOption = function (e) {
-        var t = $(e.currentTarget),
-            n = t.val(),
-            r = n == "private",
-            i = "/bookmark/setpublic";
-        r && (i = "/bookmark/setprivate");
-        $(".privacy", this.canvas).addClass("loading");
-        $.ajax({
-            url: i,
-            data: {
-                imageId: this.data.imageId
-            },
-            type: "POST",
-            success: $.proxy(this.onChangePrivacy, this)
-        })
-    };
-    this.onChangePrivacy = function (e) {
-        $(".privacy", this.canvas).removeClass("loading")
-    };
+    // this.onSaveToDropbox = function (e) {
+    //     $("#dropboxButton", this.canvas).removeClass("loading")
+    // };
+    // this.onFocusCreateGroupInput = function (e) {
+    //     $(".addForm", this.canvas).addClass("active");
+    //     this.onFocusInput(e)
+    // };
+    // this.onClickGroupOverlayUnsave = function (e) {
+    //     this.unsaveImage(this.data.imageId);
+    //     this.unsaveCallback && this.unsaveCallback(this.data.imageId)
+    // };
+    // this.onClickCreateGroup = function (e) {
+    //     e.preventDefault();
+    //     var t = $("#formCreateGroup", this.canvas),
+    //         n = $("input[type=text]", t),
+    //         r = $('input[name="imageId"]', t).val(),
+    //         i = n.val(),
+    //         s = n.attr("data-default"),
+    //         o = "/groups/create";
+    //     if (i.length > 0 && i != s) {
+    //         gbks.common.track("Polaroid", "CreateGroup", i);
+    //         t.removeClass("active");
+    //         n.val("");
+    //         $("input", t).attr("disabled", !0);
+    //         $("input[type=submit]", this.canvas).addClass("loading");
+    //         var u = {
+    //             imageId: r,
+    //             groupName: i
+    //         };
+    //         $.ajax({
+    //             url: o,
+    //             data: u,
+    //             type: "POST",
+    //             success: $.proxy(this.onCreateGroup, this)
+    //         })
+    //     }
+    // };
+    // this.onCreateGroup = function (e) {
+    //     $("#formCreateGroup input[type=submit]", this.canvas).removeClass("loading");
+    //     $("#formCreateGroup input", this.canvas).removeAttr("disabled");
+    //     var t = $.parseJSON(e);
+    //     t = e;
+    //     var n = '<li><input type="checkbox" name="groupId" value="' + t.id + '" checked="true" />' + t.name + "</li>",
+    //         r = $("ul", this.canvas),
+    //         i = $(r[r.length - 1]);
+    //     i.append(n);
+    //     r.removeClass("empty");
+    //     this.hideLoader()
+    // };
+    // this.onFocusInput = function (e) {
+    //     var t = $(e.currentTarget);
+    //     t.addClass("active");
+    //     t.val() == t.attr("data-default") && t.val("")
+    // };
+    // this.onBlurInput = function (e) {
+    //     var t = $(e.currentTarget);
+    //     t.addClass("active");
+    //     t.val() == "" && t.val(t.attr("data-default"))
+    // };
+    // this.onClickGroupOverlayItem = function (e) {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     var t = $(e.currentTarget),
+    //         n = $(t.parents("li")[0]),
+    //         r = n.attr("data-checked"),
+    //         i = t.val(),
+    //         s = r == "true",
+    //         o = "/groups/removeImageFromGroup",
+    //         u = "Removing from group";
+    //     if (s) {
+    //         t.removeAttr("checked");
+    //         n.attr("data-checked", !1);
+    //         gbks.common.track("Polaroid", "RemoveFromGroup", this.data.imageId + "-" + i)
+    //     } else {
+    //         o = "/groups/addImageToGroup";
+    //         u = "Adding to group";
+    //         t.attr("checked", "checked");
+    //         n.attr("data-checked", !0);
+    //         gbks.common.track("Polaroid", "AddToGroup", this.data.imageId + "-" + i)
+    //     }
+    //     n.addClass("loading");
+    //     $.ajax({
+    //         url: o,
+    //         data: {
+    //             imageId: this.data.imageId,
+    //             groupId: i
+    //         },
+    //         type: "POST",
+    //         success: $.proxy(this.onGroupSaved, this)
+    //     })
+    // };
+    // this.onGroupSaved = function (e) {
+    //     this.canvas && $("li", this.canvas).removeClass("loading")
+    // };
+    // this.onClickPrivacyOption = function (e) {
+    //     var t = $(e.currentTarget),
+    //         n = t.val(),
+    //         r = n == "private",
+    //         i = "/bookmark/setpublic";
+    //     r && (i = "/bookmark/setprivate");
+    //     $(".privacy", this.canvas).addClass("loading");
+    //     $.ajax({
+    //         url: i,
+    //         data: {
+    //             imageId: this.data.imageId
+    //         },
+    //         type: "POST",
+    //         success: $.proxy(this.onChangePrivacy, this)
+    //     })
+    // };
+    // this.onChangePrivacy = function (e) {
+    //     $(".privacy", this.canvas).removeClass("loading")
+    // };
     this.onClickDocument = function (e) {
         var t = $(e.target),
             n = t.parents("#groupsOverlay");
