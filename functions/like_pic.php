@@ -7,10 +7,10 @@
  *  @return {json}
  */
 header('Content-Type: application/json');
-
 require('common.php');
 
-if (isset($_POST['imageId']) && isset($_POST['userId'])) {
+//首先验证ajax请求的有效性
+if (verify_ajax(array("imageId", "userId"), "post", true, "user_pic_action")) {
 
     define('WP_USE_THEMES', false);
     require_once(ABSPATH.'wp-load.php');
@@ -67,10 +67,6 @@ if (isset($_POST['imageId']) && isset($_POST['userId'])) {
             send_result(true, "喜欢失败");
         }
     }
-
-}
-else{
-    send_result(true, "未知错误");
 }
 
 ?>

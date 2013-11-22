@@ -5,6 +5,7 @@ window.console || (console = {
 
 var gbks = gbks || {};
 gbks.Grid = function () {
+
     this.init = function (e) {
         this.config = e;
         this.layout = new gbks.Tiles;
@@ -35,6 +36,11 @@ $(document).ready(function () {
     }
 });
 
+/*
+ *  Polaroid 即单个的图片方格，显示图片缩略图、喜欢/保存按钮及喜欢/保存数
+ *  同时加上 Tile 类，表示瀑布流中的一个方格
+ *
+ */
 var gbks = gbks || {};
 gbks.Polaroid = function () {
     this.init = function () {
@@ -62,76 +68,77 @@ gbks.Polaroid = function () {
         if (this.auth) {
             $(".like", t).live("click", $.proxy(this.onClickLikeImage, this));
             $(".comment", t).live("click", $.proxy(this.onClickCommentIcon, this));
-            $(".save", t).live("click", $.proxy(this.onClickSaveIcon, this))
+            $(".save", t).live("click", $.proxy(this.onClickSaveIcon, this));
         }
         $(".imageLink", this.polaroids).live("click", $.proxy(this.onClickMagnify, this));
         $(".nsfwCover", this.polaroids).live("click", $.proxy(this.onClickNSFWCover, this));
         $(".expander", this.polaroids).live("click", $.proxy(this.onClickExpand, this));
         var n = $(".groups a", this.polaroids);
-        n.live("mouseenter", $.proxy(this.onGroupOver, this));
-        n.live("mouseleave", $.proxy(this.onGroupOut, this));
-        this.clickDocumentMethod = $.proxy(this.onClickDocument, this)
+        // n.live("mouseenter", $.proxy(this.onGroupOver, this));
+        // n.live("mouseleave", $.proxy(this.onGroupOut, this));
+        this.clickDocumentMethod = $.proxy(this.onClickDocument, this);
     };
-    this.onGroupOver = function (e) {
-        var t = $(e.currentTarget);
-        this.groupInfoLink = t;
-        var n = t.attr("href"),
-            r = n.split("/"),
-            i = 0,
-            s = r.length,
-            o, u;
-        for (; i < s; i++)
-            if (r[i] == "group" && s > i) {
-                u = r[i + 1];
-                break
-            }
-        if (u) {
-            clearTimeout(this.hideGroupInfoTimer);
-            this.groupInfoId = u;
-            clearTimeout(this.showGroupInfoTimer);
-            this.showGroupInfoTimer = setTimeout($.proxy(this.loadGroupInfoPopup, this), 1e3)
-        }
-    };
-    this.loadGroupInfoPopup = function (e) {
-        $.ajax({
-            url: "/groups/popup",
-            data: {
-                groupId: this.groupInfoId
-            },
-            type: "POST",
-            success: $.proxy(this.onGetGroupPopup, this)
-        })
-    };
-    this.onGetGroupPopup = function (e) {
-        if (!e || !this.groupInfoId) return;
-        if (this.groupInfoPopup) {
-            this.groupInfoPopup.remove();
-            this.groupInfoPopup = null;
-            this.groupInfoId = null
-        }
-        var e = gbks.common.wrapPopupContent("groupInfoPopup", e);
-        this.groupInfoPopup = $(e);
-        $("body").append(this.groupInfoPopup);
-        gbks.common.positionPopup(this.groupInfoPopup, this.groupInfoLink)
-    };
-    this.onGroupOut = function (e) {
-        clearTimeout(this.showGroupInfoTimer);
-        if (this.groupInfoPopup) {
-            this.groupInfoPopup.remove();
-            this.groupInfoPopup = null;
-            this.groupInfoId = null
-        }
-        clearTimeout(this.hideGroupInfoTimer);
-        this.hideGroupInfoTimer = setTimeout($.proxy(this.hideGroupPopup, this), 500)
-    };
-    this.hideGroupPopup = function (e) {
-        if (this.groupInfoPopup) {
-            clearTimeout(this.showGroupInfoTimer);
-            this.groupInfoPopup.remove();
-            this.groupInfoPopup = null;
-            this.groupInfoId = null
-        }
-    };
+    // this.onGroupOver = function (e) {
+    //     var t = $(e.currentTarget);
+    //     this.groupInfoLink = t;
+    //     var n = t.attr("href"),
+    //         r = n.split("/"),
+    //         i = 0,
+    //         s = r.length,
+    //         o, u;
+    //     for (; i < s; i++){
+    //         if (r[i] == "group" && s > i) {
+    //             u = r[i + 1];
+    //             break;
+    //         }
+    //     }
+    //     if (u) {
+    //         clearTimeout(this.hideGroupInfoTimer);
+    //         this.groupInfoId = u;
+    //         clearTimeout(this.showGroupInfoTimer);
+    //         this.showGroupInfoTimer = setTimeout($.proxy(this.loadGroupInfoPopup, this), 1e3)
+    //     }
+    // };
+    // this.loadGroupInfoPopup = function (e) {
+    //     $.ajax({
+    //         url: "/groups/popup",
+    //         data: {
+    //             groupId: this.groupInfoId
+    //         },
+    //         type: "POST",
+    //         success: $.proxy(this.onGetGroupPopup, this)
+    //     });
+    // };
+    // this.onGetGroupPopup = function (e) {
+    //     if (!e || !this.groupInfoId) return;
+    //     if (this.groupInfoPopup) {
+    //         this.groupInfoPopup.remove();
+    //         this.groupInfoPopup = null;
+    //         this.groupInfoId = null
+    //     }
+    //     var e = gbks.common.wrapPopupContent("groupInfoPopup", e);
+    //     this.groupInfoPopup = $(e);
+    //     $("body").append(this.groupInfoPopup);
+    //     gbks.common.positionPopup(this.groupInfoPopup, this.groupInfoLink)
+    // };
+    // this.onGroupOut = function (e) {
+    //     clearTimeout(this.showGroupInfoTimer);
+    //     if (this.groupInfoPopup) {
+    //         this.groupInfoPopup.remove();
+    //         this.groupInfoPopup = null;
+    //         this.groupInfoId = null
+    //     }
+    //     clearTimeout(this.hideGroupInfoTimer);
+    //     this.hideGroupInfoTimer = setTimeout($.proxy(this.hideGroupPopup, this), 500)
+    // };
+    // this.hideGroupPopup = function (e) {
+    //     if (this.groupInfoPopup) {
+    //         clearTimeout(this.showGroupInfoTimer);
+    //         this.groupInfoPopup.remove();
+    //         this.groupInfoPopup = null;
+    //         this.groupInfoId = null
+    //     }
+    // };
     this.onClickLikeImage = function (e) {
         e.stopPropagation();
         e.preventDefault();

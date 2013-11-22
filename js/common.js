@@ -1273,7 +1273,7 @@ gbks.common.Lightbox = function () {
         $.ajax({
             url: ABSPATH + "/functions/save_pic.php",
             type: "POST",
-            data: {userId: pageConfig.userId, imageId: n},
+            data: {userId: pageConfig.userId, imageId: n, nonce: nonce},
             dataType: "json",
             success: $.proxy(this.onAddImageComplete, this)
         });
