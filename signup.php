@@ -18,6 +18,7 @@ if ($_POST) {
     $user_email = $_POST['user_email'];
     $user_password = $_POST['user_password'];
 
+
     $is_error = false;
 
     if (empty($display_name)) {
@@ -57,6 +58,8 @@ if ($_POST) {
             //设置用户昵称
             wp_update_user(array("ID" => $user_id,
                                  "display_name" => $display_name));
+            add_user_meta($user_id, 'avatar', 'default_avatar.png');
+            add_user_meta($user_id, 'avatar_small', 'default_avatar_small.png');
 
             //尝试用新创建的用户登录
             $creds = array("user_login" => $user_email,

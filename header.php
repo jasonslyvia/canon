@@ -30,7 +30,7 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="<?php echo URL;?>/style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="<?php echo URL;?>/css/home.css" type="text/css" media="all" />
-    <?php if(is_page('login') || is_page('upload') || is_page('signup')): ?>
+    <?php if(is_page('login') || is_page('upload') || is_page('signup') || is_page('settings')): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/login.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_page('profile')): ?>
@@ -55,7 +55,7 @@
       <?php if (is_user_logged_in()): $user = wp_get_current_user(); ?>
       <div class="profileImage">
       <a href="/profile/<?php echo $user->ID; ?>">
-        <img src="<?php echo URL.AVATAR;?>default_avatar_small.png"
+        <img src="<?php echo URL.AVATAR.get_user_meta($user->ID, 'avatar_small', true);?>"
               width="30" height="30" alt="<?php echo $user->display_name; ?>">
       </a>
       </div>

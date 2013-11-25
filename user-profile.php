@@ -14,6 +14,7 @@ if ( $user == false) {
 }
 else{
   $name = $user->display_name;
+  $avatar = get_user_meta($uid, 'avatar', true);
 }
 
 //获取当前登录的用户信息
@@ -68,7 +69,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
       <h1><b><a href="/profile/<?php echo $uid; ?>"><?php echo $name; ?></a></b></h1>
       <div class="picture">
         <a href="/profile/<?php echo $uid; ?>">
-          <img src="<?php echo URL.AVATAR;?>default_avatar.png"
+          <img src="<?php echo URL.AVATAR.$avatar;?>"
                 width="200" height="200"
                 alt="<?php echo $name; ?>">
         </a>

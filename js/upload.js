@@ -4,9 +4,9 @@
 
 var gbks = gbks || {};
 gbks.common = gbks.common || {};
-gbks.common.upload = function(){
+gbks.common.uploadImage = function(){
 
-    var self = gbks.common.upload;
+    var self = gbks.common.uploadImage;
 
     if (typeof URL === undefined || typeof pageConfig === undefined) {
         console.log("获取全局信息错误！");
@@ -36,12 +36,21 @@ gbks.common.upload = function(){
     };
 
     self.uploadify = function(){
+
+        var data = {
+            userId: USER_ID
+        };
+
+        if (typeof uploadConfig === "object") {
+            $.extend(data, uploadConfig);
+        }
+
         $("#file_upload").uploadify({
             swf: ABSPATH + '/uploads/uploadify.swf',
             uploader: ABSPATH + '/uploads/uploadify.php',
             buttonText: '上传',
             fileSizeLimit: '5MB',
-            formData: {userId: USER_ID},
+            formData: data,
             onUploadSuccess: self.onPicUploadSuccess
         });
     };
@@ -129,5 +138,5 @@ gbks.common.upload = function(){
 
 };
 
-gbks.common.upload();
+gbks.common.uploadImage();
 
