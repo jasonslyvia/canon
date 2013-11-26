@@ -324,3 +324,15 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 .avatar-preview{
     margin-bottom: 15px;
 }
+
+#maincontent span.error{
+    border: 0;
+    background: none;
+    line-height: 1;
+    padding: 0;
+    color: red;
+}
+
+.success{
+    color: green;
+}
