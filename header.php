@@ -55,7 +55,7 @@
       <?php if (is_user_logged_in()): $user = wp_get_current_user(); ?>
       <div class="profileImage">
       <a href="/profile/<?php echo $user->ID; ?>">
-        <img src="<?php echo URL.AVATAR.get_user_meta($user->ID, 'avatar_small', true);?>"
+        <img src="<?php echo AVATAR.get_user_meta($user->ID, 'avatar_small', true);?>"
               width="30" height="30" alt="<?php echo $user->display_name; ?>">
       </a>
       </div>

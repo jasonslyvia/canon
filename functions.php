@@ -7,8 +7,8 @@
 \*****************************************/
 define("URL", get_template_directory_uri());
 define("HOME", get_settings('home'));
-define("AVATAR", '/uploads/avatar/');
-
+//用户头像
+define("AVATAR", '/wp-content/themes/canon/uploads/avatar/');
 
 
 
