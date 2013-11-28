@@ -962,7 +962,6 @@ gbks.common.Lightbox = function () {
 
 
     this.createPlaceholder = function () {
-        console.log("creating placeholder");
         var e = $("#image_" + this.imageId),
             t = e.attr("data-w"),
             n = e.attr("data-h"),
@@ -1362,7 +1361,6 @@ gbks.common.Lightbox = function () {
         //         success: $.proxy(this.onSubmitFollow, this)
         //     });
         // }
-
     };
     this.onSubmitFollow = function (e, t, n) {
         console.log("onSubmitFollow", e)
@@ -1391,28 +1389,30 @@ gbks.common.Lightbox = function () {
         if (e.which == 13 && r.length > 2 && r != n.attr("placeholder")) {
             e.stopPropagation();
             e.preventDefault();
-            this.saveComment(r)
+            this.saveComment(r);
         }
     };
+
+    //发送评论请求
     this.saveComment = function (e) {
         $(document).unbind("keyup", this.commentKeyUpMethod);
         var t = $("#commentForm", this.canvas),
             n = $("textarea", t),
             r = e.toLowerCase(),
             i = !0;
-        r == "test" && (i = !1);
+
         e == n.attr("placeholder") && (i = !1);
         r.length < 3 && (i = !1);
-        if (r == "test") {
-            alert("Congratulations! Your test worked!");
-            t.val("")
-        } else if (i) {
+
+        if (i) {
             n.attr("disabled", "disabled");
             $.ajax({
-                url: "/comment/add",
+                url: ABSPATH + "/functions/add_comment.php",
                 data: {
                     imageId: this.imageId,
                     comment: e,
+                    nonce: nonce,
+                    userId: pageConfig.userId,
                     format: "big"
                 },
                 type: "POST",
@@ -1420,9 +1420,10 @@ gbks.common.Lightbox = function () {
             })
         } else {
             this.canvas.addClass("error");
-            alert("Please ensure your comment is more than 3 characters.")
+            alert("评论内容太短了，多说点儿什么吧！");
         }
     };
+
     this.onSaveComment = function (e, t, n) {
         var r = $("#commentForm", this.canvas);
         $(e).insertBefore(r);

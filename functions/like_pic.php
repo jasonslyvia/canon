@@ -18,13 +18,6 @@ if (verify_ajax(array("imageId", "userId"), "post", true, "user_pic_action")) {
     $image_id = $_POST['imageId'];
     $user_id = $_POST['userId'];
 
-    if (get_post($image_id) == null) {
-        send_result(true, "图片id{$image_id}不存在");
-    }
-    else if (get_user_by('id', $user_id) == false) {
-        send_result(true, "用户id{$user_id}不存在");
-    }
-
     //首先检查记录是否存在
     global $wpdb;
     $like_row = $wpdb->get_row(

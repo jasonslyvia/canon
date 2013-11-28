@@ -25,6 +25,8 @@ if (isset($_GET['imageId'])) {
     $author = $post->post_author;
     //作者昵称
     $author_name = get_userdata($author)->display_name;
+    //作者头像
+    $avatar = get_user_meta($author,'avatar_small', true);
     //图片地址
     $pic = IMAGE_PATH . $author . '/' . $post->post_content;
     //来源
@@ -51,6 +53,8 @@ if (isset($_GET['imageId'])) {
     $save_arr = $op_result["save"];
     $save_op = $save_arr['class_name'] == '' ? '保存': '编辑';
 
+    //当前用户头像
+    $c_avatar = get_user_meta(get_current_user_id(), 'avatar_small', true);
 
 
     //渲染内容
@@ -115,7 +119,7 @@ html;
                     <div class="finder clearfix">
                         <div class="userPic">
                             <a href="/profile/{$author}">
-                                <img src="{$AVATAR}default_avatar_small.png"
+                                <img src="{$AVATAR}{$avatar}"
                                     width="40" height="40" alt=""/>
                             </a>
                         </div>
@@ -134,9 +138,9 @@ html;
                         </div>
                         <div id="commentForm" data-imageid="{$image_id}">
                             <div class="userPic">
-                                <img src="{$AVATAR}/default_avatar_small.png" width="30" height="30" alt=""/>
+                                <img src="{$AVATAR}{$c_avatar}" width="30" height="30" alt=""/>
                             </div>
-                            <textarea name="comment" placeholder="说点儿什么">说点儿什么</textarea>
+                            <textarea name="comment" placeholder="按回车键发表评论">按回车键发表评论</textarea>
                         </div>
                         <div class="group clearfix">
                             <a href="http://www.wookmark.com/profile/aerynn" class="userPic">

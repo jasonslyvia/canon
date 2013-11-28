@@ -30,10 +30,7 @@ if ($_POST['target'] == "password") {
         //找到对应的用户
         $user_id = $_POST['userId'];
         $user = get_user_by('id', $user_id);
-        if (!$user) {
-            send_result(true, "未找到用户id为{$user_id}的用户");
-        }
-        else if (!wp_check_password($password, $user->data->user_pass, $user_id)) {
+        if (!wp_check_password($password, $user->data->user_pass, $user_id)) {
             send_result(true, "原密码错误");
         }
         else{
