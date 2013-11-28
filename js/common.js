@@ -1312,7 +1312,7 @@ gbks.common.Lightbox = function () {
             url: ABSPATH + "/functions/like_pic.php",
             data: {
                 imageId: n,
-                userId: pageConfig.userId,
+                userId: pageConfig.userId || USER_ID,
                 nonce: nonce
             },
             type: "POST",
@@ -1822,44 +1822,44 @@ gbks.common.Kaori = function () {
             width: 60
         }, 350)
     };
-    this.clickNavItem = function (e) {
-        var t = $(e.currentTarget);
-        if (t.hasClass("arrow")) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.canvas.toggleClass("showall")
-        } else {
-            var n = t.attr("data-type"),
-                r = t.attr("data-id"),
-                i = gbks.tilesInstance;
-            if (i && n && n.length > 0) {
-                i.config = {
-                    type: n,
-                    page: 0,
-                    id: r
-                };
-                i.currentPage = -1;
-                i.itemCount = null;
-                i.clear();
-                i.loadMore();
-                $("li", this.canvas).removeClass("active");
-                t.addClass("active");
-                var s = $("a", t),
-                    o = s.attr("title"),
-                    u = s.attr("href");
-                gbks.common.history.push(u, o);
-                o && o.length > 0 && $("p", this.nav).html(o);
-                window.scrollTo(0, 0);
-                gbks.common.track("Kaori", n, r ? r : "");
-                Modernizr.touch && this.canvas.removeClass("expand");
-                e.preventDefault();
-                e.stopPropagation()
-            } else if (Modernizr.touch && t.hasClass("search")) {
-                var a = this.toggle();
-                a && this.searchField.focus()
-            }
-        }
-    };
+    // this.clickNavItem = function (e) {
+    //     var t = $(e.currentTarget);
+    //     if (t.hasClass("arrow")) {
+    //         e.preventDefault();
+    //         e.stopPropagation();
+    //         this.canvas.toggleClass("showall")
+    //     } else {
+    //         var n = t.attr("data-type"),
+    //             r = t.attr("data-id"),
+    //             i = gbks.tilesInstance;
+    //         if (i && n && n.length > 0) {
+    //             i.config = {
+    //                 type: n,
+    //                 page: 0,
+    //                 id: r
+    //             };
+    //             i.currentPage = -1;
+    //             i.itemCount = null;
+    //             i.clear();
+    //             i.loadMore();
+    //             $("li", this.canvas).removeClass("active");
+    //             t.addClass("active");
+    //             var s = $("a", t),
+    //                 o = s.attr("title"),
+    //                 u = s.attr("href");
+    //             gbks.common.history.push(u, o);
+    //             o && o.length > 0 && $("p", this.nav).html(o);
+    //             window.scrollTo(0, 0);
+    //             gbks.common.track("Kaori", n, r ? r : "");
+    //             Modernizr.touch && this.canvas.removeClass("expand");
+    //             e.preventDefault();
+    //             e.stopPropagation()
+    //         } else if (Modernizr.touch && t.hasClass("search")) {
+    //             var a = this.toggle();
+    //             a && this.searchField.focus()
+    //         }
+    //     }
+    // };
     this.isExpanded = function () {
         return this.lukas.hasClass(this.expandClass)
     };
