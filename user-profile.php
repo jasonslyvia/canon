@@ -63,9 +63,15 @@ $saved_record = $wpdb->get_col("
     WHERE user_id = {$uid}
   ");
 
-$args = array("post__in" => $saved_record);
-$query = new WP_Query($args);
-$post_count = $query->found_posts;
+if (count($saved_record) == 0) {
+  $query = null;
+  $post_count = 0;
+}
+else{
+  $args = array("post__in" => $saved_record);
+  $query = new WP_Query($args);
+  $post_count = $query->found_posts;
+}
 
 get_header();
 
@@ -114,7 +120,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
     </div>
 
 <?php
-while ($query->have_posts()) {
+while ($query && $query->have_posts()) {
     $query->the_post();
 
     $id = get_the_ID();
