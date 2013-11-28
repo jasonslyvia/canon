@@ -24,9 +24,6 @@ if ($_POST['target'] == "password") {
             send_result(true, "密码有效长度为 6 - 16 位");
         }
 
-        define('WP_USE_THEMES', false);
-        require_once(ABSPATH.'wp-load.php');
-
         //找到对应的用户
         $user_id = $_POST['userId'];
         $user = get_user_by('id', $user_id);
@@ -44,9 +41,6 @@ else{
     $required = array("userId", "name", "email");
     //首先验证ajax请求的有效性
     if (verify_ajax($required, "post", true, "user_info_action")) {
-
-        define('WP_USE_THEMES', false);
-        require_once(ABSPATH.'wp-load.php');
 
         //找到对应的用户
         $user_id = $_POST['userId'];

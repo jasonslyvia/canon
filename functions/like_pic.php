@@ -10,10 +10,11 @@ header('Content-Type: application/json');
 require('common.php');
 
 //首先验证ajax请求的有效性
-if (verify_ajax(array("imageId", "userId"), "post", true, "user_pic_action")) {
-
-    define('WP_USE_THEMES', false);
-    require_once(ABSPATH.'wp-load.php');
+if (verify_ajax(array("imageId", "userId"),
+                "post",
+                true,
+                "user_pic_action"))
+{
 
     $image_id = $_POST['imageId'];
     $user_id = $_POST['userId'];

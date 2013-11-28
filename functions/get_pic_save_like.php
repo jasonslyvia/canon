@@ -77,7 +77,7 @@ function get_pic_op($image_id, $user_id, $type){
             //获取用户姓名
             $name = get_userdata($uid)->display_name;
             //获取用户头像
-            $avatar = AVATAR . 'default_avatar_small.png';
+            $avatar = AVATAR . get_user_meta($uid, 'avatar_small', true);
 
             if ($i < 2) {
                 $op_sample_html .=
@@ -97,7 +97,7 @@ function get_pic_op($image_id, $user_id, $type){
 
         if ($op_count > 2) {
             $real_count = $op_count - 2;
-            $op_sample_html .= " 和<b>另外{$real_count}个人</b>也{$type_cn}这张图片</p>";
+            $op_sample_html .= " 和<b>另外{$real_count}个人</b>也{$type_cn}了这张图片</p>";
         }
 
     }

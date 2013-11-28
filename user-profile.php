@@ -31,6 +31,9 @@ $user_save_count = $wpdb->get_var("
     WHERE user_id = $uid
   ");
 
+$comments = get_comments(array("user_id" => $uid));
+$comment_count = count($comments);
+
 
 /*======================================
 获取当前登录用户信息
@@ -96,7 +99,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
           <span>图像</span></a>
         </p>
         <p>
-          <a href="/profile/<?php echo $uid; ?>/notes">0<br>
+          <a href="/profile/<?php echo $uid; ?>/notes"><?php echo $comment_count; ?><br>
           <span>评论</span></a>
         </p>
         <p>

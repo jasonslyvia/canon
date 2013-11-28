@@ -1425,9 +1425,14 @@ gbks.common.Lightbox = function () {
     };
 
     this.onSaveComment = function (e, t, n) {
-        var r = $("#commentForm", this.canvas);
-        $(e).insertBefore(r);
-        r.remove();
+        if (e.error) {
+            alert(e.message);
+        }
+        else{
+            var r = $("#commentForm", this.canvas);
+            $(e.html).insertBefore(r);
+            r.remove();
+        }
     }
 };
 

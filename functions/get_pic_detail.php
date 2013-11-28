@@ -43,8 +43,6 @@ if (isset($_GET['imageId'])) {
     $title = $post->post_name;
     $history = '';
 
-    //heredoc 常数
-    $AVATAR = AVATAR;
 
     //喜欢与保存数据
     require_once('get_pic_save_like.php');
@@ -53,10 +51,44 @@ if (isset($_GET['imageId'])) {
     $save_arr = $op_result["save"];
     $save_op = $save_arr['class_name'] == '' ? '保存': '编辑';
 
+
+    //评论内容
+    $comments = get_comments(array("post_id" => $image_id));
+
+    if (count($comments) == 0) {
+        $comment_class = " empty";
+    }
+    else{
+        $comment_class = "";
+    }
+    $comment_html = '<div id="comments"><div class="comments'.$comment_class.'">';
+
+    foreach ($comments as $c) {
+        $comment_avatar = AVATAR.get_user_meta($c->user_id, 'avatar_small', true);
+        $comment_author = get_userdata($c->user_id)->display_name;
+        $c_html = <<<c_html
+<div id="comment_{$c->comment_ID}" class="comment clearfix" data-imageid="{$post_id}">
+    <div class="userPic">
+        <a href="/profile/{$c->user_id}">
+            <img src="{$comment_avatar}"
+                 width="30" height="30" alt="">
+        </a>
+    </div>
+    <p>
+        <a href="/profile/{$c->user_id}">{$comment_author}</a> – {$c->comment_content}<br>
+    </p>
+</div>
+c_html;
+        $comment_html .= $c_html;
+    }
+
+    $comment_html .= '</div></div>';
+
     //当前用户头像
     $c_avatar = get_user_meta(get_current_user_id(), 'avatar_small', true);
 
-
+    //heredoc 常数
+    $AVATAR = AVATAR;
     //渲染内容
     $html = <<<html
 <div class="image" style="background-color: #000000">
@@ -132,25 +164,15 @@ html;
                     {$save_arr["sample_html"]}
                     </div>
                     <div class="activity clearfix">
-                        <div id="comments" class="empty">
-                            <div class="comments">
-                            </div>
-                        </div>
+                        $comment_html
                         <div id="commentForm" data-imageid="{$image_id}">
                             <div class="userPic">
                                 <img src="{$AVATAR}{$c_avatar}" width="30" height="30" alt=""/>
                             </div>
                             <textarea name="comment" placeholder="按回车键发表评论">按回车键发表评论</textarea>
                         </div>
-                        <div class="group clearfix">
-                            <a href="http://www.wookmark.com/profile/aerynn" class="userPic">
-                            <img src="http://www.wookmark.com/images/profile/30/a_kiss_in_the_dark_by_hiritai-d4rrx82_2.jpg" width="30" height="30" alt=""/></a>
-                            <p>
-                                <a href="http://www.wookmark.com/profile/aerynn">Aerynn</a> 保存了这张图</a>.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                    </div><!-- 相关评论结束-->
+                </div><!-- 图片相关信息结束 -->
             </div>
         </div>
     </div>
