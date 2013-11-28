@@ -31,9 +31,10 @@ if (isset($_GET['imageId'])) {
     $pic = IMAGE_PATH . $author . '/' . $post->post_content;
     //来源
     $referer = get_post_meta($image_id, 'referrer', true);
-    if ($referer != '') {
+    if (!empty($referer) && trim($referer) != '') {
         //获取refer的域名部分
-        $short_referer = parse_url($referer)["host"];
+        $short_referer = parse_url($referer);
+        $short_referer = $short_referer["host"];
     }
     else{
         $short_referer = '原创';
