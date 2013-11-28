@@ -142,6 +142,7 @@ gbks.Polaroid = function () {
     this.onClickLikeImage = function (e) {
         e.stopPropagation();
         e.preventDefault();
+
         var t = $(e.currentTarget),
             n = $(t.parents(".polaroid")[0]),
             r = $(".likes", n),
@@ -149,28 +150,31 @@ gbks.Polaroid = function () {
             s = !t.hasClass("active"),
             o = t.attr("data-id"),
             u = parseInt(n.attr("data-likes"));
+
         s ? u++ : u--;
         n.attr("data-likes", u);
         this.updateStats(n, !1, !0);
-        var a = "/likes/like";
+
         if (s) {
             t.addClass("active");
-            gbks.common.track("Polaroid", "Like", o)
         } else {
-            a = "/likes/unlike";
             t.removeClass("active");
-            gbks.common.track("Polaroid", "Unlike", o)
         }
+
         $.ajax({
-            url: a,
+            url: ABSPATH + "/functions/like_pic.php",
             data: {
-                imageId: o
+                imageId: o,
+                userId: pageConfig.userId || USER_ID,
+                nonce: nonce
             },
             type: "POST",
             success: $.proxy(this.onLikeImage, this)
         });
-        this.updateLayout()
+
+        this.updateLayout();
     };
+
     this.onLikeImage = function (e) {};
     this.onClickCommentIcon = function (e) {
         e.stopPropagation();
@@ -365,41 +369,48 @@ gbks.Polaroid = function () {
             n = $(t.parents(".polaroid")[0]),
             r = $(".save", n).attr("data-id"),
             i = !1;
-        $(".save span", n).html("Edit");
+        $(".save span", n).html("编辑");
         n.addClass("saved");
         if (this.groupsOverlay) {
             i = this.groupsOverlay.attr("data-imageId") == r;
             this.groupsOverlay.remove();
-            this.groupsOverlay = null
+            this.groupsOverlay = null;
         }
-        i || this.saveImage(n)
+        i || this.saveImage(n);
     };
+
     this.saveImage = function (e) {
         var t = $(".options .save", e),
             n = $(".saves", e),
             r = $(".saves", e),
             i = t.hasClass("active");
+
         t.addClass("active");
+
         var s = e.attr("id"),
             o = s.split("_"),
             u = o[1];
-        gbks.common.track("Polaroid", "Save", u);
+
         if (!i) {
             t.addClass("active");
             var a = parseInt(e.attr("data-saves"));
             e.attr("data-saves", a + 1);
-            this.updateStats(e, !0, !1)
+            this.updateStats(e, !0, !1);
         }
+
         this.hideGroupsOverlay();
         var f = $.proxy(this.onSaveImage, this);
         this.shiftDown ? f = null : t.addClass("loading");
+
         $.ajax({
-            url: "/bookmark/savetouser?imageId=" + u,
+            url: ABSPATH + "/functions/save_pic.php",
             type: "POST",
-            dataType: "jsonp",
+            data: {userId: pageConfig.userId || USER_ID, imageId: u, nonce: nonce},
+            dataType: "json",
             success: f
         });
-        this.updateLayout()
+
+        this.updateLayout();
     };
     this.onCloseSavePopup = function (e) {};
     this.onClickRemoveImage = function () {
@@ -416,7 +427,10 @@ gbks.Polaroid = function () {
             n = $(".save", t);
         n.removeClass("loading");
         this.savePopup = new gbks.common.SavePopup;
-        this.savePopup.init(n, e, $.proxy(this.onClickRemoveImage, this), $.proxy(this.onCloseSavePopup, this))
+        this.savePopup.init(n,
+                            e,
+                            $.proxy(this.onClickRemoveImage, this),
+                            $.proxy(this.onCloseSavePopup, this));
     };
     this.unsaveImage = function (e) {
         var t = e.attr("id"),
@@ -498,8 +512,8 @@ gbks.Polaroid = function () {
             i = e.attr("data-saves"),
             s = [],
             o;
-        (i > 1 || t) && s.push('<em class="s"></em><span class="saves">' + i + "</span>");
-        (r > 1 || n) && s.push('<em class="l"></em><span class="likes">' + r + "</span>");
+        (i > 0 || t) && s.push('<em class="s"></em><span class="saves">' + i + "</span>");
+        (r > 0 || n) && s.push('<em class="l"></em><span class="likes">' + r + "</span>");
         var u = s.join(""),
             a = $(".stats", e);
         a.html(u);
