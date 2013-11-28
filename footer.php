@@ -4,14 +4,13 @@
     <script type="text/javascript">
         var pageConfig = {
     <?php if (is_home()) { ?>
-          type: 'popular'
+          type: 'popular',
     <?php } else { ?>
           type: 'user',
-    <?php if(is_user_logged_in()): ?>
+    <?php }if(is_user_logged_in()): ?>
           userId: '<?php echo get_current_user_id(); ?>',
     <?php endif; ?>
           page: 1
-    <?php } ?>
         };
     </script>
 

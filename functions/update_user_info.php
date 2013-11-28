@@ -15,7 +15,7 @@ require('common.php');
 
 //更新密码
 if ($_POST['target'] == "password") {
-    $required = array("password", "newPassword", "userId");
+    $required = array("password", "newPassword");
     if (verify_ajax($required, "post", true, "user_info_action")) {
         //验证新密码是否符合规则
         $password = $_POST['password'];
@@ -25,7 +25,7 @@ if ($_POST['target'] == "password") {
         }
 
         //找到对应的用户
-        $user_id = $_POST['userId'];
+        $user_id = get_current_user_id();
         $user = get_user_by('id', $user_id);
         if (!wp_check_password($password, $user->data->user_pass, $user_id)) {
             send_result(true, "原密码错误");
@@ -38,12 +38,12 @@ if ($_POST['target'] == "password") {
 }
 //更新基本信息
 else{
-    $required = array("userId", "name", "email");
+    $required = array("name", "email");
     //首先验证ajax请求的有效性
     if (verify_ajax($required, "post", true, "user_info_action")) {
 
         //找到对应的用户
-        $user_id = $_POST['userId'];
+        $user_id = get_current_user_id();
         $user = get_user_by('id', $user_id);
         if (!$user) {
             send_result(true, "未找到用户id为{$user_id}的用户");

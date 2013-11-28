@@ -3,20 +3,19 @@
  *  发布一条新评论
  *
  *  @param {int} imageId 图像id（即post_id）
- *  @param {int} userId 用户id
  *  @return {json}
  */
 header('Content-Type: application/json');
 require('common.php');
 
 //首先验证ajax请求的有效性
-if(verify_ajax(array("imageId", "userId", "comment"),
+if(verify_ajax(array("imageId", "comment"),
                'post',
                true,
                'user_pic_action'))
 {
     $image_id = $_POST['imageId'];
-    $user_id = $_POST['userId'];
+    $user_id = get_current_user_id();
     $user_name = get_userdata($user_id)->display_name;
     $user_avatar = get_user_meta($user_id, 'avatar_small', true);
     $comment = $_POST['comment'];

@@ -10,14 +10,14 @@ header('Content-Type: application/json');
 require('common.php');
 
 //首先验证ajax请求的有效性
-if(verify_ajax(array("imageId", "userId"),
+if(verify_ajax(array("imageId"),
                'post',
                true,
                'user_pic_action'))
 {
 
     $image_id = $_POST['imageId'];
-    $user_id = $_POST['userId'];
+    $user_id = get_current_user_id();
 
     $URL = URL;
 
@@ -56,7 +56,8 @@ html;
         //     $save_count = get_post_meta($image_id, 'save_count', true);
         //     update_post_meta($image_id, 'save_count', --$save_count);
 
-            send_result(false, "图片已保存", array("html" => $html));
+            send_result(false, "图片已保存", array("html" => $html,
+                                                  "imageId" => $image_id));
         // }
         // else{
         //     send_result(false, "取消保存失败");
@@ -74,7 +75,8 @@ html;
             $save_count = get_post_meta($image_id, 'save_count', true);
             update_post_meta($image_id, 'save_count', ++$save_count);
 
-            send_result(false, "保存成功", array("html" => $html));
+            send_result(false, "保存成功", array("html" => $html,
+                                                "imageId" => $image_id));
         }
         else{
             send_result(true, "保存失败");

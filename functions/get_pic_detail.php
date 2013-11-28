@@ -3,7 +3,6 @@
  *  返回图像的详细信息
  *
  *  @param {int} imageId 图像id（即post_id）
- *  @param {int} userId 当前登录的用户id
  *  @return {json}
  */
 header('Content-Type: application/json');
@@ -17,9 +16,6 @@ if (isset($_GET['imageId'])) {
     //获得图片详细信息
     $image_id = $_GET['imageId'];
     $post = get_post($image_id);
-    $user_id = $_GET['userId'];
-    //若用户id不存在则设为0，模拟用户未登录情况
-    $user_id = get_user_by('id', $user_id) ? $user_id : 0;
 
     //作者id
     $author = $post->post_author;
@@ -45,6 +41,9 @@ if (isset($_GET['imageId'])) {
     $history = '';
 
 
+    //若用户id不存在则设为0，模拟用户未登录情况
+    //get_current_user_id在用户未登录情况下返回0
+    $user_id =  get_current_user_id();
     //喜欢与保存数据
     require_once('get_pic_save_like.php');
     $op_result = get_pic_save_like($image_id, $user_id);

@@ -9,7 +9,8 @@ define("URL", get_template_directory_uri());
 define("HOME", get_settings('home'));
 //用户头像
 define("AVATAR", '/wp-content/themes/canon/uploads/avatar/');
-
+//用户上传图像储存相对地址
+define('IMAGE_PATH', '/wp-content/themes/canon/uploads/images/');
 
 
 

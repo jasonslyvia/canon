@@ -10,14 +10,14 @@ header('Content-Type: application/json');
 require('common.php');
 
 //首先验证ajax请求的有效性
-if (verify_ajax(array("imageId", "userId"),
+if (verify_ajax(array("imageId"),
                 "post",
                 true,
                 "user_pic_action"))
 {
 
     $image_id = $_POST['imageId'];
-    $user_id = $_POST['userId'];
+    $user_id = get_current_user_id();
 
     //首先检查记录是否存在
     global $wpdb;

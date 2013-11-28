@@ -13,10 +13,10 @@
 header('Content-Type: application/json');
 require('common.php');
 
-if (verify_ajax(array("filename", "userId"), "post", true, "upload_pic")) {
+if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
 
     $filename = $_POST['filename'];
-    $userId = $_POST['userId'];
+    $userId = get_current_user_id();
     //添加新文章
     $post_name = basename($filename);
     $post_id = wp_insert_post(array("post_author" => $userId,
