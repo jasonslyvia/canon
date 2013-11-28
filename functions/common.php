@@ -45,17 +45,6 @@ function verify_ajax($keys, $type = '_REQUESTS',
             //当前登录用户id
             $uid = get_current_user_id();
 
-            //验证用户id设置是否正确及用户是否存在
-            if (isset($request['userId']) || isset($request['user_id'])) {
-                $user_id = $request['userId'] ? $request['userId'] : $request['user_id'];
-                if ($user_id != $uid) {
-                    throw new Exception("参数userId：{$user_id}与当前用户id：{$uid}不符", 1);
-                }
-                else if (get_user_by('id', $user_id) == false) {
-                    send_result(true, "用户id{$user_id}不存在");
-                }
-            }
-
             //若设置了imageId，同时检查该图片id是否存在
             if (isset($request['imageId'])) {
                 $image_id = $request['imageId'];
