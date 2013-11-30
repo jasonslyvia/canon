@@ -4,6 +4,7 @@
  *
  *  @param {int} imageId 图像id（即post_id）
  *  @param {int} userId 用户id
+ *  @param {string} optional action 若设置为 unsave 则执行取消保存操作
  *  @return {json}
  */
 header('Content-Type: application/json');
@@ -47,21 +48,24 @@ html;
                             $image_id, $user_id)
     );
 
-    //若保存记录存在，删除
+    //若保存记录存在
     if ($save_row ) {
-        // $deleted = $wpdb->delete('pic_save',
-        //                          array("save_id" => $save_row->save_id));
-        // if ($deleted) {
-
-        //     $save_count = get_post_meta($image_id, 'save_count', true);
-        //     update_post_meta($image_id, 'save_count', --$save_count);
-
+        //若执行取消保存的操作，则删除 pic_save 表中的记录
+        if ($_POST["action"] == "unsave") {
+            $deleted = $wpdb->delete('pic_save',
+                                     array("save_id" => $save_row->save_id));
+            if ($deleted) {
+                $save_count = get_post_meta($image_id, 'save_count', true);
+                update_post_meta($image_id, 'save_count', --$save_count);
+            }
+            else{
+                send_result(false, "取消保存失败");
+            }
+        }
+        else{
             send_result(false, "图片已保存", array("html" => $html,
                                                   "imageId" => $image_id));
-        // }
-        // else{
-        //     send_result(false, "取消保存失败");
-        // }
+        }
     }
     //若保存记录不存在，插入新纪录
     else{
