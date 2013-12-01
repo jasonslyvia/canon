@@ -72,9 +72,11 @@ while ($query->have_posts()) {
     //以确定是否给操作选项增加 active 的 class
     if (in_array($id, $c_saved_record)) {
         $save_class = " active";
+        $save_text = "编辑";
     }
     else{
         $save_class = "";
+        $save_text = "保存";
     }
     if (in_array($id, $c_liked_record)) {
         $like_class = " active";
@@ -90,7 +92,7 @@ while ($query->have_posts()) {
      data-h="<?php echo $height; ?>">
   <div class="options">
         <div class="save<?php echo $save_class;?>" data-id="<?php echo $pid; ?>" title="保存这个图像">
-          <em></em><span>编辑</span>
+          <em></em><span><?php echo($save_text); ?></span>
         </div>
         <div class="like<?php echo $like_class;?>" data-id="<?php echo $pid; ?>" title="喜欢这个图像">
           <em></em><span>喜欢</span>

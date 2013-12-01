@@ -62,12 +62,12 @@ if (isset($_GET['imageId'])) {
         $comment_class = "";
     }
     $comment_html = '<div id="comments"><div class="comments'.$comment_class.'">';
-
     foreach ($comments as $c) {
         $comment_avatar = AVATAR.get_user_meta($c->user_id, 'avatar_small', true);
         $comment_author = get_userdata($c->user_id)->display_name;
         $c_html = <<<c_html
-<div id="comment_{$c->comment_ID}" class="comment clearfix" data-imageid="{$post_id}">
+<div id="comment_{$c->comment_ID}" class="comment clearfix"
+     data-imageid="{$post_id}">
     <div class="userPic">
         <a href="/profile/{$c->user_id}">
             <img src="{$comment_avatar}"
@@ -75,17 +75,55 @@ if (isset($_GET['imageId'])) {
         </a>
     </div>
     <p>
-        <a href="/profile/{$c->user_id}">{$comment_author}</a> – {$c->comment_content}<br>
+        <a href="/profile/{$c->user_id}">
+            {$comment_author}</a> – {$c->comment_content}<br>
+        </a>
     </p>
 </div>
 c_html;
         $comment_html .= $c_html;
     }
-
     $comment_html .= '</div></div>';
-
     //当前用户头像
     $c_avatar = get_user_meta(get_current_user_id(), 'avatar_small', true);
+
+    //处理关注按钮
+    if ($user_id == $author) {
+        $follow_btn_html = '';
+    }
+    else{
+        //先判断当前用户是否关注了作者
+        global $wpdb;
+        $follow = $wpdb->get_var("
+            SELECT count(*) FROM user_relation
+            WHERE follower_id = {$user_id} AND followee_id = {$author}
+        ");
+        //若已关注
+        if ($follow != 0) {
+            $follow_btn_html = <<<html
+    <button type="button" class="blue follow active" data-type="1"
+            data-id="{$author}">
+            已关注
+    </button>
+html;
+        }
+        else{
+            $follow_btn_html = <<<html
+    <button type="button" class="blue follow" data-type="1"
+            data-id="{$author}">
+            关 注
+    </button>
+html;
+
+        }
+    }
+
+
+
+
+
+
+
 
     //heredoc 常数
     $AVATAR = AVATAR;
@@ -116,11 +154,13 @@ c_html;
                     <p id="tagOptions">
                         <a href="#" class="saveButton{$save_arr['class_name']}"
                             id="addImageButton"
-                            data-id="{$image_id}" title="保存这张图片"><em></em> <span>{$save_op}</span>
+                            data-id="{$image_id}" title="保存这张图片">
+                            <em></em> <span>{$save_op}</span>
                         </a>
                         <a href="#" class="likeButton{$like_arr['class_name']}"
                             id="likeImageButton"
-                            data-id="{$image_id}" title="喜欢这张图片"><em></em> <span>喜欢</span>
+                            data-id="{$image_id}" title="喜欢这张图片">
+                            <em></em> <span>喜欢</span>
                         </a>
                         <a href="#" class="shareButton" id="shareImageButton"
                             title="分享给你的好友"
@@ -155,21 +195,23 @@ html;
                                     width="40" height="40" alt=""/>
                             </a>
                         </div>
-                        <h4><a href="/profile/{$author}" class="userLink">{$author_name}</a><br/>
+                        <h4><a href="/profile/{$author}" class="userLink">
+                            {$author_name}</a><br/>
                         来自 <a href="{$referer}">{$short_referer}</a></h4>
-                        <button type="button" class="follow blue active" data-type="1" data-id="7650">已关注</button>
+                        {$follow_btn_html}
                     </div>
                     <div class="stats saves clearfix">
                     {$like_arr["sample_html"]}
                     {$save_arr["sample_html"]}
                     </div>
                     <div class="activity clearfix">
-                        $comment_html
+                        {$comment_html}
                         <div id="commentForm" data-imageid="{$image_id}">
                             <div class="userPic">
-                                <img src="{$AVATAR}{$c_avatar}" width="30" height="30" alt=""/>
+                                <img src="{$AVATAR}{$c_avatar}" width="30"
+                                     height="30" alt=""/>
                             </div>
-                            <textarea name="comment" placeholder="按回车键发表评论">按回车键发表评论</textarea>
+                            <textarea name="comment" placeholder="按回车键发表评论"> 按回车键发表评论 </textarea>
                         </div>
                     </div><!-- 相关评论结束-->
                 </div><!-- 图片相关信息结束 -->
@@ -178,6 +220,9 @@ html;
     </div>
 </div>
 html;
+
+
+
 
     $width = get_post_meta($image_id, 'width', true);
     $height = get_post_meta($image_id, 'height', true);

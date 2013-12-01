@@ -1334,48 +1334,58 @@ gbks.common.Lightbox = function () {
         }
     };
 
+    //点击关注按钮
     this.onClickFollowButton = function (e) {
         e.preventDefault();
         e.stopPropagation();
 
         var t = $(e.currentTarget),
-            n = t.attr("data-type"),
             r = t.attr("data-id"),
             i = t.hasClass("active");
 
-        console.log("onClickFollowButton", n, r, i);
+        if (r) {
+            var s = ABSPATH + "/functions/follow_user.php",
+                o = "已关注",
+                data = {
+                    targetId: r,
+                    nonce: nonce
+                };
 
-        // if (r && n) {
-        //     var s = "/following/follow",
-        //         o = "Following";
-        //     if (i) {
-        //         s = "/following/unfollow";
-        //         o = "Follow";
-        //         t.removeClass("active")
-        //     } else t.addClass("active");
-        //     t.html(o);
-        //     $.ajax({
-        //         url: s,
-        //         data: {
-        //             targetId: r,
-        //             type: n
-        //         },
-        //         type: "POST",
-        //         success: $.proxy(this.onSubmitFollow, this)
-        //     });
-        // }
+            //若未关注，点击后关注
+            if (!i) {
+                t.addClass("active");
+                data.action = "follow";
+            }
+            //若已关注，点击后取消关注
+            else {
+                o = "关 注";
+                t.removeClass("active")
+                data.action = "unfollow";
+            }
+            t.html(o);
+            $.ajax({
+                url: s,
+                data: data,
+                type: "POST",
+                success: $.proxy(this.onSubmitFollow, this)
+            });
+        }
     };
     this.onSubmitFollow = function (e, t, n) {
-        console.log("onSubmitFollow", e)
+        if (e.error) {
+            alert(e.message);
+        }
     };
+
     this.onFocusCommentField = function (e) {
         var t = $("#commentForm", this.canvas),
             n = $("textarea", t);
         t.addClass("active");
         $("textarea", t).addClass("active");
         n.val() == n.attr("placeholder") && n.val("");
-        $(document).bind("keyup", this.commentKeyUpMethod)
+        $(document).bind("keyup", this.commentKeyUpMethod);
     };
+
     this.onBlurCommentField = function (e) {
         var t = $("#commentForm", this.canvas),
             n = $("textarea", t);
@@ -1385,6 +1395,7 @@ gbks.common.Lightbox = function () {
         }
         $(document).unbind("keyup", this.commentKeyUpMethod)
     };
+
     this.onCommentKeyUp = function (e) {
         var t = $("#commentForm", this.canvas),
             n = $("textarea", t),
