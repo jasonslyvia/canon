@@ -1,9 +1,7 @@
 <?php
 
-/*
- * Template Name: login
- */
-
+require('functions/settings.php');
+require(ABSPATH . '/wp-load.php');
 
 //若是登录
 if ($_POST) {
@@ -68,17 +66,13 @@ if ($_GET['forget'] == 1) {
       <h2>通过邮箱登录</h2>
       <form action="/login" method="post" accept-charset="utf-8" id="form_login">
 
-        <label for="email">Email</label>
-        <br />
+        <label for="email">Email</label> <br />
 
-        <input type="text" name="user_email" value="" />
-        <br />
+        <input type="text" name="user_email" value="" /> <br />
 
-        <label for="pass">密码</label>
-        <br />
+        <label for="pass">密码</label> <br />
 
-        <input type="password" name="user_password" value="" />
-        <br />
+        <input type="password" name="user_password" value="" /> <br />
 
         <input type="submit" name="send" value="登录" />
 

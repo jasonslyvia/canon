@@ -1,8 +1,7 @@
 <?php
 
-/*
- * Template Name: upload
- */
+require('functions/settings.php');
+require(ABSPATH . '/wp-load.php');
 
 if (!is_user_logged_in()) {
     wp_redirect('/');

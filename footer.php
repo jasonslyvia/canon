@@ -17,11 +17,11 @@
 
     <script type="text/javascript" src="<?php echo URL;?>/js/common.js"> </script>
     <script type="text/javascript" src="<?php echo URL;?>/js/grid.js"> </script>
-    <?php if (is_page('upload')): ?>
+    <?php if (is_upload()): ?>
         <script type="text/javascript" src="<?php echo URL;?>/js/jquery.uploadify.js"></script>
         <script type="text/javascript" src="<?php echo URL;?>/js/upload.js"></script>
     <?php endif ?>
-    <?php if (is_page('settings')): ?>
+    <?php if (is_settings()): ?>
         <script type="text/javascript" src="<?php echo URL;?>/js/jquery.uploadify.js"></script>
         <script type="text/javascript" src="<?php echo URL;?>/js/settings.js"></script>
     <?php endif ?>

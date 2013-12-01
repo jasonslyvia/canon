@@ -1,8 +1,7 @@
 <?php
 
-/*
- * Template Name: signup
- */
+require('functions/settings.php');
+require(ABSPATH . '/wp-load.php');
 
 //登录用户直接转向个人主页
 if (is_user_logged_in()) {

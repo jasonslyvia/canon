@@ -14,6 +14,44 @@ define('IMAGE_PATH', '/wp-content/themes/canon/uploads/images/');
 
 
 
+
+
+/****************************************\
+
+        重写URL
+
+\*****************************************/
+add_action('generate_rewrite_rules', 'themes_dir_add_rewrites');
+function themes_dir_add_rewrites() {
+  $theme_name = next(explode('/themes/', get_stylesheet_directory()));
+
+  global $wp_rewrite;
+  $new_non_wp_rules = array(
+    'signup/?$' => 'wp-content/themes/'. $theme_name . '/signup.php',
+    'login/?$' => 'wp-content/themes/'. $theme_name . '/login.php',
+    'upload/?$' => 'wp-content/themes/'. $theme_name . '/upload.php',
+    'profile/\d/?$' => 'wp-content/themes/' . $theme_name . '/user-profile.php',
+    'settings/?$' => 'wp-content/themes/' . $theme_name . '/user-settings.php',
+  );
+  $wp_rewrite->non_wp_rules += $new_non_wp_rules;
+}
+
+//定义几个检测当前页面的工具函数
+function is_login(){
+    return preg_match('/^\/login\/?$/i', $_SERVER['REQUEST_URI']);
+}
+function is_signup(){
+    return preg_match('/^\/signup\/?$/i', $_SERVER['REQUEST_URI']);
+}
+function is_profile(){
+    return preg_match('/^\/profile\/\d+\/?$/i', $_SERVER['REQUEST_URI']);
+}
+function is_upload(){
+    return preg_match('/^\/upload\/?$/i', $_SERVER['REQUEST_URI']);
+}
+function is_settings(){
+    return preg_match('/^\/settings\/?$/i', $_SERVER['REQUEST_URI']);
+}
 /*****************************************\
 
         处理各种action及filter

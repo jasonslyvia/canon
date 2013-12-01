@@ -1,9 +1,10 @@
 <?php
 /*
- * Template Name: profile
- *
  *  用户自行上传的内容默认即为保存状态
  */
+
+require('functions/settings.php');
+require(ABSPATH . '/wp-load.php');
 
 /*======================================
 获取当前 被 浏览的用户信息
@@ -29,6 +30,10 @@ $user_like_count = $wpdb->get_var("
 $user_save_count = $wpdb->get_var("
     SELECT count(*) FROM pic_save
     WHERE user_id = $uid
+  ");
+$follow_count = $wpdb->get_var("
+    SELECT count(*) FROM user_relation
+    WHERE follower_id = $uid
   ");
 
 $comments = get_comments(array("user_id" => $uid));
@@ -113,7 +118,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
           <span>喜欢</span></a>
         </p>
         <p>
-          <a href="/profile/<?php echo $uid; ?>/following">0<br>
+          <a href="/profile/<?php echo $uid; ?>/following"><?php echo $follow_count; ?><br>
           <span>关注</span></a>
         </p>
       </div>

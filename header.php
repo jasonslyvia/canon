@@ -30,10 +30,10 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="<?php echo URL;?>/style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="<?php echo URL;?>/css/home.css" type="text/css" media="all" />
-    <?php if(is_page('login') || is_page('upload') || is_page('signup') || is_page('settings')): ?>
+    <?php if(is_login() || is_upload() || is_signup() || is_settings()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/login.css" type="text/css" media="all" />
     <?php endif; ?>
-    <?php if (is_page('profile')): ?>
+    <?php if (is_profile()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/user.css" type="text/css" media="all" />
     <?php endif; ?>
 
@@ -41,7 +41,6 @@
     <script type="text/javascript">
       var ABSPATH = '<?php echo URL;?>';
     </script>
-    <?php //wp_head(); ?>
 </head>
 <body<?php if(is_user_logged_in()) echo " class='auth'";?>>
     <!--  导航栏   -->
