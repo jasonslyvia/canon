@@ -663,3 +663,17 @@ padding: 0 15px 2px 15px;
 line-height: 24px;
 font-size: 12px;
 }
+
+#userInfo .plain-stat{
+  padding: 5px 10px 15px;
+}
+
+#userInfo .followees{
+  margin-top: 10px;
+  padding-top: 5px;
+  border-top: 1px #ededed solid;
+  list-style: inside;
+}
+#userInfo .followees li{
+  overflow-x: hidden;
+}

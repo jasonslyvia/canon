@@ -1,10 +1,14 @@
 <?php
 /*
- *  用户自行上传的内容默认即为保存状态
+ *  用户个人主页
+ *
+ *  URL形式为： /profile/用户id/子类信息
+ *  子类信息包括：评论（notes）、喜欢（likes）、关注（following）和
+ *  图像（个人主页默认显示所有保存的图片）
  */
 
-require('functions/settings.php');
-require(ABSPATH . '/wp-load.php');
+require_once('functions/settings.php');
+require_once(ABSPATH . '/wp-load.php');
 
 /*======================================
 获取当前 被 浏览的用户信息
@@ -20,7 +24,7 @@ else{
   $avatar = get_user_meta($uid, 'avatar', true);
 }
 
-//获取保存数和赞同数
+//获取当前 被 浏览用户的保存数、赞同数、关注数和评论数
 global $wpdb;
 $user_like_count = $wpdb->get_var("
     SELECT count(*) FROM pic_like
@@ -35,30 +39,17 @@ $follow_count = $wpdb->get_var("
     SELECT count(*) FROM user_relation
     WHERE follower_id = $uid
   ");
-
 $comments = get_comments(array("user_id" => $uid));
 $comment_count = count($comments);
 
 
-/*======================================
-获取当前登录用户信息
-======================================*/
 $c_user_id = get_current_user_id();
-//判断当前被浏览用户与当前登录用户是否为同一人
+//判断当前被浏览用户与当前登录用户是否为同一人，若是则不显示关注按钮
+//同时用于header.php中菜单栏的高亮
 global $same_user;
 if ($user->ID == $c_user_id) {
   $same_user = true;
 }
-//当前用户保存的所有图片
-$c_saved_record = $wpdb->get_col("
-    SELECT pic_id as p FROM pic_save
-    WHERE user_id = {$c_user_id}
-  ");
-//当前用户喜欢的所有图片
-$c_liked_record = $wpdb->get_col("
-    SELECT pic_id as p FROM pic_like
-    WHERE user_id = {$c_user_id}
-  ");
 
 /*======================================
 构建WP_Query，选出当前被浏览用户保存的所有图片
@@ -68,6 +59,7 @@ $saved_record = $wpdb->get_col("
     WHERE user_id = {$uid}
   ");
 
+global $query;
 if (count($saved_record) == 0) {
   $query = null;
   $post_count = 0;
@@ -83,7 +75,7 @@ get_header();
 ?>
 
 <script type="text/javascript">
-var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()); ?>';
+var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
 </script>
 
 <div id="luka">
@@ -124,63 +116,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
       </div>
     </div>
 
-<?php
-while ($query && $query->have_posts()) {
-    $query->the_post();
-
-    $id = get_the_ID();
-    //author_id决定了当前图片的储存位置
-    $author_id = get_the_author_meta('ID');
-    $thumb = preg_replace('/(\..{3,4})$/', '_200$1', get_the_content());
-    $width = get_post_meta($id, 'width', true);
-    $height = get_post_meta($id, 'height', true);
-    $like_count = get_post_meta($id, 'like_count', true);
-    $save_count = get_post_meta($id, 'save_count', true);
-
-    //判断当前用户是否保存或喜欢了当前被浏览用户保存的图片
-    //以确定是否给操作选项增加 active 的 class
-    if (in_array($id, $c_saved_record)) {
-        $save_class = " active";
-    }
-    else{
-        $save_class = "";
-    }
-    if (in_array($id, $c_liked_record)) {
-        $like_class = " active";
-    }
-    else{
-      $like_class = "";
-    }
-?>
-
-    <div class="polaroid tile saved" id="image_<?php echo $id; ?>"
-        data-likes="<?php echo $like_count; ?>"
-        data-saves="<?php echo $save_count; ?>"
-        data-w="<?php echo $width; ?>"
-        data-h="<?php echo $height; ?>">
-      <div class="options">
-        <div class="save<?php echo $save_class;?>" data-id="<?php echo $id; ?>" title="保存这个图像">
-          <em></em><span>编辑</span>
-        </div>
-        <div class="like<?php echo $like_class;?>" data-id="<?php echo $id; ?>" title="喜欢这个图像">
-          <em></em><span>喜欢</span>
-        </div>
-      </div>
-      <a href="<?php the_permalink(); ?>" class="imageLink">
-        <img src="<?php echo URL."/uploads/images/$author_id/".$thumb;?>"
-              alt="<?php the_title(); ?>" width="200"
-              height="<?php echo $height * 200 / $width; ?>"></a>
-      <div class="stats">
-        <p>
-          <a href="<?php the_permalink(); ?>">
-            <em class="s"></em><span class="saves"><?php echo $save_count; ?></span>
-            <em class="l"></em> <span class="likes"><?php echo $like_count; ?></span>
-          </a>
-        </p>
-      </div>
-    </div>
-
-<?php  } ?>
+<?php require('functions/get_pic_grid.php'); ?>
 
     <div class="clear">
     </div>

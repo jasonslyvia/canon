@@ -47,9 +47,8 @@
     <div id="kaori" class="nodrag">
 
       <div class="search">
-        <input type="text" name="term" autocomplete="off" />
+        <input type="text" name="term" />
       </div>
-
 
       <?php if (is_user_logged_in()): $user = wp_get_current_user(); ?>
       <div class="profileImage">
@@ -66,7 +65,7 @@
         <li class="profile<?php global $same_user; if($same_user) echo ' active'; ?>">
           <a href="/profile/<?php echo $user->ID; ?>"><?php echo $user->display_name; ?></a>
         </li>
-        <li class="following">
+        <li class="following<?php if(is_following()) echo ' active';?>">
           <a href="/profile/<?php echo $user->ID; ?>/following" title="查看所有你关注的人">关注</a>
         </li>
         <li class="activity">

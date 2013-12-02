@@ -31,7 +31,10 @@ function themes_dir_add_rewrites() {
     'login/?$' => 'wp-content/themes/'. $theme_name . '/login.php',
     'upload/?$' => 'wp-content/themes/'. $theme_name . '/upload.php',
     'profile/\d/?$' => 'wp-content/themes/' . $theme_name . '/user-profile.php',
-    'settings/?$' => 'wp-content/themes/' . $theme_name . '/user-settings.php',
+    'profile/\d/notes/?$' => 'wp-content/themes/' . $theme_name . '/user-notes.php',
+    'profile/\d/likes/?$' => 'wp-content/themes/' . $theme_name . '/user-likes.php',
+    'profile/\d/following/?$' => 'wp-content/themes/' . $theme_name . '/user-following.php',
+    'settings/?$' => 'wp-content/themes/' . $theme_name . '/user-setting.php',
   );
   $wp_rewrite->non_wp_rules += $new_non_wp_rules;
 }
@@ -43,14 +46,18 @@ function is_login(){
 function is_signup(){
     return preg_match('/^\/signup\/?$/i', $_SERVER['REQUEST_URI']);
 }
+//is_profile 同时判断了用户的个人主页、用户的评论等子类信息页面
 function is_profile(){
-    return preg_match('/^\/profile\/\d+\/?$/i', $_SERVER['REQUEST_URI']);
+    return preg_match('/^\/profile\/\d+(\/)?(\w+)?$/i', $_SERVER['REQUEST_URI']);
 }
 function is_upload(){
     return preg_match('/^\/upload\/?$/i', $_SERVER['REQUEST_URI']);
 }
 function is_settings(){
     return preg_match('/^\/settings\/?$/i', $_SERVER['REQUEST_URI']);
+}
+function is_following(){
+    return preg_match('/^\/profile\/\d+\/following\/?$/i', $_SERVER['REQUEST_URI']);
 }
 /*****************************************\
 
@@ -78,8 +85,8 @@ function rw_title($title, $sep, $direction){
         $title .= "{$sep}"."第".max($page, $paged)."页";
     }
 
-    if (is_page('profile')) {
-        $uid = preg_replace('/^.*?\/(\d+)\/?$/', '$1', $_SERVER['REQUEST_URI']);
+    if (is_profile()) {
+        $uid = preg_replace('/^.*?\/(\d+)(\/)?(\w+)?$/', '$1', $_SERVER['REQUEST_URI']);
         $user = get_user_by('id', $uid);
         $name = $user->display_name;
         $title = "{$name} _ ". $title;
