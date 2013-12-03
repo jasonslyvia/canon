@@ -417,10 +417,10 @@ gbks.Polaroid = function () {
         var e = $("#image_" + this.savePopup.data.imageId),
             t = $(".save", e);
         t.removeClass("active");
-        $("span", t).html("Save");
+        $("span", t).html("保存");
         var n = parseInt(e.attr("data-saves"));
         e.attr("data-saves", n - 1);
-        this.updateStats(e, !0, !1)
+        this.updateStats(e, !0, !1);
     };
     this.onSaveImage = function (e) {
         var t = $("#image_" + e.imageId),
@@ -436,14 +436,18 @@ gbks.Polaroid = function () {
         var t = e.attr("id"),
             n = t.split("_"),
             r = n[1];
-        gbks.common.track("Polaroid", "Unsave", r);
+
         var i = parseInt(e.attr("data-saves"));
         e.attr("data-saves", i - 1);
+
         this.updateStats(e, !0, !1);
+
         var s = $(".save", e);
         s.addClass("active");
-        $("span", s).html("Save");
+
+        $("span", s).html("保存");
         e.removeClass("saved");
+
         this.hideGroupsOverlay();
         $.ajax({
             url: "/bookmark/removefromuser?imageId=" + r,
@@ -451,7 +455,7 @@ gbks.Polaroid = function () {
             dataType: "jsonp",
             success: $.proxy(this.onUnsaveImage, this)
         });
-        this.updateLayout()
+        this.updateLayout();
     };
     this.onUnsaveImage = function (e) {
         console.log("onUnsaveImage", e)
@@ -512,12 +516,12 @@ gbks.Polaroid = function () {
             i = e.attr("data-saves"),
             s = [],
             o;
-        (i > 0 || t) && s.push('<em class="s"></em><span class="saves">' + i + "</span>");
-        (r > 0 || n) && s.push('<em class="l"></em><span class="likes">' + r + "</span>");
+        /*(i > 0 || t) &&*/ s.push('<em class="s"></em><span class="saves">' + i + "</span>");
+        /*(r > 0 || n) &&*/ s.push('<em class="l"></em><span class="likes">' + r + "</span>");
         var u = s.join(""),
             a = $(".stats", e);
         a.html(u);
-        u.length > 0 ? a.removeClass("empty") : a.addClass("empty")
+        u.length > 0 ? a.removeClass("empty") : a.addClass("empty");
     };
     this.onFocusInput = function (e) {
         var t = $(e.currentTarget);
@@ -590,7 +594,7 @@ gbks.Polaroid = function () {
         }
     };
     this.updateLayout = function () {
-        typeof tiles != "undefined" && tiles.layout()
+        typeof tiles != "undefined" && tiles.layout();
     };
     this.onClickMagnify = function (e) {
         e.preventDefault();
@@ -620,7 +624,7 @@ gbks.Polaroid = function () {
             i = $(".hidden", r);
         n.hide();
         i.show();
-        this.updateLayout()
+        this.updateLayout();
     };
     this.showLoader = function (e) {
         if (!this.loader || this.loader.length == 0) this.loader = $("#loader");

@@ -8,15 +8,17 @@
  *  @param {int} width 图片宽
  *  @param {int} height 图片高
  *  @param {string} optional referrer 图片图片来源
+ *  @param {string} optional title 图片标题
  *  @return {json}
  */
 header('Content-Type: application/json');
 require('common.php');
 
-if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
+if (verify_ajax(array("filename", "title"), "post", true, "upload_pic")) {
 
     $filename = $_POST['filename'];
     $userId = get_current_user_id();
+    $title = $_POST['title'];
     //添加新文章
     $post_name = basename($filename);
     $post_id = wp_insert_post(array("post_author" => $userId,
@@ -24,6 +26,7 @@ if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
                                                           5,
                                                           26),
                                     "post_content" => $filename,
+                                    "post_title" => $title,
                                     "post_status" => 'publish'));
     if (!$post_id) {
         send_result(true, "无法创建新内容");

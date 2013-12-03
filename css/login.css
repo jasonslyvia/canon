@@ -293,11 +293,16 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
     padding-left: 26px;
 }
 
-#maincontent #referrer{
+#maincontent #referrer,
+#maincontent #title{
     font-size: 12px;
     color: #666;
     margin: 0;
     width: 610px;
+}
+
+#maincontent .preview label{
+    margin: 15px 0 5px;
 }
 
 .ajax-message{

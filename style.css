@@ -1077,7 +1077,8 @@ body.hideTileInfo .polaroid .stats {
   padding: 0 0 8px 0;
   margin-bottom: 8px;
 }
-.polaroid > div:last-child {
+.polaroid > div:last-child,
+.polaroid .stats {
   border-bottom: 0;
   padding-bottom: 0px;
   margin-bottom: 0px;

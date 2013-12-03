@@ -57,6 +57,8 @@ html;
             if ($deleted) {
                 $save_count = get_post_meta($image_id, 'save_count', true);
                 update_post_meta($image_id, 'save_count', --$save_count);
+
+                send_result(false, "取消保存成功");
             }
             else{
                 send_result(false, "取消保存失败");

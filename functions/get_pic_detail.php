@@ -36,8 +36,10 @@ if (isset($_GET['imageId'])) {
         $short_referer = '原创';
         $referer = '/profile/'.$author;
     }
+    //链接
+    $permalink = $post->post_name;
     //标题
-    $title = $post->post_name;
+    $title = $post->post_title;
     $history = '';
 
 
@@ -138,7 +140,7 @@ html;
     </div>
     <div class="wrap">
         <div class="imageWrap">
-            <a href="/{$title}" target="_blank">
+            <a href="/{$permalink}" target="_blank">
                 <img src="$pic"
                 alt="{$title}" width="{$width}" height="{$height}"
                 data-width="{$width}" data-height="{$height}"/>
@@ -211,7 +213,7 @@ html;
                                 <img src="{$AVATAR}{$c_avatar}" width="30"
                                      height="30" alt=""/>
                             </div>
-                            <textarea name="comment" placeholder="按回车键发表评论"> 按回车键发表评论 </textarea>
+                            <textarea name="comment" placeholder="按回车键发表评论">按回车键发表评论</textarea>
                         </div>
                     </div><!-- 相关评论结束-->
                 </div><!-- 图片相关信息结束 -->
@@ -233,7 +235,8 @@ html;
                                  "url" => $pic,
                                  "referer" => $referer,
                                  "html" => $html,
-                                 "history" => ""),
+                                 "title" => $title,
+                                 "history" => '/image/'.$permalink),
                 true);
 }
 else{

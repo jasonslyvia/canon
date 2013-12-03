@@ -68,6 +68,8 @@ gbks.common.uploadImage = function(){
             "<div class='op'>"+
                 "<label for='referrer'>照片来源网址（原创则留空）</label><br />"+
                 "<input type='text' id='referrer' />"+
+                "<label for='title'>照片标题（一句话形容这幅作品，必填）</label><br />"+
+                "<input type='text' id='title' />"+
                 "<a href='#' class='actionButton blueButton'"+
                 " id='publishNewBtn'>发布新照片</a>"+
             "</div>"+
@@ -93,6 +95,7 @@ gbks.common.uploadImage = function(){
             }
 
             var referrer = $("#referrer").val();
+            var title = $("#title").val();
 
             if (typeof nonce === undefined) {
                 alert("获取用户登录凭证失败！");
@@ -114,6 +117,7 @@ gbks.common.uploadImage = function(){
                     width: width,
                     height: height,
                     referrer: referrer,
+                    title: title,
                     userId: USER_ID,
                     nonce: nonce
                 },

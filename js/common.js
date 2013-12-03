@@ -581,18 +581,34 @@ gbks.common.Shortcuts = function () {
 gbks.common.shortcutInstance = new gbks.common.Shortcuts;
 gbks.common.shortcutInstance.init();
 gbks.common.history = gbks.common.history || {};
-gbks.common.history.push = function (e, t) {
+gbks.common.history.push = function (e, t, closeFlag) {
     if (gbks.common.history.supported()) {
+
+        if (gbks.common.lightboxInstance.updateHistory && !closeFlag) {
+            gbks.common.lightboxInstance.updateHistory();
+        }
+
         history.pushState({
             url: e,
             title: t
         }, t, e);
+
+        //虽然pushState支持title参数，但是不会自动更新document.title
+        //因此此处手动更新之
+        //若是打开，则在当前title前续加上图片名称
+        if (t && !closeFlag) {
+            document.title = t + ' _ ' + document.title;
+        }
+        //若是关闭，则直接恢复原title
+        else if (t && closeFlag) {
+            document.title = t;
+        }
         return !0
     }
     return !1
 };
 gbks.common.history.onChange = function (e) {
-    var t = e.state
+    var t = e.state;
 };
 gbks.common.history.supported = function () {
     return typeof history.pushState != "undefined"
@@ -677,6 +693,7 @@ var gbks = gbks || {};
 gbks.common = gbks.common || {};
 gbks.common.lightboxInstance = null;
 gbks.common.Lightbox = function () {
+
     if (gbks.common.lightboxInstance) {
         gbks.common.lightboxInstance.hide();
         gbks.common.lightboxInstance = null
@@ -703,8 +720,9 @@ gbks.common.Lightbox = function () {
     //更新Histroy对象
     this.updateHistory = function () {
         this.initHistory = window.location.href;
-        this.initTitle = window.document.title
+        this.initTitle = window.document.title;
     };
+
     this.display = function () {};
 
     //隐藏详细内容，同时更新history对象
@@ -713,7 +731,7 @@ gbks.common.Lightbox = function () {
             this.canvas.unbind("scroll", this.scrollMethod);
             this.canvas.remove();
             this.canvas = null;
-            gbks.common.history.push(this.initHistory, this.initTitle);
+            gbks.common.history.push(this.initHistory, this.initTitle, true);
             this.hidePopups();
             if (this.savePopup) {
                 this.savePopup.hide();
@@ -1131,27 +1149,35 @@ gbks.common.Lightbox = function () {
         if (e && e.html) {
             $(".image", this.canvas).remove();
             $(".details", this.canvas).remove();
+
             var t = $(".lightboxContent", this.canvas);
             this.canvas.addClass("loadingBigImage");
             t.append($(e.html));
+
             var n = $(".details .similar img", this.canvas);
             Modernizr.cssanimations ? n.bind("load", function (e) {
-                $(this).addClass("ready")
+                $(this).addClass("ready");
             }) : n.addClass("ready");
+
             this.resizeImage();
             gbks.common.history.push(e.history, e.title);
+
             $(".details .expand", this.canvas).click($.proxy(this.onClickExpand, this));
             $(".details #addImageButton", this.canvas).click($.proxy(this.onClickSaveImage, this));
             $(".details #likeImageButton", this.canvas).click($.proxy(this.onClickLikeImage, this));
             $(".details #unlikeImageButton", this.canvas).click($.proxy(this.onClickLikeImage, this));
             $(".details #shareImageButton", this.canvas).click($.proxy(this.onClickShareImage, this));
             $(".details button.follow", this.canvas).click($.proxy(this.onClickFollowButton, this));
+
             this.updateLayout();
+
             var r = $(".image .wrap a img", this.canvas);
-            if (r.length > 0) r.load($.proxy(this.onImageLoaded, this));
+            if (r.length > 0) {
+                r.load($.proxy(this.onImageLoaded, this));
+            }
             else {
                 this.canvas.removeClass("loadingBigImage");
-                this.onImageLoaded()
+                this.onImageLoaded();
             }
         }
         this.canvas.removeClass("loading")
