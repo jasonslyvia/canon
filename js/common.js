@@ -1382,7 +1382,7 @@ gbks.common.Lightbox = function () {
             n = $("textarea", t);
         t.addClass("active");
         $("textarea", t).addClass("active");
-        n.val() == n.attr("placeholder") && n.val("");
+        $.trim(n.val()) == n.attr("placeholder") && n.val("");
         $(document).bind("keyup", this.commentKeyUpMethod);
     };
 
