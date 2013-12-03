@@ -65,7 +65,7 @@
         <li class="profile<?php global $same_user; if($same_user) echo ' active'; ?>">
           <a href="/profile/<?php echo $user->ID; ?>"><?php echo $user->display_name; ?></a>
         </li>
-        <li class="following<?php if(is_following()) echo ' active';?>">
+        <li class="following<?php if(is_current_following()) echo ' active';?>">
           <a href="/profile/<?php echo $user->ID; ?>/following" title="查看所有你关注的人">关注</a>
         </li>
         <li class="activity">

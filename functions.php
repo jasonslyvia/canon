@@ -56,8 +56,12 @@ function is_upload(){
 function is_settings(){
     return preg_match('/^\/settings\/?$/i', $_SERVER['REQUEST_URI']);
 }
-function is_following(){
-    return preg_match('/^\/profile\/\d+\/following\/?$/i', $_SERVER['REQUEST_URI']);
+function is_current_following(){
+    $uid = preg_replace('/^\/profile\/(\d+)\/following\/?$/i',
+                        '$1',
+                        $_SERVER['REQUEST_URI']);
+    $c_uid = get_current_user_id();
+    return $uid == $c_uid;
 }
 /*****************************************\
 
