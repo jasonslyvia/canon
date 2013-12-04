@@ -238,6 +238,10 @@ html;
                                  "title" => $title,
                                  "history" => '/image/'.$permalink),
                 true);
+
+    //更新图片浏览量
+    $post_view = get_post_meta($image_id, 'post_view', true);
+    update_post_meta($image_id, 'post_view', --$post_view);
 }
 else{
     send_result(true, "未知错误");

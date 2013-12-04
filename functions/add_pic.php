@@ -38,6 +38,7 @@ if (verify_ajax(array("filename", "title"), "post", true, "upload_pic")) {
         add_post_meta($post_id, 'width', $_POST['width']);
         add_post_meta($post_id, 'height', $_POST['height']);
         add_post_meta($post_id, 'referrer', $_POST['referrer']);
+        add_post_meta($post_id, 'post_view', 0);
 
         global $wpdb;
         $save_record = $wpdb->insert('pic_save',
