@@ -25,6 +25,10 @@
         <script type="text/javascript" src="<?php echo URL;?>/js/jquery.uploadify.js"></script>
         <script type="text/javascript" src="<?php echo URL;?>/js/settings.js"></script>
     <?php endif ?>
+
+    <?php if (is_profile()): ?>
+        <script type="text/javascript" src="<?php echo URL;?>/js/user.js"></script>
+    <?php endif ?>
   </body>
 
 </html>

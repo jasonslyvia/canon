@@ -34,6 +34,7 @@ function themes_dir_add_rewrites() {
     'profile/\d/notes/?$' => 'wp-content/themes/' . $theme_name . '/user-notes.php',
     'profile/\d/likes/?$' => 'wp-content/themes/' . $theme_name . '/user-likes.php',
     'profile/\d/following/?$' => 'wp-content/themes/' . $theme_name . '/user-following.php',
+    'profile/\d/followed/?$' => 'wp-content/themes/' . $theme_name . '/user-followed.php',
     'settings/?$' => 'wp-content/themes/' . $theme_name . '/user-setting.php',
   );
   $wp_rewrite->non_wp_rules += $new_non_wp_rules;

@@ -35,10 +35,17 @@ $user_save_count = $wpdb->get_var("
     SELECT count(*) FROM pic_save
     WHERE user_id = $uid
   ");
+//关注数
 $follow_count = $wpdb->get_var("
     SELECT count(*) FROM user_relation
     WHERE follower_id = $uid
   ");
+//粉丝数
+$followed_count = $wpdb->get_var("
+    SELECT count(*) FROM user_relation
+    WHERE followee_id = $uid
+  ");
+
 $comments = get_comments(array("user_id" => $uid));
 $comment_count = count($comments);
 
@@ -96,6 +103,28 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
                 alt="<?php echo $name; ?>">
         </a>
       </div>
+      <?php if (!$same_user) {
+          // 若不是同一用户，则判断当前用户关注情况
+          $is_following = $wpdb->get_var("
+            SELECT count(*) FROM user_relation
+            WHERE follower_id = {$c_user_id} AND
+                  followee_id = {$uid}
+          ");
+          if ($is_following != 0) {
+            $follow_class = " active";
+            $follow_text = "已关注";
+          }
+          else{
+            $follow_class = "";
+            $follow_text = "关 注";
+          }
+      ?>
+        <div class="options">
+          <button type="button" class="follow blue<?php echo $follow_class;?>"
+                  data-type="1"
+                  data-id="<?php echo $uid; ?>"><?php echo $follow_text; ?></button>
+        </div>
+      <?php } ?>
       <div class="statistics clearfix">
         <p>
           <a href="/profile/<?php echo $uid; ?>"><?php echo($post_count); ?><br>
@@ -112,6 +141,10 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
         <p>
           <a href="/profile/<?php echo $uid; ?>/following"><?php echo $follow_count; ?><br>
           <span>关注</span></a>
+        </p>
+        <p>
+          <a href="/profile/<?php echo $uid; ?>/followed"><?php echo $followed_count; ?><br>
+          <span>粉丝</span></a>
         </p>
       </div>
     </div>
