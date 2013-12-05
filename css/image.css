@@ -1,0 +1,1232 @@
+
+.headerSpacer {
+height: 60px;
+}
+
+#page .wrap {
+margin: 0 auto 35px auto;
+  background-color: #ffffff;
+  padding: 0;
+  border: 1px solid #dedede;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+#page .wrap:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+#page.loadingImage #image,
+#page.loadingImage #details,
+#page.loadingImage #moreImages,
+#page.loadingImage .bottomNav {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#page.loadingImage.spinner {
+  background: transparent url('http://assets.wookmark.com/loader-circle-image.gif') no-repeat center 200px;
+}
+
+#image {
+float: left;
+}
+
+#image .image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background: transparent url('http://assets.wookmark.com/loading-image.png') no-repeat center center;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+#image .image img {
+  display: block;
+}
+
+#details {
+float: right;
+width: 317px;
+margin: 0 0 0 0;
+}
+
+#details .sharing,
+#details .promo {
+background-color: #ffffff;
+padding: 0 0 0 0;
+border: 1px solid #dedede;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+}
+
+#details .sharer {
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+#details .sharer .fb {
+ width: 80px;
+  float: left;
+}
+
+#details .sharer .tw,
+#details .sharer .tu {
+  float: left;
+  margin-left: 10px;
+}
+
+#details .sharing {
+padding: 0;
+overflow: hidden;
+margin: 0 0 0 0;
+height: 0;
+-moz-transition: all 0.15s ease-out;
+-o-transition: all 0.15s ease-out;
+-webkit-transition: all 0.15s ease-out;
+-ms-transition: all 0.15s ease-out;
+transition: all 0.15s ease-out;
+border: 1px solid #e9e9e9;
+}
+
+#details .sharing.active {
+display: block;
+height: auto;
+margin-bottom: 10px;
+border: 1px solid #dedede;
+}
+
+#details .sharing a {
+border-right: 1px solid #dedede;
+display: inline-block;
+height: 24px;
+padding: 9px 9px 9px 9px;
+}
+
+#details .sharing a.embedOption {
+padding: 0 11px 0 5px;
+line-height: 34px;
+height: 34px;
+}
+
+#details #tagOptions {
+padding: 0;
+margin: 0;
+}
+
+#details .options .saveButton,
+#details .options .privateButton,
+#details .options .groupsButton,
+#details .options .likeButton,
+#details .options .shareButton,
+#details .options .noteButton,
+#details .options .flagButton {
+background-color: #ffffff;
+height: 52px;
+width: 62px;
+border-right: 1px solid #dedede;
+float: left;
+padding: 0;
+margin: 0;
+text-align: center;
+overflow: hidden;
+position: relative;
+-moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  -webkit-transition: all 0.1s ease-out;
+  -ms-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+}
+
+#details #tagOptions a em {
+  display: block;
+  background: red;
+  width: 18px;
+  height: 18px;
+  margin: 10px auto 0 auto;
+  background: transparent url('http://assets.wookmark.com/icons.png') no-repeat left top;
+}
+
+#details #tagOptions a span {
+display: inline-block;
+font-size: 11px;
+color: #666;
+line-height: 9px;
+margin: 4px 0 0 0;
+}
+
+#details #tagOptions a:hover span {
+color: #008ed3;
+}
+
+#details #tagOptions a.noteButton { display: none; }
+#details #tagOptions a.flagButton { float: right; border-left: 1px solid #dedede; }
+
+#details #tagOptions a.saveButton em { background-position: -36px 0; }
+#details #tagOptions a.noteButton em { background-position: -54px 0; }
+#details #tagOptions a.shareButton em { background-position: -72px 0; }
+#details #tagOptions a.flagButton em { background-position: -90px 0; }
+
+#details #tagOptions a.likeButton:hover em { background-position: 0 -36px; }
+#details #tagOptions a.saveButton:hover em { background-position: -36px -36px; }
+#details #tagOptions a.noteButton:hover em { background-position: -54px -36px; }
+#details #tagOptions a.shareButton:hover em { background-position: -72px -36px; }
+#details #tagOptions a.flagButton:hover em { background-position: -90px -36px; }
+
+#details #tagOptions a.likeButton.active em { background-position: 0 -18px; }
+#details #tagOptions a.saveButton.active em { background-position: -36px -18px; }
+#details #tagOptions a.noteButton.active em { background-position: -54px -18px; }
+#details #tagOptions a.shareButton.active em { background-position: -72px -18px; }
+#details #tagOptions a.flagButton.active em { background-position: -90px -18px; }
+
+#details #tagOptions a.active span {
+color: #ffffff;
+text-shadow: 0 1px 0 rgba(0,0,0,.5);
+}
+
+#details #tagOptions a.saveButton.loading em {
+background: transparent url('http://assets.wookmark.com/loader-grey.gif') no-repeat center center;
+}
+
+#details .options .likeButton {
+-moz-border-radius-topleft: 2px;
+-moz-border-radius-bottomleft: 2px;
+-webkit-border-top-left-radius: 2px;
+-webkit-border-bottom-left-radius: 2px;
+border-top-left-radius: 2px;
+border-bottom-left-radius: 2px;
+}
+
+#details .options .flagButton {
+width: 61px;
+  border-right: 0px;
+-moz-border-radius-topright: 2px;
+-moz-border-radius-bottomright: 2px;
+-webkit-border-top-right-radius: 2px;
+-webkit-border-bottom-right-radius: 2px;
+border-top-right-radius: 2px;
+border-bottom-right-radius: 2px;
+}
+
+#details .options a.active {
+background-color: #008ed3;
+}
+
+#details .ad {
+margin-top: 2px;
+padding: 9px 0 9px 9px;
+}
+
+#details .ad p {
+font-weight: bold;
+font-size: 11px;
+line-height: 20px;
+margin: 1px 9px 0 0;
+text-indent: 6px;
+background: #aca7a3;
+color: #ffffff;
+}
+
+#details .ad p a {
+text-decoration: none;
+color: #ffffff;
+}
+
+#details .ad p a:hover {
+color: #008ed3;
+}
+
+#details .ad .superAdContent {
+  background-color: #f4f4f4;
+  width: 300px;
+height: 250px;
+}
+
+#details .finder {
+  position: relative;
+}
+
+#details .finder h4,
+#details .finder p a.userLink,
+#details .detailsWrap .behance p,
+#details .detailsWrap .amazon p,
+#details .detailsWrap .etsy p,
+#details .detailsWrap .dribbble p,
+#details .detailsWrap .fhpx p {
+  color: #000000;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  margin: 0 15px 0 0;
+  float: none;
+  padding: 0 0 0 0;
+  color: #666666;
+  width: auto;
+}
+
+#details h4 {
+ float: left;
+  width: 60px;
+  font-size: 11px;
+}
+
+#details .finder h4 {
+  color: #666666;
+  width: auto;
+  float: none;
+}
+
+#details .finder a {
+font-weight: normal;
+}
+
+#details .flagOption {
+font-size: 11px;
+border-top: 1px solid #ededed;
+display: block;
+padding: 10px 0 10px 15px;
+}
+
+/** Palette **/
+
+#details .palette {
+display: inline-block;
+padding: 10px 0 10px 0;
+  margin: 0;
+overflow: hidden;
+}
+
+#details .palette .dropper,
+#details .palette .color {
+width: 20px;
+height: 20px;
+float: left;
+}
+
+#details .palette .color {
+width: 27px;
+}
+
+#details .palette .dropper {
+margin: 0 2px 0 0;
+cursor: pointer;
+}
+
+#details .palette .dropper img {
+padding-top: 2px;
+display: block;
+  margin: 0;
+}
+
+#details .palette .color {
+text-indent: -20000px;
+}
+
+#details .palette .color:first-child a:link {
+border: 1px solid red;
+-moz-border-radius-topleft: 2px;
+border-top-left-radius: 2px;
+border-bottom-left-radius: 2px;
+}
+
+#details .palette .color a:link {
+width: 27px;
+height: 20px;
+display: block;
+}
+
+#details .palette:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+#details .owners,
+#details .groups,
+#details .info,
+#details .likes,
+#details .privacy,
+#details .finder,
+#details h1 {
+color: #777;
+border-bottom: 0px;
+font-size: 11px;
+font-weight: normal;
+line-height: 16px;
+word-wrap: break-word;
+padding: 0 0 0 15px;
+}
+
+#details .info {
+  line-height: 1px;
+}
+
+#details .detailsWrap .line {
+  border-bottom: 1px solid #ededed;
+  padding: 7px 15px 7px 35px;
+}
+
+#details .detailsWrap .line p {
+ float: none;
+  width: auto;
+  line-height: 16px;
+  margin: 0 0 0 0;
+}
+
+#details .detailsWrap .line p b {
+  color: #000000;
+  font-weight: normal;
+  cursor: pointer;
+}
+#details .detailsWrap .line p b:hover {
+  color: #008ed3;
+}
+
+#details .detailsWrap .line.likes {
+  background: transparent url('http://assets.wookmark.com/heart-pico.png') no-repeat 17px 11px;
+}
+
+#details .detailsWrap .line.saves {
+  background: transparent url('http://assets.wookmark.com/plus-pico.png') no-repeat 17px 12px;
+}
+#details .detailsWrap .line.groups {
+  padding-left: 17px;
+}
+
+#details .finder,
+#details .comment {
+  padding: 10px 15px 10px 15px;
+  border-bottom: 1px solid #ededed;
+}
+
+#details .info h1 {
+padding-left: 0;
+padding-right: 10px;
+word-wrap: break-word;
+}
+
+#details .detailsWrap p,
+#details .detailsWrap h1 {
+ float: right;
+  padding-right: 10px;
+  width: 230px;
+  font-size: 13px;
+  margin-bottom: 7px;
+}
+
+#details .groups .owned {
+border-bottom: 1px dotted #000000;
+}
+
+#details .groups .hidden,
+#details .likes .hidden,
+#details .owners .hidden {
+display: none;
+}
+
+#details .adminImage,
+#details .reportImage {
+font-size: 9px;
+text-align: right;
+margin: 8px 5px 5px 10px;
+float: right;
+display: block;
+}
+
+#comments.empty {
+  display: none;
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+
+#details .comments {
+padding: 0;
+}
+
+#details .userPic {
+ float: left;
+  width: 30px;
+  height: 30px;
+background: #dedede url('http://assets.wookmark.com/icons.png') no-repeat -54px -70px;
+-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  margin: 1px 8px 0 0;
+}
+
+#details .userPic,
+#details .userPic img {
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+}
+
+#details .comment p {
+ width: auto;
+  float: none;
+  color: #666666;
+  line-height: 18px;
+}
+
+#details .userPic {
+  margin: 1px 10px 0 0;
+  display: inline-block;
+  float: left;
+  background: #dedede url('http://assets.wookmark.com/no-profile.png') no-repeat center center;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  width: 30px;
+  height: 30px;
+}
+
+#details #commentForm {
+padding: 10px 0 10px 15px;
+border-bottom: 1px solid #ededed;
+}
+
+#details #commentForm textarea {
+width: 235px;
+height: 20px;
+font-size: 14px;
+color: #999;
+}
+
+#details #commentForm.active textarea {
+color: #333;
+height: 40px;
+}
+
+#details .comments div {
+position: relative;
+}
+
+#details p.comment {
+font-size: 12px;
+color: #666;
+line-height: 16px;
+padding: 0 0 5px 0;
+  float: none;
+}
+
+#details .comments .editComment {
+  position: absolute;
+right: 0;
+top: 3px;
+display: none;
+background-color: #ffffff;
+}
+
+#details .comments div:hover .editComment {
+display: block;
+}
+
+#details #createCommentForm {
+margin-bottom: 15px;
+padding: 10px 15px 10px 15px;
+border-bottom: 1px solid #dedede;
+}
+
+#details #createCommentForm label {
+margin-bottom: 5px;
+display: block;
+font-weight: bold;
+font-size: 11px;
+}
+
+#details #createCommentForm textarea {
+width: 275px;
+height: 15px;
+display: block;
+font-size: 12px;
+line-height: 16px;
+padding: 4px 5px 5px 7px;
+color: #777777;
+border: 1px solid #ccc;
+-moz-transition: all 0.1s ease-out;
+-o-transition: all 0.1s ease-out;
+-webkit-transition: all 0.1s ease-out;
+-ms-transition: all 0.1s ease-out;
+transition: all 0.1s ease-out;
+}
+
+#details #createCommentForm textarea:hover {
+border: 1px solid #999;
+}
+
+#details #createCommentForm input[type=submit] {
+margin-top: 10px;
+}
+
+#details #createCommentForm textarea.tall {
+height: 50px;
+color: #000000;
+font-style: normal;
+}
+
+#details .similar ul {
+margin: 0 0 0 0;
+}
+
+#details .similar ul:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+#details .similar li {
+float: left;
+margin: 0 0 1px 1px;
+position: relative;
+}
+
+#details .similar li.first {
+margin-left: 0px;
+}
+
+#details .similar li img {
+display: block;
+}
+
+#details .similar li .videoIcon,
+#moreImages .images li .videoIcon {
+background-image: url('http://assets.wookmark.com/video.png');
+width: 20px;
+height: 20px;
+bottom: 2px;
+left: 2px;
+position: absolute;
+}
+
+.ownerImages,
+.moreImages,
+.relatedImages,
+.groupImages {
+padding-bottom: 15px;
+}
+
+.ownerImages h3,
+.moreImages h3,
+.relatedImages h3,
+.groupImages h3 {
+font-weight: normal;
+font-size: 13px;
+color: #777;
+margin-bottom: 20px;
+text-align: center;
+line-height: 30px;
+}
+
+.relatedImages .header,
+.ownerImages .header,
+.groupImages .header {
+display: block;
+margin: 20px auto 0 auto;
+text-align: center;
+}
+
+.relatedImages .headerWrap,
+.ownerImages .headerWrap,
+.groupImages .headerWrap {
+display: inline-block;
+margin: 0 auto 0 auto;
+text-align: center;
+}
+
+#moreImages .headerWrap .info {
+  float: left;
+}
+
+#moreImages .headerWrap .options {
+  float: left;
+  aborder-left: 1px solid #dedede;
+  margin-left: 25px;
+  padding: 2px 0 3px 0;
+}
+
+#moreImages .headerWrap .options .actionButton {
+display: block;
+  padding: 0;
+}
+
+#moreImages .headerWrap .options .actionButton a {
+display: block;
+  font-size: 11px;
+  line-height: 22px;
+  padding: 0 15px 1px 15px;
+}
+
+.relatedImages .header:after,
+.ownerImages .header:after,
+.groupImages .header:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.relatedImages .header h3,
+.ownerImages .header h3,
+.groupImages .header h3 {
+float: left;
+padding-top: 0;
+}
+
+.relatedImages .header .followButton,
+.ownerImages .header .followButton,
+.groupImages .header .followButton {
+float: left;
+margin-top: 4px;
+margin-left: 20px;
+font-size: 11px;
+}
+
+.ownerImages .images,
+.moreImages .images,
+.relatedImages .images,
+.groupImages .images {
+width: 960px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.ownerImages .polaroid,
+.moreImages .polaroid,
+.relatedImages .polaroid,
+.groupImages .polaroid {
+float: left;
+margin-right: 2px;
+margin-bottom: 10px;
+}
+
+.ownerImages h3 img {
+vertical-align: middle;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+margin-right: 8px;
+display: inline-block;
+box-shadow: 0 1px #ffffff;
+}
+
+.polaroid .imageLink {
+max-height: 400px;
+overflow: hidden;
+display: inline-block;
+}
+
+.polaroid .imageLink img {
+display: block;
+padding: 0;
+margin: 0;
+}
+
+.polaroid {
+position: relative;
+}
+
+.ownerImages:after,
+.relatedImages:after,
+.groupImages:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+#image .owners {
+margin-top: 10px;
+}
+
+#tagOptions:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+div.divide {
+border-bottom: 1px dotted #ccc;
+padding-bottom: 10px;
+margin-bottom: 10px;
+}
+
+div.divide:last-child {
+border-bottom: 0;
+padding-bottom: 0px;
+margin-bottom: 0px;
+}
+
+#unlikeImageButton,
+#likeImageButton,
+#makePrivateButton,
+#makePublicButton {
+padding: 5px 6px 2px 6px;
+}
+
+#unlikeImageButton img,
+#likeImageButton img {
+opacity: .75;
+-moz-transition: opacity 0.15s ease-out;
+-o-transition: opacity 0.25s ease-out;
+-webkit-transition: opacity 0.25s ease-out;
+-ms-transition: opacity 0.25s ease-out;
+transition: opacity 0.25s ease-out;
+}
+
+#unlikeImageButton:hover img,
+#likeImageButton:hover img {
+opacity: 1;
+}
+
+#unlikeImageButton {
+
+}
+
+#unlikeImageButton img {
+opacity: 1;
+}
+
+.shareBox .viewOptions {
+font-size: 11px;
+text-decoration: underline;
+color: #777;
+cursor: pointer;
+}
+
+.shareBox .viewOptions:hover {
+color: #333;
+}
+
+.embedOption {
+font-size: 11px;
+text-decoration: underline;
+margin-left: 7px;
+color: #777;
+cursor: pointer;
+}
+
+.embedOption:hover {
+color: #000;
+}
+
+.embedPanel {
+  display: none;
+font-size: 12px;
+padding: 10px 10px 13px 15px;
+background-color: #f8f8f8;
+border-top: 1px solid #dedede;
+}
+
+.embedPanel p {
+margin: 0 0 7px 0;
+}
+
+.embedPanel textarea {
+font-size: 11px;
+color: #777;
+width: 205px;
+height: 150px;
+}
+
+#imagePrivate h1 {
+width: 320px;
+padding-left: 150px;
+margin: 50px auto 50px auto;
+text-shadow: 0 1px #ffffff;
+font-weight: 300;
+min-height: 128px;
+line-height: 128px;
+background: url('http://assets.wookmark.com/monkey.png') no-repeat center left;
+}
+
+.backup {
+margin-top: 35px;
+text-align: center;
+}
+
+.backup img {
+cursor: pointer;
+opacity: 0.75;
+filter: alpha(opacity=75);
+-moz-transition: opacity 0.25s ease-out;
+-o-transition: opacity 0.25s ease-out;
+-webkit-transition: opacity 0.25s ease-out;
+-ms-transition: opacity 0.25s ease-out;
+transition: opacity 0.25s ease-out;
+}
+
+.backup img:hover {
+cursor: pointer;
+opacity: 1;
+filter: alpha(opacity=100);
+}
+
+
+/** Media queries **/
+
+@media screen and (max-width: 500px) {
+.ownerImages .images,
+.moreImages .images,
+.relatedImages .images,
+.groupImages .images {
+width: auto;
+}
+
+.ownerImages .polaroid,
+.moreImages .polaroid,
+.relatedImages .polaroid,
+.groupImages .polaroid {
+float: none;
+margin: 0 auto 5px auto;
+}
+
+}
+
+@media screen and (min-width: 500px) and (max-width: 980px) {
+.ownerImages,
+.moreImages,
+.relatedImages,
+.groupImages {
+text-align: center;
+}
+.ownerImages .images,
+.moreImages .images,
+.relatedImages .images,
+.groupImages .images {
+  text-align: left;
+width: auto;
+display: inline-block;
+}
+.ownerImages .polaroid:nth-child(2n-1),
+.moreImages .polaroid:nth-child(2n-1),
+.relatedImages .polaroid:nth-child(2n-1),
+.groupImages .polaroid:nth-child(2n-1) {
+clear: both;
+}
+}
+
+@media screen and (max-width: 600px) {
+#image {
+float: none;
+margin-right: 20px;
+}
+#image .image {
+margin: 0 auto 10px auto;
+}
+#details {
+float: none;
+margin: 0 auto;
+}
+}
+
+#moreImages {
+width: 805px;
+margin: 0 auto;
+}
+
+#moreImages .section {
+  position: relative;
+  margin-bottom: 10px;
+  background: white;
+  border: 1px solid #dedede;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  padding: 15px 0 0 0;
+}
+
+#moreImages .section .header {
+padding-left: 15px;
+}
+
+#moreImages .section h3 {
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0 0 0 0;
+  color: #666666;
+  font-weight: normal;
+}
+
+#moreImages .section p {
+  font-size: 11px;
+  line-height: 12px;
+  color: #666666;
+  margin: 0 0 0 0;
+}
+
+#moreImages .section .hasPic {
+  padding-left: 40px;
+}
+
+#moreImages .section .userpic {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 30px;
+  height: 30px;
+  background: #dedede url('http://assets.wookmark.com/icons.png') no-repeat -54px -70px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#moreImages .section .userpic,
+#moreImages .section .userpic img {
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+#moreImages ul {
+  margin-top: 10px;
+}
+
+#moreImages li {
+  float: left;
+  margin-left: 1px;
+}
+
+#moreImages li.first {
+  margin-left: 0px;
+}
+
+#moreImages li a img {
+  -webkit-transition: -webkit-filter .15s ease-out;
+  -webkit-backface-visibility: hidden;
+  a-webkit-filter: contrast(101%) saturate(101%);
+display: block;
+}
+
+#moreImages li a:hover img {
+  a-webkit-filter: contrast(115%) saturate(115%);
+}
+
+#moreImages li.placeholder {
+  width: 200px;
+  height: 150px;
+  background: #f4f4f4;
+  -webkit-box-shadow: inset 0 5px 50px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 5px 50px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 5px 50px rgba(0, 0, 0, 0.05);
+}
+
+/** Big ad **/
+
+#moreImages .werbung {
+  position: relative;
+}
+
+#moreImages .werbung p {
+  aposition: absolute;
+  aleft: 13px;
+  atop: 17px;
+font-weight: normal;
+font-size: 11px;
+line-height: 12px;
+margin-top: 5px;
+color: #666666;
+margin-bottom: 10px;
+text-align: center;
+}
+
+#moreImages .werbung p b {
+  color: black;
+font-size: 13px;
+line-height: 20px;
+  color: #000000;
+}
+
+#moreImages .werbung .superAdContent {
+  width: 728px;
+  height: 90px;
+  background: #f8f8f8;
+  amargin-left: 75px;
+margin: 0 auto;
+}
+
+/** NSFW **/
+
+#moreImages ul li .nsfwCover {
+  display: none;
+}
+
+#moreImages ul li {
+  position: relative;
+}
+
+#moreImages .images li .videoIcon {
+bottom: 5px;
+  left: 5px;
+}
+
+#moreImages ul li.nsfw .nsfwCover {
+  display: block;
+  background: transparent url('http://assets.wookmark.com/nsfwCover.png');
+  text-align: center;
+  display: table;
+  padding: 0 0 0 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-bottom: 0px;
+  cursor: pointer;
+  width: 200px;
+  height: 150px;
+}
+
+#moreImages ul li.nsfw .nsfwCover .nsfwWrap {
+  vertical-align: middle;
+  display: table-cell;
+  line-height: 32px;
+}
+
+#moreImages ul li.nsfw .nsfwCover p {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 32px;
+  color: #000000;
+  background: #ffffff;
+  margin: 0 auto;
+  display: inline-block;
+  padding: 0 10px 0 10px;
+}
+
+/** Bottom nav **/
+
+
+.bottomNav {
+ width: 630px;
+  margin: 40px auto 50px auto;
+}
+
+.bottomNav li {
+  float: left;
+  width: 90px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0 15px 0 15px;
+}
+
+.bottomNav li a:link,
+.bottomNav li a:visited {
+  color: #999999;
+}
+
+.bottomNav li a:hover { color: #008ed3; }
+
+.bottomNav li span {
+  width: 90px;
+  height: 50px;
+  overflow: hidden;
+  display: block;
+}
+
+.bottomNav li img { margin: 0; }
+.bottomNav li a:hover img { margin-top: -50px; }
+
+.bottomNav li.recent img { margin-left: -90px; }
+.bottomNav li.surprise img { margin-left: -270px; }
+.bottomNav li.recent img { margin-left: -180px; }
+.bottomNav li.categories img { margin-left: -360px; }
+.bottomNav li.backup img { margin-left: -450px; }
+
+#nextImage {
+ position: fixed;
+  right: -36px;
+  top: 145px;
+  background: rgba(0,0,0,.8) url('http://assets.wookmark.com/arrow-next-image.png') no-repeat 12px center;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  overflow: hidden;
+  -moz-transition: all 0.25s ease-out;
+  -o-transition: all 0.25s ease-out;
+  -webkit-transition: all 0.25s ease-out;
+  -ms-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-in-out;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.25);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,.25);
+  box-shadow: 0 1px 3px rgba(0,0,0,.25);
+}
+
+#nextImage:hover {
+  right: 0px;
+}
+
+#nextImage a {
+  color: #ffffff;
+  text-shadow: 0 1px 0 black;
+  font-size: 11px;
+  line-height: 14px;
+  padding: 6px 10px 6px 32px;
+  display: block;
+  opacity: 0;
+-moz-transition: all 0.25s ease-out;
+-o-transition: all 0.25s ease-out;
+-webkit-transition: all 0.25s ease-out;
+-ms-transition: all 0.25s ease-out;
+transition: all 0.25s ease-in-out;
+}
+
+#nextImage:hover a {
+  opacity: 1;
+}
+
+/** Retina adjustments **/
+
+@media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+  #moreImages {
+   width: 900px;
+  }
+
+  #moreImages .section {
+   float: left;
+   margin: 0 5px 10px 5px;
+  }
+
+  #moreImages ul li img,
+  #moreImages li.placeholder {
+    width: 100px;
+    height: 75px;
+  }
+
+  #moreImages .werbung {
+    width: 850px;
+  }
+
+  #moreImages .werbung .superAdContent {
+    margin-left: 120px;
+  }
+
+  #moreImages ul li.nsfw .nsfwCover {
+    width: 100px;
+    height: 75px;
+  }
+
+  #details #tagOptions a em {
+    background-image: url('http://assets.wookmark.com/icons-hd.png');
+    background-size: 108px 189px;
+  }
+}

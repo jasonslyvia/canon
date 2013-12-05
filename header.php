@@ -36,6 +36,9 @@
     <?php if (is_profile()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/user.css" type="text/css" media="all" />
     <?php endif; ?>
+    <?php if (is_single()): ?>
+    <link rel="stylesheet" href="<?php echo URL;?>/css/image.css" type="text/css" media="all" />
+    <?php endif ?>
 
     <script src="<?php echo URL;?>/js/modernizr.js"></script>
     <script type="text/javascript">
