@@ -238,7 +238,7 @@ html;
 
     //更新图片浏览量
     $post_view = get_post_meta($image_id, 'post_view', true);
-    update_post_meta($image_id, 'post_view', --$post_view);
+    update_post_meta($image_id, 'post_view', ++$post_view);
 
     return array("imageId" => $image_id,
                                  "width" => $width,
