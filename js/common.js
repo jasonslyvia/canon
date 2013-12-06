@@ -584,10 +584,6 @@ gbks.common.history = gbks.common.history || {};
 gbks.common.history.push = function (e, t, closeFlag) {
     if (gbks.common.history.supported()) {
 
-        if (gbks.common.lightboxInstance.updateHistory && !closeFlag) {
-            gbks.common.lightboxInstance.updateHistory();
-        }
-
         history.pushState({
             url: e,
             title: t

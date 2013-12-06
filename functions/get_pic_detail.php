@@ -1,18 +1,26 @@
 <?php
-/*
- *  返回图像的详细信息
- *
- *  @param {int} imageId 图像id（即post_id）
- *  @return {json}
- */
-header('Content-Type: application/json');
+
+require_once('common.php');
+define('WP_USE_THEMES', false);
+require_once(ABSPATH.'wp-load.php');
 
 if (isset($_GET['imageId'])) {
+    header('Content-Type: application/json');
+    send_result(false, null, get_pic_detail(), true);
+}
 
-    require_once('common.php');
-    define('WP_USE_THEMES', false);
-    require_once(ABSPATH.'wp-load.php');
 
+
+
+
+
+
+/*
+ *  返回图片详细信息
+ *
+ *  @return {array}
+ */
+function get_pic_detail(){
     //获得图片详细信息
     $image_id = $_GET['imageId'];
     $post = get_post($image_id);
@@ -225,26 +233,23 @@ html;
 
 
 
-
     $width = get_post_meta($image_id, 'width', true);
     $height = get_post_meta($image_id, 'height', true);
 
-    send_result(null,null, array("imageId" => $image_id,
+    //更新图片浏览量
+    $post_view = get_post_meta($image_id, 'post_view', true);
+    update_post_meta($image_id, 'post_view', --$post_view);
+
+    return array("imageId" => $image_id,
                                  "width" => $width,
                                  "height" => $height,
                                  "url" => $pic,
                                  "referer" => $referer,
                                  "html" => $html,
                                  "title" => $title,
-                                 "history" => '/image/'.$permalink),
-                true);
+                                 "history" => '/image/'.$permalink);
 
-    //更新图片浏览量
-    $post_view = get_post_meta($image_id, 'post_view', true);
-    update_post_meta($image_id, 'post_view', --$post_view);
-}
-else{
-    send_result(true, "未知错误");
+
 }
 
 

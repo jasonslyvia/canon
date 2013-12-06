@@ -29,11 +29,24 @@ $id = get_the_ID();
 //BUG，直接使用 get_the_author_meta 不行？？
 $post = get_post($id);
 $author_id = $post->post_author;
+$author_name = get_userdata($author_id)->display_name;
+$avatar = AVATAR.get_user_meta($author_id,'avatar_small', true);
 $image = $post->post_content;
 $thumb = preg_replace('/(\..{3,4})$/', '_200$1', $image);
 $width = get_post_meta($id, 'width', true);
 $height = get_post_meta($id, 'height', true);
 
+//来源
+$referer = get_post_meta($id, 'referrer', true);
+if (!empty($referer) && trim($referer) != '') {
+    //获取refer的域名部分
+    $short_referer = parse_url($referer);
+    $short_referer = $short_referer["host"];
+}
+else{
+    $short_referer = '原创';
+    $referer = '/profile/'.$author_id;
+}
 //判断当前用户是否保存或喜欢了当前被浏览用户保存的图片
 //以确定是否给操作选项增加 active 的 class
 if (in_array($id, $c_saved_record)) {
@@ -50,7 +63,15 @@ if (in_array($id, $c_liked_record)) {
 else{
   $like_class = "";
 }
+
+
+
+
 ?>
+
+<script type="text/javascript">
+var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
+</script>
 
 
 <div id="page">
@@ -115,14 +136,14 @@ else{
                 <div class="finder clearfix">
                     <div class="userPic">
                         <a href="/profile/<?php echo $author;?>">
-                            <img src="<?php echo AVATAR.$avatar;?>"
-                                    width="40" height="40" alt=""/>
+                            <img src="<?php echo $avatar;?>" alt=""
+                                 width="30" height="30" />
                         </a>
                     </div>
                     <h4><a href="/profile/<?php echo $author_id;?>" class="userLink">
-                        {$author_name}</a><br/>
-                    来自 <a href="{$referer}">{$short_referer}</a></h4>
-                    {$follow_btn_html}
+                        <?php echo $author_name; ?></a><br/>
+                    来自 <a href="<?php echo $referer; ?>"><?php echo $short_referer; ?></a></h4>
+                    <?php echo $follow_btn_html; ?>
                 </div>
                 <div class="stats saves clearfix">
                     <?php echo $like_arr["sample_html"]; ?>
@@ -180,106 +201,150 @@ echo $comment_html;
 
 ?>
 
-                <div class="owners line likes">
-                    <p class="userListPopup" data-type="2" data-id="346470">
-                        <a href="http://www.wookmark.com/profile/diana-v-rlan">Diana Vârlan</a> likes this
-                    </p>
-                </div>
-
             </div>
-            <a href="http://www.wookmark.com/flag?ref=image&amp;imageId=346131" class="flagOption" target="_blank">Flag this image</a>
         </div>
     </div>
     <div class="clear">
     </div>
     <div id="nextImage">
-        <a href="http://www.wookmark.com/image/346410/appartement-vendre-lyon-vente-de-3-pi-ces-design-d-int-ri">Next<br>
-        Image</a>
+        <?php next_post_link('%link', '下一张<br/>图片', false); ?>
     </div>
     <div id="moreImages" class="clearfix">
         <div class="werbung section">
             <div class="superAdContent">
                 <div id="lijit_region_229626">
                 </div>
-                <script type="text/javascript" src="http://www.lijit.com/delivery/fp?u=wookmark&amp;z=229626"></script>
             </div>
             <p>
-                Advertisements
+                赞助商广告
             </p>
         </div>
+
+<!-- 来自同一网站的更多内容 -->
+<?php if ($short_referer !== "原创") { ;?>
         <div class="section">
             <div class="header">
                 <div class="headerWrap clearfix">
                     <div class="info">
                         <p>
-                            From the site
+                            更多作品来自该网站
                         </p>
-                        <h3><a href="http://www.wookmark.com/source/26779/www.pinterest.com">www.pinterest.com</a></h3>
-                    </div>
-                    <div class="options">
-                        <div class="followButton actionButton blueButton" data-id="26779" data-type="2">
-                            <a href="#">Follow</a>
-                        </div>
+                        <h3><a href="<?php echo $referer; ?>"><?php echo $short_referer; ?></a></h3>
                     </div>
                 </div>
             </div>
             <div class="images">
                 <ul class="clearfix">
-                    <li class=" first"><a href="http://www.wookmark.com/image/346566/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346566_a04550878ca0ed740a1322fe9bda4894.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
-                    <li><a href="http://www.wookmark.com/image/346468/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346468_45a4e4ae68c51691d3c69dfa9d0ca9a4.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
-                    <li><a href="http://www.wookmark.com/image/346466/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346466_902a238946e005c0822ed0925ceb9ee8.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
-                    <li><a href="http://www.wookmark.com/image/346573/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346573_af5d2885936c62adddc81b5af7f6ceea.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
+<?php
+    $args = array("posts_per_page" => 4,
+                  "meta_query" => array(array("key" => "referrer",
+                                      "value" => $short_referer,
+                                      "compare" => "LIKE")));
+    $query = new WP_Query($args);
+    $i = 0;
+    while ($query->have_posts()) {
+        $query->the_post();
+        if ($i ++ == 0) {
+            $li_class = " class='first'";
+        }
+        else{
+            $like_class = "";
+        }
+?>
+        <li <?php echo $li_class; ?>>
+            <a href="<?php the_permalink(); ?>">
+                <img src="<?php echo IMAGE_PATH.get_the_author_meta('ID').'/'.get_the_content(); ?>"
+                     alt="<?php the_title(); ?>"
+                     width="200" height="150">
+            </a>
+        </li>
+<?php }
+    wp_reset_postdata();
+?>
                 </ul>
             </div>
         </div>
+<?php  } ?>
+
+
         <div class="section">
             <div class="header">
                 <div class="headerWrap hasPic clearfix">
                     <div class="info">
-                        <a href="http://www.wookmark.com/profile/aerynn" class="userpic"><img src="http://www.wookmark.com/images/profile/30/a_kiss_in_the_dark_by_hiritai-d4rrx82_2.jpg" width="30" height="30" alt="Aerynn"></a>
+                        <a href="/profile/<?php echo $author_id; ?>" class="userpic">
+                            <img src="<?php echo $avatar; ?>"
+                                 width="30" height="30"
+                                 alt="<?php echo $author_name; ?>">
+                        </a>
                         <p>
-                            More from
+                            更多作品来自
                         </p>
-                        <h3><a href="http://www.wookmark.com/profile/aerynn">Aerynn</a></h3>
+                        <h3><a href="/profile/<?php echo $author_id; ?>"><?php echo $author_name; ?></a></h3>
                     </div>
+
+<?php
+
+    //处理关注按钮
+    if ($c_user_id == $author_id) {
+        $no_follow_btn = true;
+    }
+    else{
+        //先判断当前用户是否关注了作者
+        global $wpdb;
+        $follow = $wpdb->get_var("
+            SELECT count(*) FROM user_relation
+            WHERE follower_id = {$c_user_id} AND followee_id = {$author_id}
+        ");
+        //若已关注
+        if ($follow != 0) {
+            $follow_class = " active";
+            $follow_text = "取消关注";
+        }
+        else{
+            $follow_class = "";
+            $follow_text = "关 注";
+        }
+    }
+
+    if (!$no_follow_btn):
+ ?>
+
                     <div class="options">
-                        <div class="followButton actionButton blueButton" data-id="7650" data-type="1">
-                            <a href="#">Follow</a>
+                        <div class="followButton actionButton blueButton<?php echo $follow_class;?>"
+                             data-id="<?php echo $author_id; ?>" data-type="1">
+                            <a href="#"><?php echo $follow_text; ?></a>
                         </div>
                     </div>
+<?php endif; ?>
                 </div>
             </div>
             <div class="images">
                 <ul class="clearfix">
-                    <li class=" first"><a href="http://www.wookmark.com/image/346567/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346567_a23659947927ec16447ff3cb39e8b539.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
-                    <li><a href="http://www.wookmark.com/image/346572/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346572_5730ba8a1d314f8dc86cc2acf91dea31.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
-                    <li><a href="http://www.wookmark.com/image/346571/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346571_3bccb32a62d5ac5fe84ec9a890f260b3.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
-                    <li><a href="http://www.wookmark.com/image/346570/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346570_74aeba4ac2939810efdd0c59c2b97fd4.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="section">
-            <div class="header">
-                <div class="headerWrap clearfix">
-                    <div class="info">
-                        <p>
-                            From the group
-                        </p>
-                        <h3><a href="http://www.wookmark.com/group/16438/objects-and-clothes">Objects</a> by <a href="http://www.wookmark.com/profile/aerynn">Aerynn</a></h3>
-                    </div>
-                    <div class="options">
-                        <div class="followButton actionButton blueButton" data-id="16438" data-type="4">
-                            <a href="#">Follow</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="images">
-                <ul class="clearfix">
-                    <li class=" first"><a href="http://www.wookmark.com/image/346569/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346569_df62daa16676b793c285bfb72ed1907c.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
-                    <li><a href="http://www.wookmark.com/image/346453/1c5c6c6c004f82c38bd250ed9980060c-jpg-image-jpeg-455x600-pixels"><img src="http://www.wookmark.com/images/200-150/346453_1c5c6c6c004f82c38bd250ed9980060c.jpg" alt="1c5c6c6c004f82c38bd250ed9980060c.jpg (Image JPEG, 455x600 pixels)" width="200" height="150"></a></li>
-                    <li><a href="http://www.wookmark.com/image/345877/ac382f447d57132ad5d5750c2bdcdb3b-jpg-image-jpeg-500x500-pixels"><img src="http://www.wookmark.com/images/200-150/345877_9504f6d152c8b8ec9de9578d9f9d468b.jpg" alt="ac382f447d57132ad5d5750c2bdcdb3b.jpg (Image JPEG, 500x500 pixels)" width="200" height="150"></a></li>
-                    <li><a href="http://www.wookmark.com/image/339245/e568627d350273ed71f25c959759ee34-jpg-image-jpeg-550x796-pixels-redimensionn-e-44"><img src="http://www.wookmark.com/images/200-150/339245_1bca3c6ca920e60d68ce008b33f787fc.jpg" alt="e568627d350273ed71f25c959759ee34.jpg (Image JPEG, 550x796 pixels) - RedimensionnÃ©e (44%)" width="200" height="150"></a></li>
+<?php
+    $args = array("posts_per_page" => 4,
+                  "author" => $author_id,
+                  "orderby" => "rand");
+    $author_query = new WP_Query($args);
+    $i = 0;
+    while ($author_query->have_posts()) {
+        $author_query->the_post();
+        if ($i ++ == 0) {
+            $li_class = " class='first'";
+        }
+        else{
+            $like_class = "";
+        }
+?>
+        <li <?php echo $li_class; ?>>
+            <a href="<?php the_permalink(); ?>">
+                <img src="<?php echo IMAGE_PATH.get_the_author_meta('ID').'/'.get_the_content(); ?>"
+                     alt="<?php the_title(); ?>"
+                     width="200" height="150">
+            </a>
+        </li>
+<?php }
+    wp_reset_postdata();
+?>
                 </ul>
             </div>
         </div>

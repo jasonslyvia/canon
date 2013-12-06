@@ -10,7 +10,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
       <div class="hamburger">
       </div>
 
-      <p>小摄郎上的热门内容</p>
+      <p><?php echo get_bloginfo(); ?>上的热门内容</p>
     </div>
 
     <!--  主内容   -->

@@ -23,7 +23,7 @@ gbks.Image = function() {
 
       $('#details #makePublicButton').live('click', $.proxy(this.onClickMakePublic, this));
       $('#details #makePrivateButton').live('click', $.proxy(this.onClickMakePrivate, this));
-      $('#details #unlikeImageButton').live('click', $.proxy(this.onClickUnlikeImage, this));
+      // $('#details #unlikeImageButton').live('click', $.proxy(this.onClickUnlikeImage, this));
       $('#details #likeImageButton').live('click', $.proxy(this.onClickLikeImage, this));
 
       $('.followButton').click($.proxy(this.onClickFollowButton, this));
@@ -58,9 +58,6 @@ gbks.Image = function() {
     this.updateImageSize();
     $(window).resize($.proxy(this.resize, this));
 
-    //if($('#details').height() < $('#image').height()) {
-      //$(window).bind('scroll', $.proxy(this.onScroll, this));
-    //}
 
     this.commentKeyUpMethod = $.proxy(this.onCommentKeyUp, this);
     this.commentForm = $('#commentForm', this.details);
@@ -279,6 +276,7 @@ gbks.Image = function() {
     }
   };
 
+  //点击编辑图片按钮
   this.onClickAddImage = function(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -286,24 +284,18 @@ gbks.Image = function() {
     var imageId = $(event.currentTarget).attr('data-id');
     this.toggleSaveButton(true);
 
-    //this.showLoader('Saving');
     $('#details #tagOptions .saveButton').addClass('loading');
 
-    console.log('image.onClickAddImage', imageId);
-
-    this.track('Image', 'Save', imageId);
-
     $.ajax({
-      url: '/bookmark/savetouser?imageId='+imageId,
+      url:  ABSPATH + "/functions/save_pic.php",
       type: 'POST',
-      dataType: 'jsonp',
+      data: {imageId: imageId, nonce: nonce},
+      dataType: 'json',
       success: $.proxy(this.onAddImageComplete, this)
     });
   };
 
   this.onAddImageComplete = function(result) {
-    console.log('image.onAddImageComplete', result);
-    //this.hideLoader();
     var saveButton = $('#details #tagOptions .saveButton');
     saveButton.removeClass('loading');
 
@@ -317,17 +309,6 @@ gbks.Image = function() {
 
   this.onClickRemoveImage = function() {
     this.toggleSaveButton(false);
-
-    //this.showLoader('Unsaving');
-
-    /**
-    $.ajax({
-      url: '/bookmark/removefromuser',
-      data: {imageId:this.imageId},
-      type: 'POST',
-      success: $.proxy(this.onRemoveImageComplete, this)
-    });
-    //*/
   };
 
   this.onRemoveImageComplete = function(event) {
@@ -391,24 +372,10 @@ gbks.Image = function() {
     var saveButton = $('#details #tagOptions .saveButton');
     if(active === true) {
       saveButton.addClass('active');
-      $('span', saveButton).html('Edit');
+      $('span', saveButton).html('编辑');
     } else {
       saveButton.removeClass('active');
-      $('span', saveButton).html('Save');
-    }
-  };
-
-  this.toggleLikeButton = function(active) {
-    if(active === true) {
-      var button = $('#likeImageButton');
-      button.addClass('active');
-      button.attr('id', 'unlikeImageButton');
-      button.attr('title', 'I like this image');
-    } else {
-      var button = $('#unlikeImageButton');
-      button.removeClass('active');
-      button.attr('id', 'likeImageButton');
-      button.attr('title', 'I like this image');
+      $('span', saveButton).html('保存');
     }
   };
 
@@ -416,35 +383,15 @@ gbks.Image = function() {
     event.stopPropagation();
     event.preventDefault();
 
-    var imageId = $(event.currentTarget).attr('data-id');
-    this.toggleLikeButton(true);
+    var $btn = $(event.currentTarget);
+    var imageId = $btn.attr('data-id');
+    $btn.toggleClass('active');
 
-    this.showLoader('Liking');
-
-    this.track('Image', 'like', imageId);
-
-    $.ajax({
-      url: '/likes/like',
-      data: {imageId:imageId},
-      type: 'POST',
-      success: $.proxy(this.hideLoader, this)
-    });
-  };
-
-  this.onClickUnlikeImage = function( event ) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    var imageId = $(event.currentTarget).attr('data-id');
-    this.toggleLikeButton(false);
-
-    this.showLoader('Unliking');
-
-    this.track('Image', 'unlike', imageId);
+    this.showLoader('发送喜欢请求……');
 
     $.ajax({
-      url: '/likes/unlike',
-      data: {imageId:imageId},
+      url: ABSPATH + "/functions/like_pic.php",
+      data: {imageId:imageId, nonce: nonce},
       type: 'POST',
       success: $.proxy(this.hideLoader, this)
     });
@@ -713,6 +660,7 @@ gbks.Image = function() {
     gbks.common.scroller.scrollToPosition(0);
   };
 
+  //关注用户
   this.onClickFollowButton = function(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -721,30 +669,32 @@ gbks.Image = function() {
     var link = $('a', target);
     var userId = target.attr('data-id');
     var type = target.attr('data-type');
+    var data = {
+      targetId: userId,
+      nonce: nonce
+    };
 
-    //var isFollowing = (link.html() == 'Unfollow');
     var isFollowing = target.hasClass('active');
 
     if(userId) {
-      var url = '/following/follow';
-      var status = 'Following user';
-      var text = 'Unfollow';
+      var url = ABSPATH + "/functions/follow_user.php";
+      var text = '取消关注';
+
       if(isFollowing) {
-        url = '/following/unfollow';
-        status = 'Unfollowing user';
-        text = 'Follow';
+        text = '关注';
         target.removeClass('active');
-      } else {
+        data.action = "unfollow";
+      }
+      else {
+        data.action = "follow";
         target.addClass('active');
       }
 
       link.html(text);
 
-      //this.showLoader(status);
-
       $.ajax({
         url: url,
-        data: {targetId:userId, type:type},
+        data: data,
         type: 'POST',
         success: $.proxy(this.onSubmitFollow, this)
       });
@@ -781,34 +731,37 @@ gbks.Image = function() {
     }
   };
 
+  //发表评论
   this.saveComment = function(comment) {
     $(document).unbind('keyup', this.commentKeyUpMethod);
 
     var lower = comment.toLowerCase();
     var isGood = true;
-    if(lower == 'test') isGood = false;
     if(comment == this.commentInput.attr('placeholder')) isGood = false;
     if(lower.length < 3) isGood = false;
 
-    if(lower == 'test') {
-      alert('Congratulations! Your test worked!');
-      this.commentForm.val('');
-    } else if(isGood) {
-      this.commentInput.attr('disabled', 'disabled');
-      $.ajax({
-        url: '/comment/add',
-        data: {imageId:this.imageId, comment:comment, format: 'big'},
-        type: 'POST',
-        success: $.proxy(this.onSaveComment, this)
-      });
+    if (isGood) {
+        this.commentInput.attr("disabled", "disabled");
+        $.ajax({
+            url: ABSPATH + "/functions/add_comment.php",
+            data: {
+                imageId: this.imageId,
+                comment: comment,
+                nonce: nonce,
+                userId: pageConfig.userId,
+                format: "big"
+            },
+            type: "POST",
+            success: $.proxy(this.onSaveComment, this)
+        });
     } else {
-      this.canvas.addClass('error');
-      alert('Please ensure your comment is more than 3 characters.');
+        this.canvas.addClass("error");
+        alert("评论内容太短了，多说点儿什么吧！");
     }
   };
 
   this.onSaveComment = function(data, textStatus, jqXHR) {
-    $('#comments .comments').append($(data));
+    $('#comments .comments').append(data.html);
     $('#comments').removeClass('empty');
     this.commentForm.remove();
   };
