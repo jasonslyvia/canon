@@ -64,8 +64,9 @@ else{
   $like_class = "";
 }
 
-
-
+//更新图片浏览量
+$post_view = get_post_meta($id, 'post_view', true);
+update_post_meta($id, 'post_view', ++$post_view);
 
 ?>
 
