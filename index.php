@@ -30,6 +30,22 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
       <!--  内容  -->
       <div id="images">
 <?php
+//获取热门图片排序
+//计算方法：保存数+喜欢数的和按倒序排列
+  global $wpdb;
+  $save_c = $wpdb->get_results("
+      SELECT pic_id, count(pic_id) as c
+      FROM pic_save
+      GROUP BY pic_id
+      ORDER BY c DESC
+    ", ARRAY_A);
+  $like_c = $wpdb->get_results("
+      SELECT pic_id, count(pic_id) as c
+      FROM pic_like
+      GROUP BY pic_id
+      ORDER BY c DESC
+  ",  ARRAY_A);
+  var_dump(array_merge($save_c, $like_c));
   global $query;
   $query = new WP_Query("posts_per_page=50");
   require('functions/get_pic_grid.php');
