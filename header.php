@@ -63,7 +63,6 @@
     <?php endif; ?>
 
       <ol>
-
         <?php if(is_user_logged_in()):  ?>
         <li class="profile<?php global $same_user; if($same_user) echo ' active'; ?>">
           <a href="/profile/<?php echo $user->ID; ?>"><?php echo $user->display_name; ?></a>
@@ -79,12 +78,12 @@
         </li>
         <?php endif; ?>
 
-        <li class="popular<?php if(is_home()) echo ' active';?>" data-type="popular">
+        <li class="popular<?php if(is_home() && !is_recent()) echo ' active';?>" data-type="popular">
           <a href="/" title="看看最近什么比较热门">热门</a>
         </li>
 
-        <li class="recent" data-type="recent">
-          <a href="/recent" title="最新上传的图片">最新</a>
+        <li class="recent<?php if(is_recent()) echo ' active';?>" data-type="recent">
+          <a href="/?type=recent" title="最新上传的图片">最新</a>
         </li>
 
         <li class="categories">
@@ -94,7 +93,6 @@
         <li class="colors">
           <a href="/colors">色彩</a>
         </li>
-
       </ol>
 
       <?php if (!is_user_logged_in()):  ?>

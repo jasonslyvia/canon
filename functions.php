@@ -19,6 +19,8 @@ define('IMAGE_PATH', '/wp-content/themes/canon/uploads/images/');
 /****************************************\
 
         重写URL
+        !!!该函数仅支持apache .htaccess重写
+            nginx服务器需手动配置重写规则
 
 \*****************************************/
 add_action('generate_rewrite_rules', 'themes_dir_add_rewrites');
@@ -63,6 +65,9 @@ function is_current_following(){
                         $_SERVER['REQUEST_URI']);
     $c_uid = get_current_user_id();
     return $uid == $c_uid;
+}
+function is_recent(){
+    return $_SERVER['REQUEST_URI'] == '/?type=recent';
 }
 /*****************************************\
 
