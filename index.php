@@ -54,7 +54,9 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
         order by (coalesce(s.sc,0) + coalesce(l.lc, 0)) desc
     ", ARRAY_N);
     $hot_ids = array_values(call_user_func_array('array_merge', $hot_result));
-    $query = new WP_Query(array("post__in" => $hot_ids, "orderby" => "none"));
+    $query = new WP_Query(array("post__in" => $hot_ids,
+                                "orderby" => "none",
+                                "posts_per_page" => 100));
   }
   require('functions/get_pic_grid.php');
 ?>

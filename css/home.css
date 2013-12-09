@@ -494,3 +494,39 @@ span.up{
 }
 
 
+
+/** Group info */
+#categoryInfo {
+background-color: white;
+width: 236px;
+padding: 13px 0 0 0;
+border: 1px solid #dedede;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+display: none;
+}
+
+#categoryInfo h1 {
+font-weight: normal;
+font-size: 13px;
+line-height: 20px;
+margin-bottom: 5px;
+color: #999;
+padding: 0 18px 0 18px;
+}
+
+#categoryInfo h1 b {
+font-size: 18px;
+color: black;
+}
+
+#categoryInfo .description{
+color: #777;
+margin: 0 0 5px 0;
+line-height: 16px;
+padding: 0 18px 5px 18px;
+font-weight: normal;
+font-size: 11px;
+}
+

@@ -87,7 +87,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
 
 <div id="luka">
   <div class="hamburger"> </div>
-  <p><a href="/"> <?php echo get_bloginfo(); ?> </a> </p>
+  <p><a href="/"> <?php echo $name . ' 的个人主页 - '.get_bloginfo(); ?> </a> </p>
 </div>
 
 <div id="page">

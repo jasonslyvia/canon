@@ -40,6 +40,11 @@ if (!is_user_logged_in()) {
 
     </div>
 
+
+<div id="category" style="display:none">
+  <?php wp_dropdown_categories(array("hide_empty" => false)); ?>
+</div>
+
     <div id="crawlDiv" class="wrapSignupForm">
       <h2>或直接获取网络照片</h2>
     </div>

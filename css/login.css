@@ -341,3 +341,13 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 .success{
     color: green;
 }
+
+.notification{
+    margin: -15px 15px 15px;
+}
+.activity-detail,
+.image-preview{
+    margin: 10px 0;
+}
+
+#cat{margin-left: 0;}

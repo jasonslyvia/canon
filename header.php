@@ -30,15 +30,19 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="<?php echo URL;?>/style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="<?php echo URL;?>/css/home.css" type="text/css" media="all" />
-    <?php if(is_login() || is_upload() || is_signup() || is_settings()): ?>
+    <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/login.css" type="text/css" media="all" />
     <?php endif; ?>
-    <?php if (is_profile()): ?>
+    <?php if (is_profile() && !is_activity()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/user.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_single()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/image.css" type="text/css" media="all" />
     <?php endif ?>
+    <?php if (is_custom_category()): ?>
+    <link rel="stylesheet" href="<?php echo URL;?>/css/overview.css" type="text/css" media="all" />
+    <?php endif ?>
+
 
     <script src="<?php echo URL;?>/js/modernizr.js"></script>
     <script type="text/javascript">
@@ -70,7 +74,7 @@
         <li class="following<?php if(is_current_following()) echo ' active';?>">
           <a href="/profile/<?php echo $user->ID; ?>/following" title="查看所有你关注的人">关注</a>
         </li>
-        <li class="activity">
+        <li class="activity<?php if(is_activity()) echo ' active';?>">
           <a href="/profile/<?php echo $user->ID; ?>/activity" title="看看大家最近在干什么">动态</a>
         </li>
         <li class="upload">
@@ -86,8 +90,8 @@
           <a href="/?type=recent" title="最新上传的图片">最新</a>
         </li>
 
-        <li class="categories">
-          <a href="/categories" title="按照分类浏览">分类</a>
+        <li class="categories<?php if(is_custom_category()) echo ' active';?>">
+          <a href="/categories" title="按照主题浏览">主题</a>
         </li>
 
         <li class="colors">

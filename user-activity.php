@@ -7,10 +7,20 @@ if (!is_user_logged_in()) {
     wp_redirect('/');
     exit();
 }
+
+//用户只能查看自己的动态
+$c_user_id = get_current_user_id();
+$user_id = preg_replace('/^\/profile\/(\d+)\/activity\/?$/i',
+                        '$1',
+                        $_SERVER['REQUEST_URI']);
+if ($c_user_id != $user_id) {
+  wp_redirect("/profile/{$c_user_id}/activity");
+  exit();
+}
+
 get_header();
 
-
-$c_user_id = get_current_user_id();
+date_default_timezone_set('UTC');
 //首先选出该用户的所有图片id
 global $wpdb;
 $c_user_pics = $wpdb->get_results("
@@ -69,7 +79,8 @@ $activity_result = $wpdb->get_results("
            <img src="<?php echo AVATAR.$activity->avatar ?>"
            width="30" height="30" />
       </a>
-      <span class="date"><?php echo human_time_diff(strtotime($activity->time)); ?>前</span>
+      <span class="date"><?php echo human_time_diff(strtotime($activity->time),
+                                                    current_time('timestamp')); ?>前</span>
       <div class="activity-detail">
         <div class="activity-text">
           <a href="/profile/<?php echo $uid ?>"><?php echo $activity->name; ?></a>
@@ -78,7 +89,9 @@ $activity_result = $wpdb->get_results("
           <div class="image-preview">
             <a href="/?p=<?php echo $activity->pid; ?>">
               <img src="<?php echo IMAGE_PATH.$c_user_id.'/'.
-                                    preg_replace('/(\..{3,4})$/', '_200$1', $activity->content); ?>"
+                                    preg_replace('/(\..{3,4})$/',
+                                                  '_200$1',
+                                                  $activity->content); ?>"
                    width="200" />
             </a>
           </div>

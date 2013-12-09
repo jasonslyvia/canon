@@ -32,11 +32,13 @@ function themes_dir_add_rewrites() {
     'signup/?$' => 'wp-content/themes/'. $theme_name . '/signup.php',
     'login/?$' => 'wp-content/themes/'. $theme_name . '/login.php',
     'upload/?$' => 'wp-content/themes/'. $theme_name . '/upload.php',
+    'categories/?$' => 'wp-content/themes/'. $theme_name . '/category-all.php',
     'profile/\d/?$' => 'wp-content/themes/' . $theme_name . '/user-profile.php',
     'profile/\d/notes/?$' => 'wp-content/themes/' . $theme_name . '/user-notes.php',
     'profile/\d/likes/?$' => 'wp-content/themes/' . $theme_name . '/user-likes.php',
     'profile/\d/following/?$' => 'wp-content/themes/' . $theme_name . '/user-following.php',
     'profile/\d/followed/?$' => 'wp-content/themes/' . $theme_name . '/user-followed.php',
+    'profile/\d/activity/?$' => 'wp-content/themes/' . $theme_name . '/user-activity.php',
     'settings/?$' => 'wp-content/themes/' . $theme_name . '/user-setting.php',
   );
   $wp_rewrite->non_wp_rules += $new_non_wp_rules;
@@ -53,6 +55,9 @@ function is_signup(){
 function is_profile(){
     return preg_match('/^\/profile\/\d+(\/)?(\w+)?$/i', $_SERVER['REQUEST_URI']);
 }
+function is_activity(){
+    return preg_match('/^\/profile\/\d+\/activity\/?$/i', $_SERVER['REQUEST_URI']);
+}
 function is_upload(){
     return preg_match('/^\/upload\/?$/i', $_SERVER['REQUEST_URI']);
 }
@@ -68,6 +73,9 @@ function is_current_following(){
 }
 function is_recent(){
     return $_SERVER['REQUEST_URI'] == '/?type=recent';
+}
+function is_custom_category(){
+    return preg_match('/^\/categor.+?\/?$/i', $_SERVER['REQUEST_URI']);
 }
 /*****************************************\
 
