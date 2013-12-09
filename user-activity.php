@@ -28,8 +28,14 @@ $c_user_pics = $wpdb->get_results("
   WHERE post_author = {$c_user_id}
   ", ARRAY_N);
 
-//然后选出保存和喜欢了这些图片的所有用户id、昵称及操作时间
-$c_user_pics_id = implode(',', call_user_func_array('array_merge', $c_user_pics));
+if (count($c_user_pics) > 0) {
+  //然后选出保存和喜欢了这些图片的所有用户id、昵称及操作时间
+  $c_user_pics_id = implode(',', call_user_func_array('array_merge', $c_user_pics));
+}
+else{
+  $c_user_pics_id = '';
+}
+
 $activity_result = $wpdb->get_results("
   select
       op.user_id as uid,
@@ -56,6 +62,7 @@ $activity_result = $wpdb->get_results("
   left join wp_usermeta pm on (pm.user_id = op.user_id and pm.meta_key = 'avatar_small')
   order by time desc
   ");
+
 ?>
 <div id="luka">
   <div class="hamburger"> </div>
