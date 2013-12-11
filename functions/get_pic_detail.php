@@ -190,7 +190,7 @@ html;
         $html .= "<li>".
             "<a href='" . get_permalink() . "' data-id='" . get_the_ID() . "'>".
                 "<img src='".get_thumb(get_the_content(), $author, true)."'
-                      width='100'  height='75' />".
+                      style='min-width:105px;min-height:79px;' />".
             "</a>";
     }
 

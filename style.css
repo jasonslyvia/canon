@@ -1867,6 +1867,9 @@ display: none;
 #lightbox .details .similar li {
   float: left;
   position: relative;
+  overflow: hidden;
+  width: 105px;
+  height: 79px;
 }
 
 #lightbox .details .similar li img {
@@ -1881,8 +1884,7 @@ display: none;
   -ms-transition: opacity 0.25s ease-out;
   transition: opacity 0.25s ease-out;
   opacity: 0;
-width: 105px;
-height: 79px;
+  width: 105px;
 }
 
 #lightbox .details .similar li img.ready {
