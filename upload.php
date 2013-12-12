@@ -47,6 +47,9 @@ if (!is_user_logged_in()) {
 
     <div id="crawlDiv" class="wrapSignupForm">
       <h2>或直接获取网络照片</h2>
+      <label for="url">请将图片地址或图片所在的网页地址粘贴至此</label>
+      <input type="text" id="url" />
+      <a class="actionButton" href="#" id="remoteImgBtn">一键获取</a>
     </div>
 
   </div>

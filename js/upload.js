@@ -60,22 +60,8 @@ gbks.common.uploadImage = function(){
         //避免重新选择时内容重复
         $(".preview").remove();
 
-        width = width || 620;
-        $("<div class='preview'>"+
-            "<img src='"+ ABSPATH +"/uploads/images/"+ USER_ID+"/"+
-                    filename +
-                    "' width='"+ width +"' />"+
-            "<div class='op'>"+
-                "<label for='referrer'>照片来源网址（原创则留空）</label><br />"+
-                "<input type='text' id='referrer' />"+
-                "<label for='title'>照片标题（一句话形容这幅作品，必填）</label><br />"+
-                "<input type='text' id='title' />"+
-                "<label for='cat'>照片主题</label><br />"+
-                $("#category").html()+"<br />"+
-                "<a href='#' class='actionButton blueButton'"+
-                " id='publishNewBtn'>发布新照片</a>"+
-            "</div>"+
-          "</div>").appendTo("#uploadDiv");
+        var imageSrc = ABSPATH +"/uploads/images/"+ USER_ID+"/"+ filename;
+        createPreview(imageSrc, $("uploadDiv"));
 
         self.addPic();
     };
@@ -106,10 +92,7 @@ gbks.common.uploadImage = function(){
             }
 
             self.ajaxFlag = true;
-            $(".op").empty().append("<div class='ajax-message'>"+
-                                "<img src='" + URL + "/img/loader.gif' />"+
-                                "<span>上传中，请稍候</span>"+
-                            "</div>");
+            appendAjaxMessage("上传中，请稍候", $(".op"));
 
             $.ajax({
                 url: ABSPATH + '/functions/add_pic.php',
@@ -127,22 +110,110 @@ gbks.common.uploadImage = function(){
                 },
                 success: self.onAddPicSuccess
             });
-
         });
     };
 
     self.onAddPicSuccess = function(result){
         self.ajaxFlag = false;
-
-        var $message = $(".ajax-message");
-        $message.empty().append(result.message);
-
-        if (!result.error) {
-            $message.append("<br />"+
+        if (result.message) {
+            $message = $("ajax-message");
+            $message.empty().append(result.message + "<br />"+
                 "<a href='javascript:location.reload();'>继续上传</a> "+
                 "<a href='/?p="+result.postId+"'>查看详情</a>");
         }
     };
+
+    //处理远程抓取图片的逻辑
+    $("#remoteImgBtn").bind("click", function(){
+
+        var $btn = $(this);
+        var $parent = $(this).parent();
+
+        if (self.ajaxFlag) {
+            return false;
+        }
+
+        var url = $("#url").val();
+        if (!url || !url.match(/^(https?:\/\/)?(.+?\.)?.+?\..{2,4}$/i)) {
+            alert("请输入有效的图片地址或网站！");
+            return false;
+        }
+
+        if (url.match(/(jpg|jpeg|png|gif|bmp)$/i)) {
+            appendAjaxMessage("图片加载中……", $parent);
+            var image = new Image();
+            image.src = url;
+            image.onload = function(){
+                removeAjaxMessage();
+                createPreview(image.src, $parent);
+
+                if (image.width < 200) {
+                    alert("图片宽度最小限制为 200 像素");
+                    return false;
+                }
+
+                $("#filename").val(url);
+                $("#picWidth").val(image.naturalWidth || image.width);
+                $("#picHeight").val(image.naturalHeight || image.height);
+
+                self.addPic();
+            };
+        }
+
+        // self.ajaxFlag = true;
+        // $.ajax({
+        //     url: ABSPATH +　"/functions/get_remote_image.php",
+        //     type: "post",
+        //     data: {url: url},
+        //     dataType: "json",
+        //     success: function(result){
+        //         self.ajaxFlag = false;
+        //     }
+        // });
+    });
+
+
+    /*
+
+      工具函数区域
+
+    */
+    //处理ajax时的提示信息
+    function appendAjaxMessage(message, container){
+        if (typeof container !== "object") {
+            container = $(container);
+            if (container.size() === 0) {
+                return false;
+            }
+        }
+        else{
+            $(".ajax-message").remove();
+            container.append("<div class='ajax-message'>"+
+                                "<img src='" + ABSPATH + "/img/loader.gif' />"+
+                                "<span>"+message+"</span>"+
+                            "</div>");
+        }
+    }
+
+    function removeAjaxMessage(){
+        $(".ajax-message").remove();
+    }
+
+    function createPreview(image, container){
+        $("<div class='preview'>"+
+            "<img src='"+ image +"' width='620' />"+
+            "<div class='op'>"+
+                "<label for='referrer'>照片来源网址（原创则留空）</label><br />"+
+                "<input type='text' id='referrer' />"+
+                "<label for='title'>照片标题（一句话形容这幅作品，必填）</label><br />"+
+                "<input type='text' id='title' />"+
+                "<label for='cat'>照片主题</label><br />"+
+                $("#category").html()+"<br />"+
+                "<a href='#' class='actionButton blueButton'"+
+                " id='publishNewBtn'>发布新照片</a>"+
+            "</div>"+
+          "</div>").appendTo(container);
+    }
 
 };
 
