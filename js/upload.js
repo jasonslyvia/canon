@@ -8,7 +8,7 @@ gbks.common.uploadImage = function(){
 
     var self = gbks.common.uploadImage;
 
-    if (typeof URL === undefined || typeof pageConfig === undefined) {
+    if (typeof ABSPATH === undefined || typeof pageConfig === undefined) {
         console.log("获取全局信息错误！");
         return false;
     }
@@ -116,8 +116,7 @@ gbks.common.uploadImage = function(){
     self.onAddPicSuccess = function(result){
         self.ajaxFlag = false;
         if (result.message) {
-            $message = $("ajax-message");
-            $message.empty().append(result.message + "<br />"+
+            $(".ajax-message").empty().append(result.message + "<br />"+
                 "<a href='javascript:location.reload();'>继续上传</a> "+
                 "<a href='/?p="+result.postId+"'>查看详情</a>");
         }
@@ -129,28 +128,33 @@ gbks.common.uploadImage = function(){
         var $btn = $(this);
         var $parent = $(this).parent();
 
+        //若上一个ajax请求还未完成，则取消本次响应
         if (self.ajaxFlag) {
             return false;
         }
 
-        var url = $("#url").val();
-        if (!url || !url.match(/^(https?:\/\/)?(.+?\.)?.+?\..{2,4}$/i)) {
+        var url = $.trim($("#url").val());
+        if (!url || !url.match(/^(https?:\/\/)?(.+?\.)?.+?\..{2,4}(\/.*)?$/i)) {
             alert("请输入有效的图片地址或网站！");
             return false;
         }
 
+        //若用户输入的是图片地址，直接展示
         if (url.match(/(jpg|jpeg|png|gif|bmp)$/i)) {
             appendAjaxMessage("图片加载中……", $parent);
             var image = new Image();
             image.src = url;
             image.onload = function(){
-                removeAjaxMessage();
-                createPreview(image.src, $parent);
-
                 if (image.width < 200) {
                     alert("图片宽度最小限制为 200 像素");
+                    removeAjaxMessage();
+                    $("#url").val('').focus();
                     return false;
                 }
+
+                $btn.text("重新获取");
+                removeAjaxMessage();
+                createPreview(image.src, $parent);
 
                 $("#filename").val(url);
                 $("#picWidth").val(image.naturalWidth || image.width);
@@ -159,26 +163,33 @@ gbks.common.uploadImage = function(){
                 self.addPic();
             };
         }
+        //若是网址，则开始尝试获取网页中包含的图片
+        else{
+            $(".preview").remove();
+            $(".preview-small-container").hide().find("div").remove();
+            appendAjaxMessage("加载中……", $parent);
+            loadingCount = 0;
 
-        // self.ajaxFlag = true;
-        // $.ajax({
-        //     url: ABSPATH +　"/functions/get_remote_image.php",
-        //     type: "post",
-        //     data: {url: url},
-        //     dataType: "json",
-        //     success: function(result){
-        //         self.ajaxFlag = false;
-        //     }
-        // });
+            self.ajaxFlag = true;
+            $.ajax({
+                url: ABSPATH +　"/functions/get_remote_image.php",
+                type: "post",
+                data: {url: url, nonce: nonce},
+                dataType: "json",
+                success: function(result){
+                    self.ajaxFlag = false;
+                    createGridPreview.call(this, result, $btn, url);
+                }
+            });
+        }
     });
 
 
     /*
 
       工具函数区域
-
     */
-    //处理ajax时的提示信息
+    //添加发送ajax请求时的提示信息
     function appendAjaxMessage(message, container){
         if (typeof container !== "object") {
             container = $(container);
@@ -195,24 +206,126 @@ gbks.common.uploadImage = function(){
         }
     }
 
+    //移除ajax提示信息
     function removeAjaxMessage(){
         $(".ajax-message").remove();
     }
 
+    //为单幅图片添加信息、发布按钮
     function createPreview(image, container){
+        $(".preview").remove();
+
+        var referrer = "";
+        if ($("#url").length) {
+            var referrer = $.trim($("#url").val());
+        }
+
         $("<div class='preview'>"+
             "<img src='"+ image +"' width='620' />"+
             "<div class='op'>"+
                 "<label for='referrer'>照片来源网址（原创则留空）</label><br />"+
-                "<input type='text' id='referrer' />"+
+                "<input type='text' id='referrer' value='"+ referrer +"' />"+
                 "<label for='title'>照片标题（一句话形容这幅作品，必填）</label><br />"+
                 "<input type='text' id='title' />"+
                 "<label for='cat'>照片主题</label><br />"+
                 $("#category").html()+"<br />"+
-                "<a href='#' class='actionButton blueButton'"+
+                "<a href='javascript:;' class='actionButton blueButton'"+
                 " id='publishNewBtn'>发布新照片</a>"+
             "</div>"+
           "</div>").appendTo(container);
+
+        $("#referrer").focus();
+    }
+
+    var loadingCount = 0;
+    //将网址中包含的图片加载后添加到页面中
+    //并绑定响应事件
+    function createGridPreview(result, $btn, url){
+        $btn.text("重新获取");
+        var $container = $(".preview-small-container");
+        $container.show();
+
+        var images = result.images;
+        if (result.error) {
+            alert(result.message);
+            return false;
+        }
+        else if (images.length === 0) {
+            $container.find("label").text("目标网页中没有分析到有效的照片！");
+            removeAjaxMessage();
+        }
+        else{
+            var domain = url.replace(/^(https?:\/\/[^\/]+).+$/i, "$1");
+
+            loadingCount = images.length;
+            for(var i=0, l=images.length; i<l; ++i){
+                var image = new Image();
+                //前端手动fix src不包含域名的问题
+                if (!images[i].match(/https?:\/\//i)) {
+                    images[i] = domain + images[i];
+                }
+
+                image.src = images[i];
+                image.onload = appendSmallPreview.bind(this, image, $container);
+                image.onerror = function(){
+                    loadingCount--;
+                    isAllPreviewLoaded();
+                };
+            }
+        }
+
+        $(".preview-small").live("click", clickPreview);
+    }
+
+    //单幅图片加载完成后的回调方法
+    function appendSmallPreview(image, $container){
+        var width = image.naturalWidth ?
+                        image.naturalWidth :
+                        image.width;
+        var height = image.naturalHeight ?
+                        image.naturalHeight :
+                        image.height;
+        //过滤掉宽度或高度小于100的图片
+        //考虑缩略图的大小后，尽量过滤到垃圾图片
+        if (width < 100 || height < 100) {
+            loadingCount--;
+            isAllPreviewLoaded();
+            return true;
+        }
+
+        $("<div class='preview-small'>"+
+            "<img src='" + image.src + "' width='80' height='80' "+
+               "data-width='"+width+"' data-height='"+height+"'" +"/>"+
+         "</div>").
+        appendTo($container);
+
+        loadingCount--;
+        isAllPreviewLoaded();
+    }
+
+    //点击小图预览后的回到方法
+    function clickPreview(d){
+        var target = d.target || d.srcElement;
+        var imageSrc = target.src;
+        createPreview(imageSrc, $("#crawlDiv"));
+
+        $("#picHeight").val(target.getAttribute('data-height'));
+        $("#picWidth").val(target.getAttribute('data-width'));
+        $("#filename").val(imageSrc);
+
+        var offsetTop = $(".preview").offset().top;
+        self.addPic();
+        $("html, body").animate({"scrollTop": offsetTop - 20});
+    }
+
+    //当所有缩略图加载完毕后的回调
+    function isAllPreviewLoaded(){
+        if (loadingCount === 0) {
+            removeAjaxMessage();
+            if ($(".preview-small").length === 0) {
+                $(".preview-small-container label").text('目标网页中没有分析到有效的照片！');
+            }
+        }
     }
 
 };

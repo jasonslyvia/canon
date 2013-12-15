@@ -26,7 +26,7 @@ if (!is_user_logged_in()) {
   <div class="headerSpacer"> </div>
   <div id="maincontent" class="center" style="width:700px;">
 
-    <h1>上传新照片</h1>
+    <h1>添加新内容</h1>
     <div id="panelLogin" class="panel"></div>
 
     <div id="uploadDiv" class="wrapSignupForm">
@@ -49,7 +49,10 @@ if (!is_user_logged_in()) {
       <h2>或直接获取网络照片</h2>
       <label for="url">请将图片地址或图片所在的网页地址粘贴至此</label>
       <input type="text" id="url" />
-      <a class="actionButton" href="#" id="remoteImgBtn">一键获取</a>
+      <a class="actionButton" href="javascript:;" id="remoteImgBtn">一键获取</a>
+      <div class="preview-small-container clearfix">
+        <label>请选择要添加的照片</label>
+      </div>
     </div>
 
   </div>

@@ -14,6 +14,8 @@
  */
 header('Content-Type: application/json');
 require('common.php');
+define(DEFAULT_WIDTH, 200);
+
 
 if (verify_ajax(array("filename", "title"), "post", true, "upload_pic")) {
 
@@ -21,6 +23,11 @@ if (verify_ajax(array("filename", "title"), "post", true, "upload_pic")) {
     $userId = get_current_user_id();
     $title = $_POST['title'];
     $category = $_POST['category'];
+
+    if (preg_match('/^https?:\/\//i', $filename)) {
+        $filename = save_remote_image($filename);
+    }
+
     //添加新文章
     $post_name = basename($filename);
     $post_id = wp_insert_post(array("post_author" => $userId,
@@ -52,5 +59,107 @@ if (verify_ajax(array("filename", "title"), "post", true, "upload_pic")) {
     }
 }
 
+
+/*
+ *  将远程图片保存到本地，保存规则为 uploads/images/用户数字id/图片名
+ *  图片名为图片文件名（不含后缀）md5后加后缀
+ *
+ *  @param {string} $url 远程图片地址
+ *  @return {string} 返回新保存文件的文件名
+ */
+function save_remote_image($url){
+    $user = get_current_user_id();
+    $target_folder = '../uploads/images/'.$user;
+    //检查目标文件夹是否存在，若不存在则尝试创建
+    if (!file_exists($target_folder)) {
+        if(!@mkdir($target_folder) || !chmod($target_folder, 0755)){
+            send_result(true, "无法创建文件夹");
+        }
+    }
+
+    $path = preg_replace('/^https?:\//i', '', $url);
+    $p_info = pathinfo($path);
+    $filename = $p_info["filename"];
+    $extension = $p_info["extension"];
+
+    $image = file_get_contents($url);
+    if (strlen($image) > 5242880) {
+        send_result(true, "远程图片大小超过限制！");
+    }
+
+    $new_filename = md5($filename) . '.' . $extension;
+    $target_file = $target_folder . '/' . $new_filename;
+    if (file_put_contents($target_file, $image)) {
+        $thumbname = $target_folder. '/' .md5($filename).'_200.';
+        create_thumb($target_file, $thumbname, 200);
+        return $new_filename;
+    }
+    else{
+        send_result(true, "远程图片保存失败！");
+    }
+}
+
+
+/*
+ *  创建指定尺寸的缩略图
+ *
+ *  @param {string} $filename 图像文件名
+ *  @param {string} $thumbname 缩略图文件名
+ *  @param {int} optional $target_width 目标尺寸，不设置则为 DEFAULT_WIDTH
+ */
+function create_thumb($filename, $thumbname, $target_width){
+    //获取图片长宽信息
+    list($width, $height) = getimagesize($filename);
+    $target_width = $target_width ? $target_width : DEFAULT_WIDTH;
+
+    $extension = pathinfo($filename);
+    $extension = $extension['extension'];
+
+    if ($width > $target_width) {
+        //创建宽度为 target_width 的缩略图
+        $newwidth = $target_width;
+        $newheight = $height * $newwidth / $width;
+
+        switch ($extension) {
+            case 'jpg':
+            case 'jpeg':
+                $src = imagecreatefromjpeg($filename);
+                break;
+            case 'png':
+                $src = imagecreatefrompng($filename);
+                break;
+            case 'gif':
+                $src = imagecreatefromgif($filename);
+                break;
+            default:
+                $src = null;
+                break;
+        }
+
+        if ($src) {
+            //创建空白画布
+            $dst = imagecreatetruecolor($newwidth, $newheight);
+            //获得新尺寸的图像
+            imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+            //将新图像储存
+            switch ($extension) {
+                case 'jpg':
+                case 'jpeg':
+                    $new_pic = imagejpeg($dst, $thumbname .'jpg');
+                    break;
+                case 'png':
+                    $new_pic = imagepng($dst, $thumbname .'png');
+                    break;
+                case 'gif':
+                    $new_pic = imagegif($dst, $thumbname .'gif');
+                    break;
+                default:
+                    break;
+            }
+            //释放内存
+            imagedestroy($dst);
+        }
+    }
+}
 
  ?>

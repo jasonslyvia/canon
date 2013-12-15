@@ -597,6 +597,9 @@ margin: 0 0 0 0;
 float: left;
 margin: 0 0 1px 1px;
 position: relative;
+width: 105px;
+height: 79px;
+overflow: hidden;
 }
 
 #details .similar li.first {

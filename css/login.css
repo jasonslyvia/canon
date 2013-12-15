@@ -322,6 +322,29 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 .ajax-message span{
     vertical-align: middle;
 }
+.preview-small-container{
+    display: none;
+    margin-top: 15px;
+}
+#maincontent .preview-small-container label{
+    display: block;
+    margin: 10px 0 10px;
+    padding: 10px 0 5px;
+    border-bottom: 1px #ededed solid;
+}
+.preview-small{
+    float: left;
+    width: 80px;
+    height: 80px;
+    border: 4px #eee solid;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: .2s all;
+}
+
+.preview-small:hover{
+    border: 4px #ccc solid;
+}
 
 
 #maincontent.settings label{

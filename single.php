@@ -126,7 +126,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
         echo "<li{$li_class}>".
             "<a href='" . get_permalink() . "' data-id='" . get_the_ID() . "'>".
                 "<img src='".get_thumb(get_the_content(), $author_id, true)."'
-                      width='100'  height='75' />".
+                      style='min-width:105px;min-height:79px;' />".
             "</a>";
     }
     wp_reset_postdata();
