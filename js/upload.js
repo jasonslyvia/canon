@@ -84,7 +84,7 @@ gbks.common.uploadImage = function(){
 
             var referrer = $("#referrer").val();
             var title = $("#title").val();
-            var category = $("#cat").val();
+            var category = $("#picCat").val();
 
             if (typeof nonce === undefined) {
                 alert("获取用户登录凭证失败！");
@@ -213,11 +213,12 @@ gbks.common.uploadImage = function(){
 
     //为单幅图片添加信息、发布按钮
     function createPreview(image, container){
+        console.log("createPreview called! ");
         $(".preview").remove();
 
         var referrer = "";
         if ($("#url").length) {
-            var referrer = $.trim($("#url").val());
+            referrer = $.trim($("#url").val());
         }
 
         $("<div class='preview'>"+
@@ -228,7 +229,9 @@ gbks.common.uploadImage = function(){
                 "<label for='title'>照片标题（一句话形容这幅作品，必填）</label><br />"+
                 "<input type='text' id='title' />"+
                 "<label for='cat'>照片主题</label><br />"+
-                $("#category").html()+"<br />"+
+                "<select id='picCat'>"+
+                $("#category select").html()+
+                "</select>" + "<br />"+
                 "<a href='javascript:;' class='actionButton blueButton'"+
                 " id='publishNewBtn'>发布新照片</a>"+
             "</div>"+
