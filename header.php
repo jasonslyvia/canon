@@ -42,6 +42,9 @@
     <?php if (is_custom_category()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/overview.css" type="text/css" media="all" />
     <?php endif ?>
+    <?php if (is_search()): ?>
+    <link rel="stylesheet" href="<?php echo URL;?>/css/search.css" type="text/css" media="all" />
+    <?php endif; ?>
 
 
     <script src="<?php echo URL;?>/js/modernizr.js"></script>
@@ -54,7 +57,7 @@
     <div id="kaori" class="nodrag">
 
       <div class="search">
-        <input type="text" name="term" />
+        <input type="text" name="s" />
       </div>
 
       <?php if (is_user_logged_in()): $user = wp_get_current_user(); ?>

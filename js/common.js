@@ -1686,17 +1686,18 @@ gbks.common.Kaori = function () {
         this.nav = $("#luka");
         this.expandClass = "hidenav";
         this.expandTimer = null;
-        this.autoComplete = null;
-        this.badWords = [];
-        this.searchFocused = !1;
+
         new FastClick(document.body);
+
         this.hamburgerTime = null;
         $(".hamburger", this.nav).click($.proxy(this.onClickHamburger, this));
         $("#images").length > 0 && $("li", this.canvas).click($.proxy(this.clickNavItem, this));
-        this.keyUpMethod = $.proxy(this.keyUp, this);
+
         this.resizeTimer = null;
         $(window).resize($.proxy(this.onWindowResize, this));
-        this.resize()
+        this.resize();
+
+        this.initSearch();
     };
     this.onWindowResize = function (e) {
         clearTimeout(this.resizeTimer);
@@ -1724,7 +1725,7 @@ gbks.common.Kaori = function () {
         return !e
     };
     this.updateTileLayout = function () {
-        gbks.tilesInstance && gbks.tilesInstance.layout()
+        gbks.tilesInstance && gbks.tilesInstance.layout();
     };
     this.expand = function (e) {
         clearTimeout(this.expandTimer);
@@ -1744,56 +1745,27 @@ gbks.common.Kaori = function () {
         }, 350);
         this.canvas.animate({
             width: 60
-        }, 350)
+        }, 350);
     };
-    // this.clickNavItem = function (e) {
-    //     var t = $(e.currentTarget);
-    //     if (t.hasClass("arrow")) {
-    //         e.preventDefault();
-    //         e.stopPropagation();
-    //         this.canvas.toggleClass("showall")
-    //     } else {
-    //         var n = t.attr("data-type"),
-    //             r = t.attr("data-id"),
-    //             i = gbks.tilesInstance;
-    //         if (i && n && n.length > 0) {
-    //             i.config = {
-    //                 type: n,
-    //                 page: 0,
-    //                 id: r
-    //             };
-    //             i.currentPage = -1;
-    //             i.itemCount = null;
-    //             i.clear();
-    //             i.loadMore();
-    //             $("li", this.canvas).removeClass("active");
-    //             t.addClass("active");
-    //             var s = $("a", t),
-    //                 o = s.attr("title"),
-    //                 u = s.attr("href");
-    //             gbks.common.history.push(u, o);
-    //             o && o.length > 0 && $("p", this.nav).html(o);
-    //             window.scrollTo(0, 0);
-    //             gbks.common.track("Kaori", n, r ? r : "");
-    //             Modernizr.touch && this.canvas.removeClass("expand");
-    //             e.preventDefault();
-    //             e.stopPropagation()
-    //         } else if (Modernizr.touch && t.hasClass("search")) {
-    //             var a = this.toggle();
-    //             a && this.searchField.focus()
-    //         }
-    //     }
-    // };
     this.isExpanded = function () {
         return this.lukas.hasClass(this.expandClass)
     };
-    this.keyUp = function (e) {
-        switch (e.which) {
-        case 13:
-            this.performSearch()
-        }
-        this.autoComplete ? this.updateAutoComplete() : this.loadAutoComplete()
-    };
+    this.initSearch = function(){
+        $(".search input").bind("keyup", function(e){
+            if (e.keyCode === 13) {
+                var $input = $(this);
+                var term = $.trim($input.val());
+                if (!term) {
+                    alert("请输入要搜索的关键词！");
+                    $input.focus();
+                    return false;
+                }
+                else{
+                    window.location = "/?s="+encodeURI(term);
+                }
+            }
+        });
+    }
 };
 
 

@@ -1,0 +1,224 @@
+.bookmark h3 a {
+color: black;
+font-size: 16px;
+}
+
+.bookmark p {
+color: #777;
+font-size: 11px;
+}
+
+.bookmark {
+width: 500px;
+border-bottom: 1px solid #DDD;
+margin: 10px 0 0 0;
+padding: 0 0 12px 0;
+}
+
+.bookmark .options {
+float: right;
+font-size: 11px;
+color: #777;
+}
+
+#images {
+position: relative;
+}
+
+#page {
+position: relative;
+}
+
+#intro {
+background-color: white;
+width: 236px;
+padding: 13px 0 10px 0;
+border: 1px solid #dedede;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+display: none;
+}
+
+#intro h1 {
+font-weight: normal;
+font-size: 13px;
+line-height: 20px;
+margin-bottom: 15px;
+color: #999;
+padding: 5px 23px 0 23px;
+}
+
+#intro h1 b {
+font-size: 18px;
+color: black;
+}
+
+#intro .options {
+color: #777;
+padding: 0 0 10px 5px;
+}
+
+#intro .options a {
+text-decoration: underline;
+}
+
+#intro .section {
+margin-top: 10px;
+padding: 5px 5px 5px 5px;
+}
+
+#intro .section h3 {
+font-size: 13px;
+font-weight: bold;
+margin: 0 0 5px 0;
+}
+
+#intro .section p {
+font-size: 11px;
+line-height: 17px;
+color: #777777;
+}
+
+#intro .groups p .owner {
+color: #777777;
+}
+
+#intro .groups p .owner:hover {
+color: #008ed3;
+}
+
+#intro.tile.empty h1,
+#intro.tile.empty h1 b {
+font-size: 18px;
+line-height: 24px;
+}
+
+#intro .specialTerm {
+text-align: center;
+margin: 15px 0 15px 0;
+}
+
+/** User tile **/
+
+.usertile {
+padding: 14px 18px 18px 18px;
+background-color: #fff;
+-moz-transition: box-shadow 0.15s ease-out;
+-o-transition: box-shadow 0.15s ease-out;
+-webkit-transition: box-shadow 0.15s ease-out;
+-ms-transition: box-shadow 0.15s ease-out;
+transition: box-shadow 0.15s ease-out;
+border: 1px solid #dedede;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+width: 200px;
+display: none;
+}
+
+.usertile:hover {
+-moz-box-shadow: 0 1px 2px rgba(0,0,0,.25);
+-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.25);
+box-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+
+.usertile h4 {
+margin: 0;
+padding: 0 0 10px 0;
+font-size: 16px;
+word-wrap: break-word;
+}
+
+.usertile p {
+font-size: 11px;
+line-height: 14px;
+color: #777;
+padding: 8px 0 0 0;
+}
+
+/** Nav **/
+
+#intro .nav li {
+border-top: 1px solid #ffffff;
+border-bottom: 1px solid #ffffff;
+}
+
+#intro .nav li:last-child {
+border-bottom: 0px;
+}
+
+#intro .nav li a {
+display: block;
+padding: 10px 5px 10px 20px;
+font-size: 13px;
+color: #777;
+}
+
+#intro .nav li a:hover {
+color: #008ed3;
+}
+
+#intro .nav li:hover {
+background-color: #f8f8f8;
+}
+
+#intro .nav li.active a {
+color: #000000;
+}
+
+#intro .nav li.active {
+border-top: 1px solid #dedede;
+border-bottom: 1px solid #dedede;
+  background-color: #f8f8f8;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#eeeeee));
+  background-image: -webkit-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: -moz-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: -ms-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: -o-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: linear-gradient(top, #f8f8f8, #eeeeee);
+-moz-box-shadow: inset 0 1px 0 white;
+cursor: default;
+}
+
+#searchBlank {
+  text-align: center;
+}
+
+#searchBlank input {
+  margin: 0 auto;
+  font-size: 18px;
+  color: #666;
+  width: 400px;
+}
+
+#searchBlank h2 {
+  font-size: 18px;
+  margin: 20px 0 15px 0;
+}
+
+#searchBlank .tips {
+  margin: 50px auto 0 auto;
+  border-top: 1px solid #dedede;
+  width: 520px;
+}
+
+#searchBlank .tips h3 {
+  font-size: 13px;
+  margin: 0;
+  padding-top: 50px;
+  border-top: 1px solid #f8f8f8;
+}
+
+#searchBlank .tips ol {
+  margin-top: 20px;
+}
+
+#searchBlank .tips li {
+  float: left;
+  padding: 0 5px 0 5px;
+}
+
+#searchBlank .tips li img {
+  border: 1px solid #dedede;
+}
