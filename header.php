@@ -30,7 +30,7 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="<?php echo URL;?>/style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="<?php echo URL;?>/css/home.css" type="text/css" media="all" />
-    <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page()): ?>
+    <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/login.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_profile() && !is_activity()): ?>

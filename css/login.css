@@ -237,6 +237,12 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
     width: 98%;
 }
 
+#updateDiv .preview{
+    padding-top:0;
+    margin-top: 0;
+    border:0;
+}
+
 .wrapSignupForm .preview{
     margin: 20px 0;
     padding: 15px 0;
@@ -245,7 +251,8 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
     text-align: center;
 }
 
-#publishNewBtn{
+#publishNewBtn,
+#updateBtn{
     display: inline-block;
     margin-top: 15px;
     height: 25px;

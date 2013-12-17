@@ -33,6 +33,10 @@
     <?php if (is_single()): ?>
         <script type="text/javascript" src="<?php echo URL;?>/js/image.js"></script>
     <?php endif ?>
+
+    <?php if (is_edit()): ?>
+        <script type="text/javascript" src="<?php echo URL;?>/js/edit.js"></script>
+    <?php endif ?>
   </body>
 
 </html>

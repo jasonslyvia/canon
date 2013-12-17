@@ -2243,44 +2243,21 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 
 #groupsOverlay .closeButton,
-#groupsOverlay .privateButton {
+#groupsOverlay .privateButton,
+#groupsOverlay .editButton {
   float: left;
-  margin-left: 10px;
+  margin-right: 10px;
   height: 26px;
   padding: 0;
   cursor: pointer;
-}
-
-#groupsOverlay .privateButton {
-  line-height: 25px;
-  width: 27px;
-  text-align: center;
-  text-indent: -1000px;
-  overflow: hidden;
-}
-
-#groupsOverlay .privateButton span {
-  opacity: 0.75;
-  background-image: url('./img/key.png');
-  background-position: center center;
-  background-repeat: no-repeat;
-  display: block;
 }
 
 #groupsOverlay .privateButton:hover span {
   opacity: 1;
 }
 
-#groupsOverlay .privateButton.active span {
-  opacity: 1;
-  background-image: url('./img/key-active.png');
-}
-
-#groupsOverlay .privateButton.loading span {
-  background-image: url('./img/loader.gif');
-}
-
-#groupsOverlay .closeButton span {
+#groupsOverlay .closeButton span,
+#groupsOverlay .editButton a {
   line-height: 25px;
   vertical-align: middle;
   padding: 0 7px 0 8px;
@@ -2293,7 +2270,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 #groupsOverlay .topOptions {
   position: absolute;
-  right: 12px;
+  right: 0;
   top: 12px;
 }
 

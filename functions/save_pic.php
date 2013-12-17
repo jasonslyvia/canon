@@ -19,6 +19,15 @@ if(verify_ajax(array("imageId"),
 
     $image_id = $_POST['imageId'];
     $user_id = get_current_user_id();
+    $author_id = get_post($image_id)->post_author;
+    if ($user_id == $author_id) {
+        $edit_btn = "<div class='editButton actionButton blueButton'>".
+                        "<a href='/edit?pid={$image_id}'>编辑信息</a>".
+                    "</div>";
+    }
+    else{
+        $edit_btn = "";
+    }
 
     $URL = URL;
 
@@ -31,6 +40,7 @@ if(verify_ajax(array("imageId"),
         </div>
         <h3><img src="{$URL}/img/check-circle.png" width="19" height="19">保存成功</h3>
         <div class="topOptions">
+            {$edit_btn}
             <div class="closeButton actionButton"><span>完成</span></div>
         </div>
     </div>
