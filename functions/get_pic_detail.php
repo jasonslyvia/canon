@@ -148,7 +148,7 @@ html;
     </div>
     <div class="wrap">
         <div class="imageWrap">
-            <a href="/{$permalink}" target="_blank">
+            <a href="{$referer}" target="_blank">
                 <img src="$pic"
                 alt="{$title}" width="{$width}" height="{$height}"
                 data-width="{$width}" data-height="{$height}"/>

@@ -26,7 +26,7 @@ $c_liked_record = $wpdb->get_col("
 
 $id = get_the_ID();
 //author_id决定了当前图片的储存位置
-//BUG，直接使用 get_the_author_meta 不行？？
+//BUG，直接使用 get_the_author_meta('ID') 不行？？
 $post = get_post($id);
 $author_id = $post->post_author;
 $author_name = get_userdata($author_id)->display_name;
@@ -84,7 +84,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
              data-width="<?php echo $width; ?>" data-height="<?php echo $height; ?>"
              style="background-color: #f8f8f8">
             <div class="image">
-                <a href="#"
+                <a href="<?php echo $referer; ?>"
                    target="_blank" rel="nofollow">
                    <img src="<?php echo IMAGE_PATH . $author_id . '/'. $image; ?>"
                         alt="<?php the_title(); ?>" />
