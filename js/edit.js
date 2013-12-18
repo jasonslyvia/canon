@@ -34,10 +34,13 @@ $("#updateBtn").bind("click", function(e){
             nonce: nonce
         },
         success: function(result){
-            $(".ajax-message").remove();
+            $(".ajax-message").empty();
             if (result.error) {
               alert(result.message);
               return false;
+            }
+            else{
+                $(".ajax-message").append(result.message + "跳转中……");
             }
 
             location.href = "/?p=" + result.pid;

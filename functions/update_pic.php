@@ -28,7 +28,7 @@ if (verify_ajax(array("pid"), "post", true, "upload_pic")) {
     $referrer = $_POST['referrer'];
 
     $post = array("ID" => $pid,
-                  "title" => $title,
+                  "post_title" => $title,
                   "post_category" => array($category));
     $update_result = wp_update_post($post);
     update_post_meta($pid, 'referrer', $referrer);

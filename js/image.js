@@ -44,16 +44,16 @@ gbks.Image = function() {
 
     $('#details .expander').click($.proxy(this.onClickExpand, this));
 
-    if(gbks.common.history.supported()) {
-      $('.similar li a').live('click', $.proxy(this.onClickSimilarImage, this));
-      $('#moreImages li a').live('click', $.proxy(this.onClickMoreImage, this));
-      $('#nextImage a').live('click', $.proxy(this.onClickNextImage, this));
+    // if(gbks.common.history.supported()) {
+    //   $('.similar li a').live('click', $.proxy(this.onClickSimilarImage, this));
+    //   $('#moreImages li a').live('click', $.proxy(this.onClickMoreImage, this));
+    //   $('#nextImage a').live('click', $.proxy(this.onClickNextImage, this));
 
-      $(window).bind('popstate', $.proxy(this.onHistoryChange, this));
+    //   $(window).bind('popstate', $.proxy(this.onHistoryChange, this));
 
-      $(window).keydown($.proxy(this.onKeyDown, this));
-      $(window).keyup($.proxy(this.onKeyDown, this));
-    }
+    //   $(window).keydown($.proxy(this.onKeyDown, this));
+    //   $(window).keyup($.proxy(this.onKeyDown, this));
+    // }
 
     this.updateImageSize();
     $(window).resize($.proxy(this.resize, this));

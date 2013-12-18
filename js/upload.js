@@ -61,7 +61,7 @@ gbks.common.uploadImage = function(){
         $(".preview").remove();
 
         var imageSrc = ABSPATH +"/uploads/images/"+ USER_ID+"/"+ filename;
-        createPreview(imageSrc, $("uploadDiv"));
+        createPreview(imageSrc, $("#uploadDiv"));
 
         self.addPic();
     };
@@ -217,9 +217,11 @@ gbks.common.uploadImage = function(){
         $(".preview").remove();
 
         var referrer = "";
-        if ($("#url").length) {
+        if ($("#url").val()) {
             referrer = $.trim($("#url").val());
         }
+
+        var selectHTML = $("#category select").html();
 
         $("<div class='preview'>"+
             "<img src='"+ image +"' width='620' />"+
@@ -230,7 +232,7 @@ gbks.common.uploadImage = function(){
                 "<input type='text' id='title' />"+
                 "<label for='cat'>照片主题</label><br />"+
                 "<select id='picCat'>"+
-                $("#category select").html()+
+                selectHTML +
                 "</select>" + "<br />"+
                 "<a href='javascript:;' class='actionButton blueButton'"+
                 " id='publishNewBtn'>发布新照片</a>"+

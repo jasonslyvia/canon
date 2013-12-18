@@ -28,7 +28,8 @@ $title = $post->post_title;
 $image_file = $post->post_content;
 $image = IMAGE_PATH.$uid.'/'.$image_file;
 $referrer = get_post_meta($pid, 'referrer', true);
-$category = get_the_category($pid)[0]->cat_ID;
+$category = get_the_category($pid);
+$category = $category[0]->cat_ID;
 
 get_header();
 
