@@ -42,7 +42,7 @@
     <?php if (is_custom_category()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/overview.css" type="text/css" media="all" />
     <?php endif ?>
-    <?php if (is_search()): ?>
+    <?php if (is_search() || is_admin_front()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/search.css" type="text/css" media="all" />
     <?php endif; ?>
 
@@ -80,6 +80,11 @@
         <li class="activity<?php if(is_activity()) echo ' active';?>">
           <a href="/profile/<?php echo $user->ID; ?>/activity" title="看看大家最近在干什么">动态</a>
         </li>
+        <?php if (is_current_user_admin()): ?>
+        <li class="admin<?php if(is_admin_front()) echo ' active';?>"">
+          <a href="/admin-front/">管理</a>
+        </li>
+        <?php endif ?>
         <li class="upload">
           <a href="/upload/" class="actionButton blueButton" title="分享你的新照片吧">上传</a>
         </li>

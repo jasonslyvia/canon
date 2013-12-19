@@ -1,4 +1,7 @@
 <?php
+/*
+ *  登录界面
+ */
 
 require('functions/settings.php');
 require(ABSPATH . '/wp-load.php');
@@ -30,13 +33,6 @@ if ($_POST) {
     }
 }
 
-
-
-//若是忘记密码
-if ($_GET['forget'] == 1) {
-    //
-}
-
  get_header();?>
 
 
@@ -52,35 +48,29 @@ if ($_GET['forget'] == 1) {
   <div id="maincontent" class="center">
 
     <h1>欢迎回来</h1>
-
     <div id="panelLogin" class="panel"></div>
-
     <?php if (isset($login_error)): ?>
         <div class="error">
             <p><?php echo($login_error); ?></p>
         </div>
     <?php endif ?>
-
     <div class="wrapSignupForm">
 
       <h2>通过邮箱登录</h2>
       <form action="/login" method="post" accept-charset="utf-8" id="form_login">
 
         <label for="email">Email</label> <br />
-
         <input type="text" name="user_email" value="" /> <br />
 
         <label for="pass">密码</label> <br />
-
         <input type="password" name="user_password" value="" /> <br />
 
         <input type="submit" name="send" value="登录" />
 
       </form>
     </div>
-
     <div class="resetPassword">
-      <p><a href="/login?forget=1">忘记密码</a></p>
+      <p><a href="/forgetpassword">忘记密码</a> - <a href="/signup">注册</a></p>
     </div>
 
   </div>

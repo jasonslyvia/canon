@@ -167,6 +167,21 @@ function init_table(){
     ");
 
     echo "用户关注表初始化成功";
+
+    $init_reset_password = $wpdb->get_results("
+        delimiter $$
+
+        CREATE TABLE `reset_password` IF NOT EXISTS (
+          `reset_id` int(11) NOT NULL AUTO_INCREMENT,
+          `email` varchar(128) NOT NULL,
+          `token` varchar(512) NOT NULL,
+          `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          `reseted_flag` tinyint(1) NOT NULL DEFAULT 0,
+          PRIMARY KEY (`reset_id`),
+          UNIQUE KEY `reset_id_UNIQUE` (`reset_id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1$$
+    ");
+    echo "密码重置表初始化成功";
 }
 
 //重置所有数据

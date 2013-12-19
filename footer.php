@@ -37,6 +37,9 @@
     <?php if (is_edit()): ?>
         <script type="text/javascript" src="<?php echo URL;?>/js/edit.js"></script>
     <?php endif ?>
+    <?php if (is_admin_front()): ?>
+        <script type="text/javascript" src="<?php echo URL;?>/js/admin.js"></script>
+    <?php endif ?>
   </body>
 
 </html>
