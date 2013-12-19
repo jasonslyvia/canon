@@ -31,8 +31,10 @@ function themes_dir_add_rewrites() {
   $new_non_wp_rules = array(
     'signup/?$' => 'wp-content/themes/'. $theme_name . '/signup.php',
     'login/?$' => 'wp-content/themes/'. $theme_name . '/login.php',
+    'forgetpassword/?$' => 'wp-content/themes/'. $theme_name . '/forget-password.php',
     'upload/?$' => 'wp-content/themes/'. $theme_name . '/upload.php',
     'edit?pid=\d+$' => 'wp-content/themes/'. $theme_name . '/edit.php',
+    'admin-front/?$' => 'wp-content/themes/'. $theme_name . '/admin-front.php',
     'categories/?$' => 'wp-content/themes/'. $theme_name . '/category-all.php',
     'profile/\d+/?$' => 'wp-content/themes/' . $theme_name . '/user-profile.php',
     'profile/\d+/notes/?$' => 'wp-content/themes/' . $theme_name . '/user-notes.php',
@@ -47,7 +49,7 @@ function themes_dir_add_rewrites() {
 
 //定义几个检测当前页面的工具函数
 function is_login(){
-    return preg_match('/^\/login\/?$/i', $_SERVER['REQUEST_URI']);
+    return preg_match('/^\/(login|forgetpassword)/i', $_SERVER['REQUEST_URI']);
 }
 function is_signup(){
     return preg_match('/^\/signup\/?$/i', $_SERVER['REQUEST_URI']);
@@ -80,6 +82,16 @@ function is_recent(){
 }
 function is_custom_category(){
     return preg_match('/^\/categor.+?\/?$/i', $_SERVER['REQUEST_URI']);
+}
+function is_admin_front(){
+    return preg_match('/^\/admin-front\/?$/i', $_SERVER['REQUEST_URI']);
+}
+
+
+//检查当前用户是否为管理员
+function is_current_user_admin(){
+    $user = wp_get_current_user();
+    return in_array("administrator", (array)$user->roles);
 }
 /*****************************************\
 

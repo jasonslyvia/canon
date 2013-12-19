@@ -121,6 +121,7 @@ else{
   $default_class = " class='active'";
 }
 
+//显示符合搜索结果的用户数
 $user_find = $wpdb->get_var(
     $wpdb->prepare("
         SELECT count(*) FROM wp_users

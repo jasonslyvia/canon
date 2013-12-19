@@ -230,7 +230,7 @@ gbks.common.uploadImage = function(){
                 "<input type='text' id='referrer' value='"+ referrer +"' />"+
                 "<label for='title'>照片标题（一句话形容这幅作品，必填）</label><br />"+
                 "<input type='text' id='title' />"+
-                "<label for='cat'>照片主题</label><br />"+
+                "<label for='cat'>照片主题</label>"+
                 "<select id='picCat'>"+
                 selectHTML +
                 "</select>" + "<br />"+

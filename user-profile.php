@@ -59,7 +59,7 @@ if ($user->ID == $c_user_id) {
 }
 
 /*======================================
-构建WP_Query，选出当前被浏览用户保存的所有图片
+构建WP_Query，选出当前 被 浏览用户保存的所有图片
 ======================================*/
 $saved_record = $wpdb->get_col("
     SELECT pic_id as p FROM pic_save
@@ -72,7 +72,8 @@ if (count($saved_record) == 0) {
   $post_count = 0;
 }
 else{
-  $args = array("post__in" => $saved_record);
+  $args = array("post__in" => $saved_record,
+                "posts_per_page" => 100);
   $query = new WP_Query($args);
   $post_count = $query->found_posts;
 }

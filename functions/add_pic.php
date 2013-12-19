@@ -24,8 +24,22 @@ if (verify_ajax(array("filename", "title"), "post", true, "upload_pic")) {
     $title = $_POST['title'];
     $category = $_POST['category'];
 
+    //若是远程图片，首先将其保存到本地
     if (preg_match('/^https?:\/\//i', $filename)) {
         $filename = save_remote_image($filename);
+    }
+
+    //根据用户所处的用户组，判断内容是否需要审核
+    $author = wp_get_current_user();
+
+    //若用户不是『订阅者』（Wordpress默认用户角色），则无需审核
+    if (!in_array("subscriber", (array)$author->roles)) {
+        $post_status = "publish";
+        $result_message = "照片发布成功！";
+    }
+    else{
+        $post_status = "draft";
+        $result_message = "照片发布成功，请等待管理员审核！";
     }
 
     //添加新文章
@@ -36,7 +50,7 @@ if (verify_ajax(array("filename", "title"), "post", true, "upload_pic")) {
                                                           26),
                                     "post_content" => $filename,
                                     "post_title" => $title,
-                                    "post_status" => 'publish',
+                                    "post_status" => $post_status,
                                     "post_category" => array($category)));
     if (!$post_id) {
         send_result(true, "无法创建新内容");
@@ -55,7 +69,7 @@ if (verify_ajax(array("filename", "title"), "post", true, "upload_pic")) {
                                      array("pic_id" => $post_id,
                                            "user_id" => $userId));
 
-        send_result(false, "照片发布成功！", array("postId" => $post_id));
+        send_result(false, $result_message, array("postId" => $post_id));
     }
 }
 
