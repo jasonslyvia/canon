@@ -93,7 +93,9 @@ else if($_POST['user_email']){
         }
         add_filter( 'wp_mail_from_name', 'cdx_from_name' );
 
-        $email_result = wp_mail($email, $subject, $message);
+        $headers = "Content-type: text/html". "\r\n";
+
+        $email_result = wp_mail($email, $subject, $message, $headers);
         if ($email_result) {
             $reset_message = "密码重置链接已经发送到您的邮箱，请查收。";
         }

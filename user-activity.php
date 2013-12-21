@@ -60,6 +60,7 @@ $activity_result = $wpdb->get_results("
   left join wp_users u on u.ID = op.user_id
   left join wp_posts p on p.ID = pic_id
   left join wp_usermeta pm on (pm.user_id = op.user_id and pm.meta_key = 'avatar_small')
+  where p.post_status = 'publish'
   order by time desc
   ");
 
