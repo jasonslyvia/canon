@@ -52,7 +52,7 @@ function is_login(){
     return preg_match('/^\/(login|forgetpassword)/i', $_SERVER['REQUEST_URI']);
 }
 function is_signup(){
-    return preg_match('/^\/signup\/?$/i', $_SERVER['REQUEST_URI']);
+    return preg_match('/^\/signup/i', $_SERVER['REQUEST_URI']);
 }
 function is_edit(){
     return preg_match('/^\/edit/i', $_SERVER['REQUEST_URI']);
