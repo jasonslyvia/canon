@@ -58,8 +58,6 @@ gbks.Polaroid = function () {
         this.autoComplete = null;
         this.focusedField = null;
         this.lastFocusedField = null;
-        this.keyPressMethod = $.proxy(this.onKeyPress, this);
-        this.keyUpMethod = $.proxy(this.onKeyUp, this);
         this.resizeMethod = $.proxy(this.onResize, this);
         this.showGroupInfoTimer = null;
         this.hideGroupInfoTimer = null;
@@ -71,7 +69,6 @@ gbks.Polaroid = function () {
 
         if (this.auth) {
             $(".like", t).live("click", $.proxy(this.onClickLikeImage, this));
-            $(".comment", t).live("click", $.proxy(this.onClickCommentIcon, this));
             $(".save", t).live("click", $.proxy(this.onClickSaveIcon, this));
         }
         else{
@@ -191,146 +188,12 @@ gbks.Polaroid = function () {
     };
 
     this.onLikeImage = function (e) {};
-    this.onClickCommentIcon = function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var t = $(e.currentTarget),
-            n = $(t.parents(".polaroid")[0]),
-            r = $(".comments", n),
-            i = $("form", r),
-            s = t.hasClass("active");
-        if (s) {
-            t.removeClass("active");
-            i.hide();
-            var o = $(".comments .comment", n);
-            o.length == 0 && r.hide()
-        } else {
-            t.addClass("active");
-            if (r.length == 0) {
-                r = $('<div class="comments"></div>');
-                var u = $(".stats", n),
-                    a = $(".groups", n);
-                u.length > 0 ? r.insertAfter(u) : a.length > 0 ? r.insertBefore(a) : n.append(r)
-            } else r.show();
-            var f = t.attr("data-id");
-            if (i.length == 0) {
-                var l = '<form action="/comment/add" method="post" class="formCreateComment">';
-                l += '  <textarea name="comment" cols="90" rows="12" ></textarea>';
-                l += '  <input type="hidden" name="imageId" value="' + f + '"  />';
-                l += '  <input type="submit" name="send" value="Submit"  />';
-                l += "</form>";
-                i = $(l);
-                r.append(i);
-                $("textarea", i).focus($.proxy(this.onFocusCommentForm, this));
-                $("textarea", i).blur($.proxy(this.onBlurCommentForm, this));
-                i.submit($.proxy(this.onClickSubmitComment, this))
-            } else i.show();
-            $("textarea", i).focus()
-        }
-        this.updateLayout()
-    };
-    this.onFocusCommentForm = function (e) {
-        this.focusedField = $(e.currentTarget);
-        $(document).bind("keypress", this.keyPressMethod);
-        $(document).bind("keyup", this.keyUpMethod)
-    };
-    this.onBlurCommentForm = function (e) {
-        var t = $(e.currentTarget);
-        if (this.focusedField[0] == t[0]) {
-            this.lastFocusedField = t;
-            this.focusedField = null;
-            setTimeout($.proxy(this.hideAutoComplete, this), 500)
-        }
-        $(document).unbind("keypress", this.keyPressMethod);
-        $(document).unbind("keyup", this.keyUpMethod)
-    };
+
     this.keyDown = function (e) {
-        e.which == 16 && (this.shiftDown = !0)
+        e.which == 16 && (this.shiftDown = !0);
     };
     this.keyUp = function (e) {
-        e.which == 16 && (this.shiftDown = !1)
-    };
-    this.onKeyPress = function (e) {
-        if (e.which == 13 && this.autoComplete && this.autoComplete.is(":visible")) {
-            var t = $("li:visible", this.autoComplete);
-            if (t.length > 0) {
-                e.stopPropagation();
-                e.preventDefault();
-                var n = $(t[0]);
-                n.length > 0 && this.handleAutoCompleteItemClick(n)
-            }
-        }
-    };
-    this.onKeyUp = function (e) {
-        this.auth && (this.autoComplete ? this.updateAutoComplete() : this.loadAutoComplete())
-    };
-    this.updateAutoComplete = function () {
-        if (!this.focusedField) return;
-        var e = this.focusedField.val(),
-            t = e.indexOf("@") != -1,
-            n = e.split("@"),
-            r = n[n.length - 1];
-        r = r.toLowerCase();
-        var i = $("li", this.autoComplete),
-            s = this.autoComplete && i.length > 0 && t,
-            o = 0;
-        if (s && r.length > 0) {
-            var u = 5,
-                a = 0,
-                f = i.length,
-                l, c, h, p, d;
-            for (; a < f; a++) {
-                l = $(i[a]);
-                h = l.attr("data-type");
-                c = l.attr("data-name");
-                p = unescape($("a", l).html());
-                if (o < u && h.length == 0 && (c && r.length == 0 || c.indexOf(r) == 0 || c.indexOf(p) == 0)) {
-                    l.show();
-                    o++
-                } else l.hide()
-            }
-        }!s || o == 0 ? this.hideAutoComplete() : this.autoComplete.show();
-        var v = this.focusedField.offset();
-        this.autoComplete.css({
-            left: v.left + "px",
-            top: v.top + this.focusedField.outerHeight() + "px",
-            width: this.focusedField.outerWidth() - 2
-        })
-    };
-    this.hideAutoComplete = function () {
-        this.autoComplete && this.autoComplete.hide()
-    };
-    this.loadAutoComplete = function () {
-        if (!this.autoComplete) {
-            this.autoComplete = $('<div id="commentAutoComplete"><ul></ul></div>');
-            $("body").append(this.autoComplete);
-            $("ul", this.autoComplete).load("/autocomplete", $.proxy(this.onLoadAutoComplete, this))
-        }
-    };
-    this.onLoadAutoComplete = function () {
-        var e = $("li", this.autoComplete);
-        e.click($.proxy(this.onClickAutoCompleteItem, this));
-        this.updateAutoComplete()
-    };
-    this.onClickAutoCompleteItem = function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var t = $(e.currentTarget);
-        this.handleAutoCompleteItemClick(t)
-    };
-    this.handleAutoCompleteItemClick = function (e) {
-        var t = $("a", e).html();
-        t = t.split("<span>");
-        t = t[0];
-        if (!this.lastFocusedField) return;
-        var n = this.lastFocusedField.val(),
-            r = n.split(" ");
-        r[r.length - 1] = "@" + t;
-        n = r.join(" ") + " ";
-        this.lastFocusedField.val(n);
-        this.lastFocusedField.focus();
-        this.setCursorPosition(this.lastFocusedField, n.length);
-        this.hideAutoComplete()
+        e.which == 16 && (this.shiftDown = !1);
     };
     this.setCursorPosition = function (e, t) {
         var n = e.get(0);
@@ -343,40 +206,7 @@ gbks.Polaroid = function () {
             r.select()
         }
     };
-    this.onClickSubmitComment = function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var t = $(e.currentTarget),
-            n = $('input[name="imageId"]', t).val(),
-            r = $("textarea", t).val(),
-            i = "/comment/add";
-        t.hide();
-        if (r.length > 0 && r != this.commentDefault) {
-            this.showLoader("Saving comment");
-            gbks.common.track("Polaroid", "Comment", n);
-            var s = {
-                imageId: n,
-                comment: r
-            };
-            $.ajax({
-                url: i,
-                data: s,
-                type: "POST",
-                success: $.proxy(this.onSubmitComment, this)
-            })
-        }
-        this.updateLayout()
-    };
-    this.onSubmitComment = function (e, t, n) {
-        var r = $(e),
-            i = r.attr("data-imageid"),
-            s = $("#image_" + i),
-            o = $(".comments", s);
-        o.append(e);
-        o.removeClass("empty");
-        this.updateLayout();
-        this.hideLoader()
-    };
+
     this.onClickSaveIcon = function (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -475,57 +305,57 @@ gbks.Polaroid = function () {
     this.onUnsaveImage = function (e) {
         console.log("onUnsaveImage", e)
     };
-    this.onFocusCreateGroupInput = function (e) {
-        console.log("onFocusCreateGroupInput", $("#formCreateGroup .addForm"));
-        $(".addForm", this.groupsOverlay).addClass("active");
-        this.onFocusInput(e)
-    };
-    this.onClickGroupOverlayUnsave = function (e) {
-        var t = $(e.currentTarget),
-            n = this.groupsOverlay.attr("data-imageId"),
-            r = $("#image_" + n);
-        this.unsaveImage(r)
-    };
-    this.onClickCreateGroup = function (e) {
-        e.preventDefault();
-        var t = $("#formCreateGroup", this.groupsOverlay),
-            n = $("input[type=text]", t),
-            r = $('input[name="imageId"]', t).val(),
-            i = n.val(),
-            s = n.attr("data-default"),
-            o = "/groups/create";
-        if (i.length > 0 && i != s) {
-            console.log("onClickCreateGroup", t, r, i, o);
-            gbks.common.track("Polaroid", "CreateGroup", i);
-            t.removeClass("active");
-            n.val("");
-            $("input", t).attr("disabled", !0);
-            $("input[type=submit]", this.groupsOverlay).addClass("loading");
-            var u = {
-                imageId: r,
-                groupName: i
-            };
-            $.ajax({
-                url: o,
-                data: u,
-                type: "POST",
-                success: $.proxy(this.onCreateGroup, this)
-            })
-        }
-    };
-    this.onCreateGroup = function (e) {
-        $("#formCreateGroup input[type=submit]", this.groupsOverlay).removeClass("loading");
-        $("#formCreateGroup input", this.groupsOverlay).removeAttr("disabled");
-        var t = $.parseJSON(e);
-        t = e;
-        console.log("onCreateGroup", e, t);
-        var n = '<li><input type="checkbox" name="groupId" value="' + t.id + '" checked="true" />' + t.name + "</li>",
-            r = $("ul", this.groupsOverlay),
-            i = $(r[r.length - 1]);
-        i.append(n);
-        r.removeClass("empty");
-        this.hideLoader()
-    };
+
+    // this.onFocusCreateGroupInput = function (e) {
+    //     $(".addForm", this.groupsOverlay).addClass("active");
+    //     this.onFocusInput(e)
+    // };
+    // this.onClickGroupOverlayUnsave = function (e) {
+    //     var t = $(e.currentTarget),
+    //         n = this.groupsOverlay.attr("data-imageId"),
+    //         r = $("#image_" + n);
+    //     this.unsaveImage(r)
+    // };
+    // this.onClickCreateGroup = function (e) {
+    //     e.preventDefault();
+    //     var t = $("#formCreateGroup", this.groupsOverlay),
+    //         n = $("input[type=text]", t),
+    //         r = $('input[name="imageId"]', t).val(),
+    //         i = n.val(),
+    //         s = n.attr("data-default"),
+    //         o = "/groups/create";
+    //     if (i.length > 0 && i != s) {
+    //         console.log("onClickCreateGroup", t, r, i, o);
+    //         gbks.common.track("Polaroid", "CreateGroup", i);
+    //         t.removeClass("active");
+    //         n.val("");
+    //         $("input", t).attr("disabled", !0);
+    //         $("input[type=submit]", this.groupsOverlay).addClass("loading");
+    //         var u = {
+    //             imageId: r,
+    //             groupName: i
+    //         };
+    //         $.ajax({
+    //             url: o,
+    //             data: u,
+    //             type: "POST",
+    //             success: $.proxy(this.onCreateGroup, this)
+    //         })
+    //     }
+    // };
+    // this.onCreateGroup = function (e) {
+    //     $("#formCreateGroup input[type=submit]", this.groupsOverlay).removeClass("loading");
+    //     $("#formCreateGroup input", this.groupsOverlay).removeAttr("disabled");
+    //     var t = $.parseJSON(e);
+    //     t = e;
+    //     console.log("onCreateGroup", e, t);
+    //     var n = '<li><input type="checkbox" name="groupId" value="' + t.id + '" checked="true" />' + t.name + "</li>",
+    //         r = $("ul", this.groupsOverlay),
+    //         i = $(r[r.length - 1]);
+    //     i.append(n);
+    //     r.removeClass("empty");
+    //     this.hideLoader()
+    // };
     this.updateStats = function (e, t, n) {
         var r = e.attr("data-likes"),
             i = e.attr("data-saves"),
@@ -669,7 +499,7 @@ gbks.Polaroid = function () {
             var r = $(n[0]);
             r.removeClass("nsfw");
             e.preventDefault();
-            e.stopPropagation()
+            e.stopPropagation();
         }
     }
 };
@@ -723,7 +553,7 @@ gbks.Tiles = function () {
         }
     };
     this.initAutoLayout = function () {
-        $(window).resize($.proxy(this.resize, this))
+        $(window).resize($.proxy(this.resize, this));
     };
     this.resize = function () {
         clearTimeout(this.layoutTimer);
@@ -754,7 +584,7 @@ gbks.Tiles = function () {
         for (n = 0; n < r; n++) a = Math.max(a, e[n]);
         u.parent().css({
             height: a + "px"
-        })
+        });
     };
     this.layout = function () {
         var e = $(".tile"),
@@ -831,7 +661,7 @@ gbks.Tiles = function () {
     this.evaluateScrollPosition = function () {
         var e = 750,
             t = this.getPageHeight() - this.getScrollHeight();
-        t < e && this.loadMore()
+        t < e && this.loadMore();
     };
     this.getScrollHeight = function () {
         var e;
@@ -866,6 +696,8 @@ gbks.Tiles = function () {
         }
         $(".tileTrash").remove()
     };
+
+    //加载更多
     this.loadMore = function () {
         this.currentPage++;
         var e = this;
@@ -905,18 +737,18 @@ gbks.Tiles = function () {
         //若是广告
         if (this.currentPage == 0 && this.superAds.length > 0) {
             var t = this.insertElementsAroundAds(e);
-            t && this.superAds.show()
+            t && this.superAds.show();
         } else {
             $("#images").append(e);
         }
         this.fadeImages();
         $("#noMoreImages").length == 0 && this.startEndlessScroll();
-        typeof _bsap != "undefined" && _bsap.exec();
+
         this.hideLoader();
         this.layout()
     };
     this.onLoadMoreError = function (e) {
-        this.hideLoader()
+        this.hideLoader();
     };
     this.showLoader = function () {
         this.loader.stop();

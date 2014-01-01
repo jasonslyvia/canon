@@ -30,7 +30,7 @@ margin: 0 auto 35px auto;
 }
 
 #page.loadingImage.spinner {
-  background: transparent url('http://assets.wookmark.com/loader-circle-image.gif') no-repeat center 200px;
+  background: transparent url('../img/loader-circle-image.gif') no-repeat center 200px;
 }
 
 #image {
@@ -41,7 +41,7 @@ float: left;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  background: transparent url('http://assets.wookmark.com/loading-image.png') no-repeat center center;
+  background: transparent url('../img/loading-image.png') no-repeat center center;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
@@ -612,7 +612,7 @@ display: block;
 
 #details .similar li .videoIcon,
 #moreImages .images li .videoIcon {
-background-image: url('http://assets.wookmark.com/video.png');
+background-image: url('../img/video.png');
 width: 20px;
 height: 20px;
 bottom: 2px;
@@ -862,7 +862,7 @@ text-shadow: 0 1px #ffffff;
 font-weight: 300;
 min-height: 128px;
 line-height: 128px;
-background: url('http://assets.wookmark.com/monkey.png') no-repeat center left;
+background: url('../img/monkey.png') no-repeat center left;
 }
 
 .backup {

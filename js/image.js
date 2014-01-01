@@ -64,7 +64,6 @@ gbks.Image = function() {
             });
         }
 
-        $('#details #downloadImageButton').live('click', $.proxy(this.onClickDownloadImage, this));
         $('#details #shareImageButton').live('click', $.proxy(this.onClickShareImage, this));
 
         $('#details .palette .dropper').click($.proxy(this.onClickDropper, this));
@@ -175,10 +174,6 @@ gbks.Image = function() {
     clearTimeout(this.imageLoadTimer);
     this.imageLoadTimer = setTimeout($.proxy(this.onImageLoadTimer, this), 1000);
 
-    if(typeof(clicky) !== 'undefined') {
-      clicky.log(link);
-    };
-    this.track('Image', 'load_'+source, link);
 
     $.ajax({
       url: link,
@@ -331,7 +326,6 @@ gbks.Image = function() {
   };
 
   this.onCloseSavePopup = function(event) {
-
   };
 
   this.onClickRemoveImage = function() {
@@ -342,58 +336,58 @@ gbks.Image = function() {
     this.hideLoader();
   };
 
-  // Privacy
+  // // Privacy
 
-  this.onClickMakePublic = function( event ) {
-    event.stopPropagation();
-    event.preventDefault();
+  // this.onClickMakePublic = function( event ) {
+  //   event.stopPropagation();
+  //   event.preventDefault();
 
-    var imageId = $(event.currentTarget).attr('data-id');
-    this.togglePrivateButton(true);
+  //   var imageId = $(event.currentTarget).attr('data-id');
+  //   this.togglePrivateButton(true);
 
-    this.showLoader('Updating privacy');
+  //   this.showLoader('Updating privacy');
 
-    $.ajax({
-      url: '/bookmark/setpublic',
-      type: 'POST',
-      data: {imageId:imageId},
-      success: $.proxy(this.hideLoader, this)
-    });
-  };
+  //   $.ajax({
+  //     url: '/bookmark/setpublic',
+  //     type: 'POST',
+  //     data: {imageId:imageId},
+  //     success: $.proxy(this.hideLoader, this)
+  //   });
+  // };
 
-  this.onClickMakePrivate = function( event ) {
-    event.stopPropagation();
-    event.preventDefault();
+  // this.onClickMakePrivate = function( event ) {
+  //   event.stopPropagation();
+  //   event.preventDefault();
 
-    var imageId = $(event.currentTarget).attr('data-id');
-    this.toggleSaveButton(true);
-    this.togglePrivateButton(false);
+  //   var imageId = $(event.currentTarget).attr('data-id');
+  //   this.toggleSaveButton(true);
+  //   this.togglePrivateButton(false);
 
-    this.showLoader('Updating privacy');
+  //   this.showLoader('Updating privacy');
 
-    $.ajax({
-      url: '/bookmark/setprivate',
-      type: 'POST',
-      data: {imageId:imageId},
-      success: $.proxy(this.hideLoader, this)
-    });
-  };
+  //   $.ajax({
+  //     url: '/bookmark/setprivate',
+  //     type: 'POST',
+  //     data: {imageId:imageId},
+  //     success: $.proxy(this.hideLoader, this)
+  //   });
+  // };
 
   // Button toggles.
 
-  this.togglePrivateButton = function(active) {
-    if(active === true) {
-      var button = $('#makePublicButton');
-      button.removeClass('active');
-      button.attr('id', 'makePrivateButton');
-      button.attr('title', 'Save privately');
-    } else {
-      var button = $('#makePrivateButton');
-      button.addClass('active');
-      button.attr('id', 'makePublicButton');
-      button.attr('title', 'Save publicly');
-    }
-  };
+  // this.togglePrivateButton = function(active) {
+  //   if(active === true) {
+  //     var button = $('#makePublicButton');
+  //     button.removeClass('active');
+  //     button.attr('id', 'makePrivateButton');
+  //     button.attr('title', 'Save privately');
+  //   } else {
+  //     var button = $('#makePrivateButton');
+  //     button.addClass('active');
+  //     button.attr('id', 'makePublicButton');
+  //     button.attr('title', 'Save publicly');
+  //   }
+  // };
 
   this.toggleSaveButton = function(active) {
     var saveButton = $('#details #tagOptions .saveButton');
@@ -479,78 +473,78 @@ gbks.Image = function() {
     }
   };
 
-  this.onCreateGroup = function(json) {
-    //var group = $.parseJSON(json);
-    console.log('onCreateGroup', json);
+  // this.onCreateGroup = function(json) {
+  //   //var group = $.parseJSON(json);
+  //   console.log('onCreateGroup', json);
 
-    var html = '<li><input type="checkbox" name="groupId" value="'+json.id+'" checked="true" />'+json.name+'</li>';
+  //   var html = '<li><input type="checkbox" name="groupId" value="'+json.id+'" checked="true" />'+json.name+'</li>';
 
-    $('#addToGroups ul').append(html);
-    $('#addToGroups ul').removeClass('empty');
+  //   $('#addToGroups ul').append(html);
+  //   $('#addToGroups ul').removeClass('empty');
 
-    this.hideLoader();
-  };
+  //   this.hideLoader();
+  // };
 
-  this.onToggleGroupCheckbox = function( event ) {
-    var box = $(event.currentTarget);
-    var groupId = box.val();
-    var checked = box.attr('checked');
-    var imageId = box.attr('data-imageId');
+  // this.onToggleGroupCheckbox = function( event ) {
+  //   var box = $(event.currentTarget);
+  //   var groupId = box.val();
+  //   var checked = box.attr('checked');
+  //   var imageId = box.attr('data-imageId');
 
-    var url = '/groups/removeImageFromGroup';
-    if(checked) {
-      url = '/groups/addImageToGroup';
-    }
+  //   var url = '/groups/removeImageFromGroup';
+  //   if(checked) {
+  //     url = '/groups/addImageToGroup';
+  //   }
 
-    //console.log('onToggleGroupCheckbox', box, groupId, checked, imageId);
+  //   //console.log('onToggleGroupCheckbox', box, groupId, checked, imageId);
 
-    $(box.parents('li')[0]).addClass('loading');
+  //   $(box.parents('li')[0]).addClass('loading');
 
-    //this.showLoader('Saving to group');
+  //   //this.showLoader('Saving to group');
 
-    // Make call.
-    var data = {imageId:imageId, groupId:groupId};
-    $.ajax({
-      url: url,
-      data: data,
-      type: 'POST',
-      success: $.proxy(this.onToggleGroupSaved, this)
-    });
-  };
+  //   // Make call.
+  //   var data = {imageId:imageId, groupId:groupId};
+  //   $.ajax({
+  //     url: url,
+  //     data: data,
+  //     type: 'POST',
+  //     success: $.proxy(this.onToggleGroupSaved, this)
+  //   });
+  // };
 
-  this.onToggleGroupSaved = function( event ) {
-    $('#addToGroups li').removeClass('loading');
-  };
+  // this.onToggleGroupSaved = function( event ) {
+  //   $('#addToGroups li').removeClass('loading');
+  // };
 
-  this.onClickDownloadImage = function(event) {
-    this.track('Image', 'download', this.imageId);
-  };
+  // this.onClickDownloadImage = function(event) {
+  //   this.track('Image', 'download', this.imageId);
+  // };
 
-  this.onClickFlagImage = function(event) {
-    event.preventDefault();
-    event.stopPropagation();
+  // this.onClickFlagImage = function(event) {
+  //   event.preventDefault();
+  //   event.stopPropagation();
 
-    var button = $(event.currentTarget);
-    if(this.flagPopup) {
-      button.removeClass('active');
-      this.flagPopup.remove();
-      this.flagPopup = null;
-    } else {
-      button.addClass('active');
-      $.ajax({
-        url: '/groups/popup',
-        data: {imageId:this.imageId},
-        type: 'POST',
-        success: $.proxy(this.onLoadFlagInfo, this)
-      });
-    }
-  };
+  //   var button = $(event.currentTarget);
+  //   if(this.flagPopup) {
+  //     button.removeClass('active');
+  //     this.flagPopup.remove();
+  //     this.flagPopup = null;
+  //   } else {
+  //     button.addClass('active');
+  //     $.ajax({
+  //       url: '/groups/popup',
+  //       data: {imageId:this.imageId},
+  //       type: 'POST',
+  //       success: $.proxy(this.onLoadFlagInfo, this)
+  //     });
+  //   }
+  // };
 
-  this.onLoadFlagInfo = function(data) {
-    var html = gbks.common.wrapPopupContent(data.html);
-    this.flagPopup = $(html);
-    gbks.common.positionPopup(this.flagPopup);
-  };
+  // this.onLoadFlagInfo = function(data) {
+  //   var html = gbks.common.wrapPopupContent(data.html);
+  //   this.flagPopup = $(html);
+  //   gbks.common.positionPopup(this.flagPopup);
+  // };
 
   this.onClickShareImage = function(event) {
     event.preventDefault();
@@ -788,7 +782,7 @@ gbks.Image = function() {
   };
 
   this.onSaveComment = function(data, textStatus, jqXHR) {
-    $('#comments .comments').append(data.html);
+    $('#comments .comments').append(data.html).hide().fadeIn();
     $('#comments').removeClass('empty');
     this.commentForm.remove();
   };

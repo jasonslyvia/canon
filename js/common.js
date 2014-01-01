@@ -1,399 +1,8 @@
-/* **********************************************
-     Begin fastclick.js
-********************************************** */
-// Fast click.
-//  用于减少移动设备上点击动作后 click 时间触发的 300ms 的延迟
-//  https://github.com/ftlabs/fastclick
-function FastClick(e) {
-    "use strict";
-    var t, n = this;
-    this.trackingClick = !1;
-    this.trackingClickStart = 0;
-    this.targetElement = null;
-    this.touchStartX = 0;
-    this.touchStartY = 0;
-    this.lastTouchIdentifier = 0;
-    this.layer = e;
-    if (!e || !e.nodeType) throw new TypeError("Layer must be a document node");
-    this.onClick = function () {
-        return FastClick.prototype.onClick.apply(n, arguments)
-    };
-    this.onMouse = function () {
-        return FastClick.prototype.onMouse.apply(n, arguments)
-    };
-    this.onTouchStart = function () {
-        return FastClick.prototype.onTouchStart.apply(n, arguments)
-    };
-    this.onTouchEnd = function () {
-        return FastClick.prototype.onTouchEnd.apply(n, arguments)
-    };
-    this.onTouchCancel = function () {
-        return FastClick.prototype.onTouchCancel.apply(n, arguments)
-    };
-    if (typeof window.ontouchstart == "undefined") return;
-    if (this.deviceIsAndroid) {
-        e.addEventListener("mouseover", this.onMouse, !0);
-        e.addEventListener("mousedown", this.onMouse, !0);
-        e.addEventListener("mouseup", this.onMouse, !0)
-    }
-    e.addEventListener("click", this.onClick, !0);
-    e.addEventListener("touchstart", this.onTouchStart, !1);
-    e.addEventListener("touchend", this.onTouchEnd, !1);
-    e.addEventListener("touchcancel", this.onTouchCancel, !1);
-    if (!Event.prototype.stopImmediatePropagation) {
-        e.removeEventListener = function (t, n, r) {
-            var i = Node.prototype.removeEventListener;
-            t === "click" ? i.call(e, t, n.hijacked || n, r) : i.call(e, t, n, r)
-        };
-        e.addEventListener = function (t, n, r) {
-            var i = Node.prototype.addEventListener;
-            t === "click" ? i.call(e, t, n.hijacked || (n.hijacked = function (e) {
-                e.propagationStopped || n(e)
-            }), r) : i.call(e, t, n, r)
-        }
-    }
-    if (typeof e.onclick == "function") {
-        t = e.onclick;
-        e.addEventListener("click", function (e) {
-            t(e)
-        }, !1);
-        e.onclick = null
-    }
-}
-FastClick.prototype.deviceIsAndroid = navigator.userAgent.indexOf("Android") > 0;
-FastClick.prototype.deviceIsIOS = /iP(ad|hone|od)/.test(navigator.userAgent);
-FastClick.prototype.deviceIsIOS4 = FastClick.prototype.deviceIsIOS && /OS 4_\d(_\d)?/.test(navigator.userAgent);
-FastClick.prototype.deviceIsIOSWithBadTarget = FastClick.prototype.deviceIsIOS && /OS ([6-9]|\d{2})_\d/.test(navigator.userAgent);
-FastClick.prototype.needsClick = function (e) {
-    "use strict";
-    switch (e.nodeName.toLowerCase()) {
-    case "button":
-    case "input":
-        if (this.deviceIsIOS && e.type === "file") return !0;
-        return e.disabled;
-    case "label":
-    case "video":
-        return !0;
-    default:
-        return /\bneedsclick\b/.test(e.className)
-    }
-};
-FastClick.prototype.needsFocus = function (e) {
-    "use strict";
-    switch (e.nodeName.toLowerCase()) {
-    case "textarea":
-    case "select":
-        return !0;
-    case "input":
-        switch (e.type) {
-        case "button":
-        case "checkbox":
-        case "file":
-        case "image":
-        case "radio":
-        case "submit":
-            return !1
-        }
-        return !e.disabled;
-    default:
-        return /\bneedsfocus\b/.test(e.className)
-    }
-};
-FastClick.prototype.sendClick = function (e, t) {
-    "use strict";
-    var n, r;
-    document.activeElement && document.activeElement !== e && document.activeElement.blur();
-    r = t.changedTouches[0];
-    n = document.createEvent("MouseEvents");
-    n.initMouseEvent("click", !0, !0, window, 1, r.screenX, r.screenY, r.clientX, r.clientY, !1, !1, !1, !1, 0, null);
-    n.forwardedTouchEvent = !0;
-    e.dispatchEvent(n)
-};
-FastClick.prototype.focus = function (e) {
-    "use strict";
-    var t;
-    if (this.deviceIsIOS && e.setSelectionRange) {
-        t = e.value.length;
-        e.setSelectionRange(t, t)
-    } else e.focus()
-};
-FastClick.prototype.updateScrollParent = function (e) {
-    "use strict";
-    var t, n;
-    t = e.fastClickScrollParent;
-    if (!t || !t.contains(e)) {
-        n = e;
-        do {
-            if (n.scrollHeight > n.offsetHeight) {
-                t = n;
-                e.fastClickScrollParent = n;
-                break
-            }
-            n = n.parentElement
-        } while (n)
-    }
-    t && (t.fastClickLastScrollTop = t.scrollTop)
-};
-FastClick.prototype.getTargetElementFromEventTarget = function (e) {
-    "use strict";
-    return e.nodeType === Node.TEXT_NODE ? e.parentNode : e
-};
-FastClick.prototype.onTouchStart = function (e) {
-    "use strict";
-    var t, n, r;
-    t = this.getTargetElementFromEventTarget(e.target);
-    n = e.targetTouches[0];
-    if (this.deviceIsIOS) {
-        r = window.getSelection();
-        if (r.rangeCount && !r.isCollapsed) return !0;
-        if (!this.deviceIsIOS4) {
-            if (n.identifier === this.lastTouchIdentifier) {
-                e.preventDefault();
-                return !1
-            }
-            this.lastTouchIdentifier = n.identifier;
-            this.updateScrollParent(t)
-        }
-    }
-    this.trackingClick = !0;
-    this.trackingClickStart = e.timeStamp;
-    this.targetElement = t;
-    this.touchStartX = n.pageX;
-    this.touchStartY = n.pageY;
-    e.timeStamp - this.lastClickTime < 200 && e.preventDefault();
-    return !0
-};
-FastClick.prototype.touchHasMoved = function (e) {
-    "use strict";
-    var t = e.changedTouches[0];
-    return Math.abs(t.pageX - this.touchStartX) > 10 || Math.abs(t.pageY - this.touchStartY) > 10 ? !0 : !1
-};
-FastClick.prototype.findControl = function (e) {
-    "use strict";
-    return e.control !== undefined ? e.control : e.htmlFor ? document.getElementById(e.htmlFor) : e.querySelector("button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea")
-};
-FastClick.prototype.onTouchEnd = function (e) {
-    "use strict";
-    var t, n, r, i, s, o = this.targetElement;
-    if (this.touchHasMoved(e)) {
-        this.trackingClick = !1;
-        this.targetElement = null
-    }
-    if (!this.trackingClick) return !0;
-    if (e.timeStamp - this.lastClickTime < 200) {
-        this.cancelNextClick = !0;
-        return !0
-    }
-    this.lastClickTime = e.timeStamp;
-    n = this.trackingClickStart;
-    this.trackingClick = !1;
-    this.trackingClickStart = 0;
-    if (this.deviceIsIOSWithBadTarget) {
-        s = e.changedTouches[0];
-        o = document.elementFromPoint(s.pageX - window.pageXOffset, s.pageY - window.pageYOffset)
-    }
-    r = o.tagName.toLowerCase();
-    if (r === "label") {
-        t = this.findControl(o);
-        if (t) {
-            this.focus(o);
-            if (this.deviceIsAndroid) return !1;
-            o = t
-        }
-    } else if (this.needsFocus(o)) {
-        if (e.timeStamp - n > 100 || this.deviceIsIOS && window.top !== window && r === "input") {
-            this.targetElement = null;
-            return !1
-        }
-        this.focus(o);
-        if (!this.deviceIsIOS4 || r !== "select") {
-            this.targetElement = null;
-            e.preventDefault()
-        }
-        return !1
-    }
-    if (this.deviceIsIOS && !this.deviceIsIOS4) {
-        i = o.fastClickScrollParent;
-        if (i && i.fastClickLastScrollTop !== i.scrollTop) return !0
-    }
-    if (!this.needsClick(o)) {
-        e.preventDefault();
-        var u = this;
-        setTimeout(function () {
-            u.sendClick(o, e)
-        }, 0)
-    }
-    return !1
-};
-FastClick.prototype.onTouchCancel = function () {
-    "use strict";
-    this.trackingClick = !1;
-    this.targetElement = null
-};
-FastClick.prototype.onMouse = function (e) {
-    "use strict";
-    if (!this.targetElement) return !0;
-    if (e.forwardedTouchEvent) return !0;
-    if (!e.cancelable) return !0;
-    if (!this.needsClick(this.targetElement) || this.cancelNextClick) {
-        e.stopImmediatePropagation ? e.stopImmediatePropagation() : e.propagationStopped = !0;
-        e.stopPropagation();
-        e.preventDefault();
-        return !1
-    }
-    return !0
-};
-FastClick.prototype.onClick = function (e) {
-    "use strict";
-    var t;
-    if (this.trackingClick) {
-        this.targetElement = null;
-        this.trackingClick = !1;
-        return !0
-    }
-    if (e.target.type === "submit" && e.detail === 0) return !0;
-    t = this.onMouse(e);
-    t || (this.targetElement = null);
-    return t
-};
-FastClick.prototype.destroy = function () {
-    "use strict";
-    var e = this.layer;
-    if (this.deviceIsAndroid) {
-        e.removeEventListener("mouseover", this.onMouse, !0);
-        e.removeEventListener("mousedown", this.onMouse, !0);
-        e.removeEventListener("mouseup", this.onMouse, !0)
-    }
-    e.removeEventListener("click", this.onClick, !0);
-    e.removeEventListener("touchstart", this.onTouchStart, !1);
-    e.removeEventListener("touchend", this.onTouchEnd, !1);
-    e.removeEventListener("touchcancel", this.onTouchCancel, !1)
-};
-FastClick.attach = function (e) {
-    "use strict";
-    return new FastClick(e)
-};
-typeof define != "undefined" && define.amd && define(function () {
-    "use strict";
-    return FastClick
-});
-if (typeof module != "undefined" && module.exports) {
-    module.exports = FastClick.attach;
-    module.exports.FastClick = FastClick
-}
-
-
-
 //核心对象 gbks，用于整个网站交互
 var gbks = gbks || {};
 gbks.common = gbks.common || {};
 
-//评论框实例
-gbks.common.commentPopupInstance = null;
-gbks.common.CommentPopup = function () {
-    if (gbks.common.commentPopupInstance) {
-        gbks.common.commentPopupInstance.hide();
-        gbks.common.commentPopupInstance = null
-    }
-    gbks.common.commentPopupInstance = this;
-    this.canvas = null;
-    this.element = null;
-    this.target = null;
-    this.callback = !1;
-    this.resizeMethod = $.proxy(this.updateLayout, this);
-
-    //弹出评论框
-    this.display = function (e, t, n) {
-        this.imageId = e;
-        this.element = t;
-        this.callback = n;
-        this.clickDocumentMethod = $.proxy(this.onClickDocument, this);
-        $(window).resize(this.resizeMethod);
-        this.createCanvas();
-        this.updatePosition();
-        this.canvas.show();
-        $(document).click(this.clickDocumentMethod)
-    };
-
-    //隐藏评论框
-    this.hide = function () {
-        $(document).unbind("click", this.clickDocumentMethod);
-        $(window).unbind("resize", this.resizeMethod);
-        if (this.canvas) {
-            this.canvas.hide();
-            this.canvas.remove();
-            this.canvas = null;
-        }
-    };
-    this.onClickDocument = function (e) {
-        var t = $(e.target),
-            n = t.parents("#commentPopup");
-        if (n.length == 0) {
-            this.hide();
-            e.stopPropagation();
-            e.preventDefault();
-        }
-    };
-
-    this.createCanvas = function () {
-        if (this.canvas) {
-            this.canvas.remove();
-            this.canvas = null
-        }
-        var e = '<type="text" name="comment" autocomplete="off"/>';
-        e += '<input type="submit" name="send" value="Add note"/>';
-        e = gbks.common.wrapPopupContent("commentPopup", e, !1);
-        this.canvas = $(e);
-        $("body").append(this.canvas);
-        $("input[type=submit]", this.canvas).click($.proxy(this.onClickSubmit, this));
-        $("input[type=text]", this.canvas).focus()
-    };
-
-    this.onClickSubmit = function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var t = $("textarea", this.comment),
-            n = t.val(),
-            r = n.toLowerCase(),
-            i = !0;
-        r == "test" && (i = !1);
-        n == t.attr("placeholder") && (i = !1);
-        r.length < 3 && (i = !1);
-        if (r == "test") alert("Hooray! Your test worked!");
-        else if (i) {
-            this.canvas.removeClass("error");
-            var s = {
-                imageId: this.imageId,
-                comment: n,
-                format: "big"
-            };
-            $("input", this.canvas).attr("disabled", "disabled");
-            $.ajax({
-                url: "/comment/add",
-                data: s,
-                type: "POST",
-                success: $.proxy(this.onSubmitComment, this)
-            })
-        } else {
-            this.canvas.addClass("error");
-            alert("Please ensure your comment is more than 3 characters.")
-        }
-    };
-
-    this.onSubmitComment = function (e, t, n) {
-        console.log("onSubmitComment", e, this.callback);
-        if (this.callback) {
-            this.callback(e);
-            this.callback = null
-        }
-        this.hide()
-    };
-    this.updatePosition = function () {
-        gbks.common.positionPopup(this.canvas, this.element)
-    }
-};
-
-
+//模拟console
 window.console || (console = {
     log: function () {}
 });
@@ -409,7 +18,7 @@ gbks.common.Loader.show = function (e) {
     t.show();
     t.animate({
         opacity: 1
-    }, 50)
+    }, 50);
 };
 gbks.common.Loader.hide = function () {
     var e = gbks.common.Loader.getLoader();
@@ -420,10 +29,10 @@ gbks.common.Loader.hide = function () {
     }, 250, t)
 };
 gbks.common.Loader.onHide = function (e) {
-    gbks.common.Loader.getLoader().hide()
+    gbks.common.Loader.getLoader().hide();
 };
 gbks.common.Loader.getLoader = function () {
-    return $("#loader")
+    return $("#loader");
 };
 gbks.common.track = function () {
 };
@@ -501,7 +110,7 @@ gbks.common.Cookie = function (e, t, n) {
         if (typeof n.expires == "number") {
             var r = n.expires,
                 i = n.expires = new Date;
-            i.setDate(i.getDate() + r)
+            i.setDate(i.getDate() + r);
         }
         t = String(t);
         return document.cookie = [encodeURIComponent(e), "=", n.raw ? t : encodeURIComponent(t), n.expires ? "; expires=" + n.expires.toUTCString() : "", n.path ? "; path=" + n.path : "", n.domain ? "; domain=" + n.domain : "", n.secure ? "; secure" : ""].join("")
@@ -513,12 +122,12 @@ gbks.common.Cookie = function (e, t, n) {
         o = document.cookie.split("; ");
     for (var u = 0, a; a = o[u] && o[u].split("="); u++)
         if (s(a[0]) === e) return s(a[1] || "");
-    return null
+    return null;
 };
 gbks.common.Shortcuts = function () {
     this.init = function () {
         this.keyUpMethod = $.proxy(this.onKeyUp, this);
-        $(document).bind("keyup", this.keyUpMethod)
+        $(document).bind("keyup", this.keyUpMethod);
     };
     this.onKeyUp = function (e) {
         var t = $("*:focus");
@@ -533,14 +142,14 @@ gbks.common.Shortcuts = function () {
             this.toggleGroupOverlay();
             break;
         case 73:
-            this.toggleTileInfo()
+            this.toggleTileInfo();
         }
     };
     this.toggleTileInfo = function () {
         var e = $("body"),
             t = "hideTileInfo";
         e.hasClass(t) ? e.removeClass(t) : e.addClass(t);
-        gbks.tilesInstance && gbks.tilesInstance.layout()
+        gbks.tilesInstance && gbks.tilesInstance.layout();
     };
     this.toggleGroupOverlay = function () {
         if (this.groupsOverlay) {
@@ -550,14 +159,14 @@ gbks.common.Shortcuts = function () {
                 e.addClass("zapMeOut");
                 var t = this.groupsOverlay;
                 setTimeout(function () {
-                    t.hide()
-                }, 150)
+                    t.hide();
+                }, 150);
             } else {
                 e.addClass("zapMeIn");
                 e.removeClass("zapMeOut");
-                this.groupsOverlay.show()
+                this.groupsOverlay.show();
             }
-        } else this.loadGroupOverlay()
+        } else this.loadGroupOverlay();
     };
     this.loadGroupOverlay = function () {
         if (!this.groupsOverlay) {
@@ -645,34 +254,12 @@ gbks.common.scroller.easeInOutCubic = function (e, t, n, r, i) {
     return (t /= i / 2) < 1 ? r / 2 * t * t * t + n : r / 2 * ((t -= 2) * t * t + 2) + n
 };
 gbks.common.scroller.mousewheelFunction = $.proxy(gbks.common.scroller.onMouseWheel, gbks.common.scroller);
-gbks.common.iPad = gbks.common.iPad || {};
-gbks.common.iPad.isWebApp = function () {
-    return "standalone" in window.navigator && window.navigator.standalone
-};
-gbks.common.iPad.captureLinks = function () {
-    $("a").live("click", $.proxy(gbks.common.iPad.captureLink, gbks.common.iPad))
-};
-gbks.common.iPad.captureLink = function (e) {
-    var t = $(e.currentTarget),
-        n = t.attr("href"),
-        r = "http://www.wookmark.com";
-    if (n.substring(0, r.length) == r) {
-        e.preventDefault();
-        self.location = n
-    }
-};
-gbks.common.iPad.detect = function () {
-    if (navigator.userAgent.match(/iPad/i) != null) {
-        $("body").addClass("iPad");
-        gbks.common.iPad.isWebApp() && gbks.common.iPad.captureLinks()
-    }
-};
-gbks.common.iPad.detect();
+
 gbks.common.zapIn = function (e) {
     if (Modernizr.cssanimations) {
         e.removeClass("zapMeOut");
-        e.addClass("zapMeIn")
-    } else e.show()
+        e.addClass("zapMeIn");
+    } else e.show();
 };
 gbks.common.zapOut = function (e, t, n) {
     if (Modernizr.cssanimations) {
@@ -698,7 +285,6 @@ gbks.common.Lightbox = function () {
 
     //初始化
     this.init = function () {
-        console.log("initing");
         this.canvas = null;
         this.hideTimer = null;
         this.savePopup = null;
@@ -955,7 +541,7 @@ gbks.common.Lightbox = function () {
         t.blur($.proxy(this.onBlurCommentField, this))
     };
     this.removePreview = function () {
-        $(".preview", this.canvas).remove()
+        $(".preview", this.canvas).remove();
     };
     this.toggleLayoutMode = function (e) {
         if (e) {
@@ -1209,48 +795,6 @@ gbks.common.Lightbox = function () {
         this.canvas.removeClass("loading")
     };
 
-    //添加评论按钮
-    this.onClickAddNote = function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        this.hidePopups("note");
-        var t = $(e.currentTarget);
-        if (this.commentPopup) {
-            t.removeClass("active");
-            this.commentPopup.hide();
-            this.commentPopup = null
-        } else {
-            t.addClass("active");
-            var n = this.canvas.attr("data-id");
-            this.commentPopup = new
-            gbks.common.CommentPopup;
-            this.commentPopup.display(n, $(e.currentTarget), $.proxy(this.onCommentAdded, this))
-        }
-    };
-
-    //隐藏评论弹框
-    this.hideCommentPopup = function () {
-        $(".details #addNoteButton", this.canvas).removeClass("active");
-        if (this.commentPopup) {
-            this.commentPopup.hide();
-            this.commentPopup = null
-        }
-    };
-
-    //增加评论
-    this.onCommentAdded = function (e) {
-        $("#addNoteButton", this.canvas).removeClass("active");
-        var t = $(".comments", this.canvas);
-        if (t.length > 0) {
-            t.append(e);
-            t.removeClass("blank")
-        } else {
-            t = $('<div class="comments">' + e + "</div>");
-            $(".info", this.canvas).append(t)
-        }
-    };
-
-
     this.onClickExpand = function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1274,12 +818,19 @@ gbks.common.Lightbox = function () {
         this.updateLayout();
         return
     };
+
+
+    /*******************************************
+     *  分享
+     *******************************************/
+
     this.hideSharePopup = function () {
         if (this.sharePopup) {
             this.sharePopup.hide();
             this.sharePopup = null
         }
     };
+    //点击分享按钮
     this.onClickShareImage = function (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -1297,8 +848,7 @@ gbks.common.Lightbox = function () {
     };
     this.hidePopups = function (e) {
         e != "save" && this.hideSavePopup();
-        e != "note" && this.hideCommentPopup();
-        e != "share" && this.onHideSharePopup()
+        e != "share" && this.onHideSharePopup();
     };
     this.onHideSharePopup = function (e) {
         if (this.sharePopup) {
@@ -1307,6 +857,10 @@ gbks.common.Lightbox = function () {
         }
         $("#shareImageButton", this.canvas).removeClass("active")
     };
+
+    /*******************************************
+     *  保存
+     *******************************************/
 
     //点击保存图片按钮
     this.onClickSaveImage = function (e) {
@@ -1352,6 +906,11 @@ gbks.common.Lightbox = function () {
         e.removeClass("active")
     };
 
+
+    /*******************************************
+     *  喜欢
+     *******************************************/
+
     //点击喜欢按钮
     this.onClickLikeImage = function (e) {
 
@@ -1385,6 +944,11 @@ gbks.common.Lightbox = function () {
             $(".details #unlikeImageButton", this.canvas).removeClass("loading");
         }
     };
+
+
+    /*******************************************
+     *  关注
+     *******************************************/
 
     //点击关注按钮
     this.onClickFollowButton = function (e) {
@@ -1429,6 +993,11 @@ gbks.common.Lightbox = function () {
         }
     };
 
+
+    /*******************************************
+     *  评论
+     *******************************************/
+
     this.onFocusCommentField = function (e) {
         var t = $("#commentForm", this.canvas),
             n = $("textarea", t);
@@ -1452,7 +1021,7 @@ gbks.common.Lightbox = function () {
         var t = $("#commentForm", this.canvas),
             n = $("textarea", t),
             r = n.val();
-        if (e.which == 13 && r.length > 2 && r != n.attr("placeholder")) {
+        if (e.which == 13 && r != n.attr("placeholder")) {
             e.stopPropagation();
             e.preventDefault();
             this.saveComment(r);
@@ -1483,7 +1052,7 @@ gbks.common.Lightbox = function () {
                 },
                 type: "POST",
                 success: $.proxy(this.onSaveComment, this)
-            })
+            });
         } else {
             this.canvas.addClass("error");
             alert("评论内容太短了，多说点儿什么吧！");
@@ -1496,7 +1065,7 @@ gbks.common.Lightbox = function () {
         }
         else{
             var r = $("#commentForm", this.canvas);
-            $(e.html).insertBefore(r);
+            $(e.html).insertBefore(r).hide().fadeIn();
             r.remove();
         }
     }
@@ -1717,8 +1286,6 @@ gbks.common.Kaori = function () {
         this.expandClass = "hidenav";
         this.expandTimer = null;
 
-        new FastClick(document.body);
-
         this.hamburgerTime = null;
         $(".hamburger", this.nav).click($.proxy(this.onClickHamburger, this));
         $("#images").length > 0 && $("li", this.canvas).click($.proxy(this.clickNavItem, this));
@@ -1791,7 +1358,7 @@ gbks.common.Kaori = function () {
                     return false;
                 }
                 else{
-                    window.location = "/?s="+encodeURI(term);
+                    window.location = "/?s="+encodeURIComponent(term);
                 }
             }
         });
