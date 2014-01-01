@@ -46,7 +46,9 @@ gbks.Polaroid = function () {
     this.init = function () {
         this.polaroids = $(".polaroid");
         var e = $("html");
+
         this.isSlow = e.hasClass("ie6") || e.hasClass("ie7") || e.hasClass("ie8") || e.hasClass("ie9");
+        //若已登录，则在body上添加class "auth"
         this.auth = $("body").hasClass("auth");
         this.loader = $("#loader");
         this.lightbox = null;
@@ -62,13 +64,26 @@ gbks.Polaroid = function () {
         this.showGroupInfoTimer = null;
         this.hideGroupInfoTimer = null;
         this.shiftDown = !1;
+
         $(window).bind("keydown", $.proxy(this.keyDown, this));
         $(window).bind("keyup", $.proxy(this.keyUp, this));
         var t = $(".polaroid .options");
+
         if (this.auth) {
             $(".like", t).live("click", $.proxy(this.onClickLikeImage, this));
             $(".comment", t).live("click", $.proxy(this.onClickCommentIcon, this));
             $(".save", t).live("click", $.proxy(this.onClickSaveIcon, this));
+        }
+        else{
+            //未登录情况下保存和喜欢按钮跳转逻辑
+            $(".like, .save").live("click", function(e){
+                e.stopPropagation();
+
+                var $this = $(this);
+                var imageId = $this.attr("data-id");
+
+                location.href = "/signup?next=" + encodeURIComponent("/?p="+imageId);
+            });
         }
         $(".imageLink", this.polaroids).live("click", $.proxy(this.onClickMagnify, this));
         $(".nsfwCover", this.polaroids).live("click", $.proxy(this.onClickNSFWCover, this));

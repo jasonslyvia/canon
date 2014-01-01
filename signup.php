@@ -72,7 +72,13 @@ if ($_POST) {
             }
             else{
                 //登录成功
-                wp_redirect('/profile/'.$user->ID);
+                //若需跳转到登陆前的页面
+                if (isset($_POST['next']) && !empty($_POST['next'])) {
+                    wp_redirect(urldecode($_POST['next']));
+                }
+                else{
+                    wp_redirect('/profile/'.$user->ID);
+                }
                 exit();
             }
         }
@@ -82,14 +88,7 @@ if ($_POST) {
     }
 }
 
-
-
-//若是忘记密码
-if ($_GET['forget'] == 1) {
-    //
-}
-
- get_header();?>
+get_header();?>
 
 
 <div id="luka">
@@ -128,6 +127,8 @@ if ($_GET['forget'] == 1) {
         <label for="passWord">密码</label>
         <input type="password" name="user_password" placeholder="设置您的密码"
                 id="passWord" />
+
+        <input type="hidden" name="next" value="<?php echo $_GET['next']; ?>" />
 
         <input type="submit" name="send" class="actionButton blueButton signupButton"
                 value="马上体验<?php echo get_bloginfo(); ?>" />

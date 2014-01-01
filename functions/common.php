@@ -4,6 +4,8 @@
  */
 
 require_once('settings.php');
+define('WP_USE_THEMES', false);
+require_once(ABSPATH.'wp-load.php');
 
 /*
  *  验证ajax请求是否合理
@@ -19,6 +21,19 @@ function verify_ajax($keys, $type = '_REQUESTS',
                      $check_nonce = false, $nonce_name = '',
                      $display = true)
 {
+    //若未登录，返回error同时返回redirect参数
+    if (!is_user_logged_in()) {
+        //判断重定向的url地址
+        if (array_key_exists("imageId", $keys)) {
+            $redirect = "/?p=".$_POST['imageId'];
+        }
+        else if (array_key_exists("targetId", $keys)) {
+            $redirect = "/profile/". $_POST['userId'];
+        }
+
+        send_result(true, "该操作需登录", array("redirect" => $redirect));
+    }
+
     try {
         //获得请求内容的数组
         if (stripos($type, 'post') !== false) {
@@ -39,8 +54,6 @@ function verify_ajax($keys, $type = '_REQUESTS',
 
         //使用 wp_verify_nonce 函数验证 nonce 有效性
         if ($check_nonce && $nonce_name != '') {
-            define('WP_USE_THEMES', false);
-            require_once(ABSPATH.'wp-load.php');
 
             //当前登录用户id
             $uid = get_current_user_id();

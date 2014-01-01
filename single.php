@@ -171,7 +171,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
         $comment_author = get_userdata($c->user_id)->display_name;
         $c_html = <<<c_html
 <div id="comment_{$c->comment_ID}" class="comment clearfix"
-     data-imageid="{$post_id}">
+     data-imageid="{$id}">
     <div class="userPic">
         <a href="/profile/{$c->user_id}">
             <img src="{$comment_avatar}"
@@ -189,7 +189,7 @@ c_html;
     }
     $comment_html .= '</div></div>';
     $comment_html .= <<< c_html_form
- <div id="commentForm" data-imageid="{$image_id}">
+ <div id="commentForm" data-imageid="{$id}">
     <div class="userPic">
         <img src="{$c_avatar}" width="30"
              height="30" alt=""/>

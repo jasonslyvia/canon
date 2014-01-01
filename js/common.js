@@ -703,6 +703,7 @@ gbks.common.Lightbox = function () {
         this.hideTimer = null;
         this.savePopup = null;
         this.sharePopup = null;
+        this.auth = $("body").hasClass("auth");
         this.layoutMode = gbks.common.Cookie("layout");
         this.updateHistory();
         this.initHistory = window.location.href;
@@ -710,7 +711,7 @@ gbks.common.Lightbox = function () {
         this.keyUpMethod = $.proxy(this.onKeyUp, this);
         this.commentKeyUpMethod = $.proxy(this.onCommentKeyUp, this);
         this.resizeMethod = $.proxy(this.onResize, this);
-        this.scrollMethod = $.proxy(this.onScroll, this)
+        this.scrollMethod = $.proxy(this.onScroll, this);
     };
 
     //更新Histroy对象
@@ -1158,12 +1159,41 @@ gbks.common.Lightbox = function () {
             this.resizeImage();
             gbks.common.history.push(e.history, e.title);
 
+            if (this.auth) {
+                $(".details #addImageButton", this.canvas).click($.proxy(this.onClickSaveImage, this));
+                $(".details #likeImageButton", this.canvas).click($.proxy(this.onClickLikeImage, this));
+                $(".details #unlikeImageButton", this.canvas).click($.proxy(this.onClickLikeImage, this));
+                $(".details #shareImageButton", this.canvas).click($.proxy(this.onClickShareImage, this));
+                $(".details button.follow", this.canvas).click($.proxy(this.onClickFollowButton, this));
+            }
+            else{
+                //未登录Lightbox中评论按钮
+                $(".details #commentForm textarea").live("keyup", function(e){
+                    e.stopPropagation();
+
+                    var imageId = $(this).closest('#commentForm').attr("data-imageid");
+                    location.href = "/signup?next=" + encodeURIComponent("/?p=" + imageId);
+                });
+
+                //未登录lightbox中喜欢与保存按钮
+                $(".details .likeButton, .details .saveButton").live("click", function(e){
+                    e.stopPropagation();
+
+                    var $this = $(this);
+                    var imageId = $this.attr("data-id");
+
+                    location.href = "/signup?next=" + encodeURIComponent("/?p="+imageId);
+                });
+
+                //未登录lightbox中关注按钮跳转
+                $(".details .follow").live("click", function(e){
+                    e.stopPropagation();
+
+                    var userId = $(this).attr("data-id");
+                    location.href = "/signup?next=" + encodeURIComponent("/profile/" + userId);
+                });
+            }
             $(".details .expand", this.canvas).click($.proxy(this.onClickExpand, this));
-            $(".details #addImageButton", this.canvas).click($.proxy(this.onClickSaveImage, this));
-            $(".details #likeImageButton", this.canvas).click($.proxy(this.onClickLikeImage, this));
-            $(".details #unlikeImageButton", this.canvas).click($.proxy(this.onClickLikeImage, this));
-            $(".details #shareImageButton", this.canvas).click($.proxy(this.onClickShareImage, this));
-            $(".details button.follow", this.canvas).click($.proxy(this.onClickFollowButton, this));
 
             this.updateLayout();
 
