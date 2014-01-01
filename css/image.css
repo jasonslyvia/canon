@@ -151,7 +151,7 @@ position: relative;
   width: 18px;
   height: 18px;
   margin: 10px auto 0 auto;
-  background: transparent url('http://assets.wookmark.com/icons.png') no-repeat left top;
+  background: transparent url('../img/icons.png') no-repeat left top;
 }
 
 .ie7 #details #tagOptions a span{
@@ -196,7 +196,7 @@ text-shadow: 0 1px 0 rgba(0,0,0,.5);
 }
 
 #details #tagOptions a.saveButton.loading em {
-background: transparent url('http://assets.wookmark.com/loader-grey.gif') no-repeat center center;
+background: transparent url('../img/loader-grey.gif') no-repeat center center;
 }
 
 #details .options .likeButton {
@@ -396,11 +396,11 @@ padding: 0 0 0 15px;
 }
 
 #details .detailsWrap .line.likes {
-  background: transparent url('http://assets.wookmark.com/heart-pico.png') no-repeat 17px 11px;
+  background: transparent url('../img/heart-pico.png') no-repeat 17px 11px;
 }
 
 #details .detailsWrap .line.saves {
-  background: transparent url('http://assets.wookmark.com/plus-pico.png') no-repeat 17px 12px;
+  background: transparent url('../img/plus-pico.png') no-repeat 17px 12px;
 }
 #details .detailsWrap .line.groups {
   padding-left: 17px;
@@ -460,7 +460,7 @@ padding: 0;
  float: left;
   width: 30px;
   height: 30px;
-background: #dedede url('http://assets.wookmark.com/icons.png') no-repeat -54px -70px;
+background: #dedede url('../img/icons.png') no-repeat -54px -70px;
 -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
 -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
 box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
@@ -485,7 +485,7 @@ border-radius: 2px;
   margin: 1px 10px 0 0;
   display: inline-block;
   float: left;
-  background: #dedede url('http://assets.wookmark.com/no-profile.png') no-repeat center center;
+  background: #dedede url('../img/no-profile.png') no-repeat center center;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
@@ -990,7 +990,7 @@ padding-left: 15px;
   left: 15px;
   width: 30px;
   height: 30px;
-  background: #dedede url('http://assets.wookmark.com/icons.png') no-repeat -54px -70px;
+  background: #dedede url('../img/icons.png') no-repeat -54px -70px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -1087,7 +1087,7 @@ bottom: 5px;
 
 #moreImages ul li.nsfw .nsfwCover {
   display: block;
-  background: transparent url('http://assets.wookmark.com/nsfwCover.png');
+  background: transparent url('../img/nsfwCover.png');
   text-align: center;
   display: table;
   padding: 0 0 0 0;
