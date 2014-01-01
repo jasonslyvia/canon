@@ -12,9 +12,6 @@ if (isset($_GET['imageId'])) {
 
 
 
-
-
-
 /*
  *  返回图片详细信息
  *
@@ -96,6 +93,9 @@ c_html;
     $comment_html .= '</div></div>';
     //当前用户头像
     $c_avatar = get_user_meta(get_current_user_id(), 'avatar_small', true);
+    if (!$c_avatar) {
+        $c_avatar = "default_avatar_small.png";
+    }
 
     //处理关注按钮
     if ($user_id == $author) {

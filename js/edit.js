@@ -40,7 +40,7 @@ $("#updateBtn").bind("click", function(e){
               return false;
             }
             else{
-                $(".ajax-message").append(result.message + "跳转中……");
+                $(".ajax-message").append(result.message + "，跳转中……");
             }
 
             location.href = "/?p=" + result.pid;

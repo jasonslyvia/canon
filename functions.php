@@ -33,7 +33,7 @@ function themes_dir_add_rewrites() {
     'login/?$' => 'wp-content/themes/'. $theme_name . '/login.php',
     'forgetpassword/?$' => 'wp-content/themes/'. $theme_name . '/forget-password.php',
     'upload/?$' => 'wp-content/themes/'. $theme_name . '/upload.php',
-    'edit?pid=\d+$' => 'wp-content/themes/'. $theme_name . '/edit.php',
+    'edit' => 'wp-content/themes/'. $theme_name . '/edit.php',
     'admin-front/?$' => 'wp-content/themes/'. $theme_name . '/admin-front.php',
     'categories/?$' => 'wp-content/themes/'. $theme_name . '/category-all.php',
     'profile/\d+/?$' => 'wp-content/themes/' . $theme_name . '/user-profile.php',

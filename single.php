@@ -155,9 +155,14 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
     //评论内容
     $comments = get_comments(array("post_id" => $id));
     //当前用户头像
-    $c_avatar = AVATAR.get_user_meta(get_current_user_id(),
+    $c_avatar = get_user_meta(get_current_user_id(),
                                     'avatar_small',
                                     true);
+    if (!$c_avatar) {
+        $c_avatar = "default_avatar_small.png";
+    }
+    $c_avatar = AVATAR.$c_avatar;
+
 
     if (count($comments) == 0) {
         $comment_class = " empty";

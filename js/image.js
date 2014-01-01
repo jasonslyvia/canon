@@ -3,46 +3,75 @@ gbks.imageInstance = null;
 gbks.Image = function() {
 
     this.init = function() {
-      gbks.imageInstance = this;
+        gbks.imageInstance = this;
 
-      this.setup();
+        this.setup();
 
-    this.polaroid = new gbks.Polaroid();
-    this.polaroid.init();
+        this.polaroid = new gbks.Polaroid();
+        this.polaroid.init();
 
-    this.sharePopup = null;
-    this.flagPopup = null;
-    this.ctrlDown = false;
-    this.shiftDown = false;
-    this.imageLoadTimer = null;
+        this.sharePopup = null;
+        this.flagPopup = null;
+        this.ctrlDown = false;
+        this.shiftDown = false;
+        this.imageLoadTimer = null;
 
         this.loader = $('#loader');
 
         if(this.auth) {
+          //保存按钮
           $('#details #tagOptions .saveButton').live('click', $.proxy(this.onClickAddImage, this));
+          //喜欢按钮
+          $('#details #likeImageButton').live('click', $.proxy(this.onClickLikeImage, this));
+          //关注按钮
+          $('.followButton').click($.proxy(this.onClickFollowButton, this));
 
-      $('#details #makePublicButton').live('click', $.proxy(this.onClickMakePublic, this));
-      $('#details #makePrivateButton').live('click', $.proxy(this.onClickMakePrivate, this));
-      // $('#details #unlikeImageButton').live('click', $.proxy(this.onClickUnlikeImage, this));
-      $('#details #likeImageButton').live('click', $.proxy(this.onClickLikeImage, this));
+          // $('#details #makePublicButton').live('click', $.proxy(this.onClickMakePublic, this));
+          // $('#details #makePrivateButton').live('click', $.proxy(this.onClickMakePrivate, this));
+          // $('#details #unlikeImageButton').live('click', $.proxy(this.onClickUnlikeImage, this));
 
-      $('.followButton').click($.proxy(this.onClickFollowButton, this));
+          // Add to group.
+          // $('#addToGroupsButton').live('click', $.proxy(this.onClickAddToGroup, this));
+          // //$('#formCreateGroup input').focus($.proxy(this.onFocusAddToGroupInput, this));
+          // //$('#formCreateGroup').submit($.proxy(this.onClickCreateGroup, this));
+          // $('#addToGroups li input[type=checkbox]').live('change', $.proxy(this.onToggleGroupCheckbox, this));
+        }
+        else{
+            //未登录single中评论按钮
+            $("#details #commentForm textarea").live("keyup", function(e){
+                e.stopPropagation();
 
-      // Add to group.
-      $('#addToGroupsButton').live('click', $.proxy(this.onClickAddToGroup, this));
-      //$('#formCreateGroup input').focus($.proxy(this.onFocusAddToGroupInput, this));
-      //$('#formCreateGroup').submit($.proxy(this.onClickCreateGroup, this));
-      $('#addToGroups li input[type=checkbox]').live('change', $.proxy(this.onToggleGroupCheckbox, this));
-    }
+                var imageId = $(this).closest('#commentForm').attr("data-imageid");
+                location.href = "/signup?next=" + encodeURIComponent("/?p=" + imageId);
+            });
 
-    $('#details #downloadImageButton').live('click', $.proxy(this.onClickDownloadImage, this));
-    $('#details #shareImageButton').live('click', $.proxy(this.onClickShareImage, this));
+            //未登录single中喜欢与保存按钮
+            $("#details #likeImageButton, #details .saveButton").live("click", function(e){
+                e.stopPropagation();
 
-    $('#details .palette .dropper').click($.proxy(this.onClickDropper, this));
+                var $this = $(this);
+                var imageId = $this.attr("data-id");
 
-    $('.backup img').live('click', $.proxy(this.onClickScrollUp, this));
+                location.href = "/signup?next=" + encodeURIComponent("/?p="+imageId);
+            });
 
-    $('#details .expander').click($.proxy(this.onClickExpand, this));
+            //未登录single中关注按钮跳转
+            $(".followButton").live("click", function(e){
+                e.stopPropagation();
+
+                var userId = $(this).attr("data-id");
+                location.href = "/signup?next=" + encodeURIComponent("/profile/" + userId);
+            });
+        }
+
+        $('#details #downloadImageButton').live('click', $.proxy(this.onClickDownloadImage, this));
+        $('#details #shareImageButton').live('click', $.proxy(this.onClickShareImage, this));
+
+        $('#details .palette .dropper').click($.proxy(this.onClickDropper, this));
+
+        $('.backup img').live('click', $.proxy(this.onClickScrollUp, this));
+
+        $('#details .expander').click($.proxy(this.onClickExpand, this));
 
     // if(gbks.common.history.supported()) {
     //   $('.similar li a').live('click', $.proxy(this.onClickSimilarImage, this));
@@ -55,25 +84,23 @@ gbks.Image = function() {
     //   $(window).keyup($.proxy(this.onKeyDown, this));
     // }
 
-    this.updateImageSize();
-    $(window).resize($.proxy(this.resize, this));
+        this.updateImageSize();
+        $(window).resize($.proxy(this.resize, this));
 
 
-    this.commentKeyUpMethod = $.proxy(this.onCommentKeyUp, this);
-    this.commentForm = $('#commentForm', this.details);
-    this.commentInput = $('textarea', this.commentForm);
-    console.log('form', this.commentInput);
-    if(this.commentInput.length > 0) {
-      console.log('adding events');
-      this.commentInput.focus($.proxy(this.onFocusCommentField, this));
-      this.commentInput.blur($.proxy(this.onBlurCommentField, this));
-    }
+        this.commentKeyUpMethod = $.proxy(this.onCommentKeyUp, this);
+        this.commentForm = $('#commentForm', this.details);
+        this.commentInput = $('textarea', this.commentForm);
+        if(this.commentInput.length > 0) {
+          this.commentInput.focus($.proxy(this.onFocusCommentField, this));
+          this.commentInput.blur($.proxy(this.onBlurCommentField, this));
+        }
 
-    this.fadeImages();
+        this.fadeImages();
   };
 
+  //图片加载完成后渐显载入
   this.fadeImages = function() {
-    /***/
     if(Modernizr.opacity && Modernizr.cssanimations) {
       var imgs = $('img');
       imgs.each(function(index) {
@@ -86,7 +113,6 @@ gbks.Image = function() {
         }
       });
     }
-    //*/
   };
 
   this.onScroll = function(event) {
@@ -104,6 +130,7 @@ gbks.Image = function() {
     if(event.which == 16) this.shiftDown = true;
   };
 
+  //初始化基本对象
   this.setup = function() {
     this.auth = $('body').hasClass('auth');
 
