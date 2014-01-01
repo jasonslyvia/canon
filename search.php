@@ -56,7 +56,7 @@ if ($type === "popular") {
 }
 
 
-//搜索我的图片
+//搜索我的图片，只从保存数据中搜索，忽略用户本身上传但是没有保存的图片
 else if ($type === "my") {
   if (!is_user_logged_in()) {
     wp_redirect($_SERVER['HTTP_REFERER']);
@@ -65,19 +65,20 @@ else if ($type === "my") {
 
   $result = $wpdb->get_results(
       $wpdb->prepare("
-          SELECT p.ID as pid FROM wp_posts p
+          SELECT p.ID as pid FROM pic_save pc
+          LEFT JOIN wp_posts p ON pc.pic_id = p.ID
           LEFT JOIN wp_postmeta pm ON pm.post_id = p.ID
-          LEFT JOIN wp_users u ON u.ID IS NOT NULL
           WHERE (p.post_title LIKE '%%%s%%' OR
                 (pm.meta_key = 'referrer' AND pm.meta_value LIKE '%%%s%%'))
                 AND
                 (p.post_type = 'post' AND p.post_status = 'publish')
                 AND
-                u.ID = %d
+                pc.user_id = %d
           GROUP BY pid
           ORDER BY p.post_date DESC
         ", $term, $term, get_current_user_id()), ARRAY_N
     );
+
   if (count($result)) {
     $query = new WP_Query(array("post__in" => array_values(call_user_func_array('array_merge', $result))));
   }
