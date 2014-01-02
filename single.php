@@ -79,6 +79,14 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
     <div class="headerSpacer">
     </div>
 
+    <?php if(!is_user_logged_in()): ?>
+    <!--  欢迎语   -->
+    <div id="siteIntro">
+        <h2>欢迎来到小摄郎，在这里发现并分享美丽的影与像。</h2>
+        <a href="/signup" class="actionButton blueButton">现在加入</a>
+    </div>
+    <?php endif; ?>
+
     <div class="wrap">
         <div id="image" data-id="<?php echo $id; ?>"
              data-width="<?php echo $width; ?>" data-height="<?php echo $height; ?>"
