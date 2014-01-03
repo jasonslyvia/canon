@@ -2,12 +2,15 @@ var gbks = gbks || {};
 
 gbks.User = function() {
 
-    this.init = function(config) {
-      this.config = config;
+  this.init = function(config) {
+    this.config = config;
+    this.auth = $("body").hasClass("auth");
 
-    $('Button.follow').click($.proxy(this.onClickFollowButton, this));
+    if (this.auth) {
+      $('Button.follow').click($.proxy(this.onClickFollowButton, this));
+    }
+
     $('#userInfo .expand').click($.proxy(this.onClickExpand, this));
-
     $('#userInfo .following .hider').click($.proxy(this.viewAllFollowing, this));
 
     setTimeout(function(){$('#userNav').show();}, 25);
@@ -102,7 +105,9 @@ gbks.User = function() {
   };
 
   this.hideLoader = function() {
-    this.loader.stop();
+    if (!!this.loader) {
+      this.loader.stop();
+    }
     var callback = null;
     if(this.onHideLoader) {
       callback = $.proxy(this.onHideLoader, this);

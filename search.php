@@ -24,34 +24,8 @@ $default_class = "";
 
 //搜索热门图片
 if ($type === "popular") {
-
-  $result = $wpdb->get_results(
-      $wpdb->prepare("
-          select p.ID
-          from wp_posts p
-          left join (
-            select pic_id, count(pic_id) as sc
-            from pic_save
-            group by pic_id
-          ) s on s.pic_id = p.ID
-          left join (
-            select pic_id, count(pic_id) as lc
-            from pic_like
-            group by pic_id
-          ) l on l.pic_id = p.ID
-          left join wp_postmeta pm on pm.post_id = p.ID
-          where (p.post_type = 'post' and p.post_status = 'publish')
-                and
-                (p.post_title LIKE '%%%s%%' OR
-                (pm.meta_key = 'referrer' AND pm.meta_value LIKE '%%%s%%'))
-          group by p.ID
-          order by (coalesce(s.sc,0) + coalesce(l.lc, 0)) desc
-        ", $term, $term), ARRAY_N
-    );
-
-  if (count($result)) {
-    $query = new WP_Query(array("post__in" => array_values(call_user_func_array('array_merge', $result))));
-  }
+  require_once('functions/get_data.php');
+  list($query) = get_search_popular_image($term, 1, false);
   $popular_class = " class='active'";
 }
 
@@ -63,26 +37,8 @@ else if ($type === "my") {
     exit();
   }
 
-  $result = $wpdb->get_results(
-      $wpdb->prepare("
-          SELECT p.ID as pid FROM pic_save pc
-          LEFT JOIN wp_posts p ON pc.pic_id = p.ID
-          LEFT JOIN wp_postmeta pm ON pm.post_id = p.ID
-          WHERE (p.post_title LIKE '%%%s%%' OR
-                (pm.meta_key = 'referrer' AND pm.meta_value LIKE '%%%s%%'))
-                AND
-                (p.post_type = 'post' AND p.post_status = 'publish')
-                AND
-                pc.user_id = %d
-          GROUP BY pid
-          ORDER BY p.post_date DESC
-        ", $term, $term, get_current_user_id()), ARRAY_N
-    );
-
-  if (count($result)) {
-    $query = new WP_Query(array("post__in" => array_values(call_user_func_array('array_merge', $result))));
-  }
-
+  require_once('functions/get_data.php');
+  list($query) = get_search_my_image($term, 1, false);
   $my_class = " class='active'";
 }
 
@@ -90,35 +46,15 @@ else if ($type === "my") {
 //搜索用户
 else if ($type === "user") {
   $user_class = " class='active'";
-
-  $user_result = $wpdb->get_results(
-      $wpdb->prepare("
-          SELECT display_name, ID
-          FROM wp_users
-          WHERE display_name LIKE '%%%s%%'
-        ", $term), ARRAY_A
-    );
+  require_once('functions/get_data.php');
+  $user_result = get_search_user($term, 1, false);
 }
 
 
 //搜索最新图片
 else{
-  $result = $wpdb->get_results(
-      $wpdb->prepare("
-          SELECT p.ID as pid FROM wp_posts p
-          LEFT JOIN wp_postmeta pm ON pm.post_id = p.ID
-          WHERE (p.post_title LIKE '%%%s%%' OR
-                (pm.meta_key = 'referrer' AND pm.meta_value LIKE '%%%s%%'))
-                AND
-                (p.post_type = 'post' AND p.post_status = 'publish')
-          GROUP BY pid
-          ORDER BY p.post_date DESC
-        ", $term, $term), ARRAY_N
-    );
-  if (count($result)) {
-    $query = new WP_Query(array("post__in" => array_values(call_user_func_array('array_merge', $result))));
-  }
-
+  require_once('functions/get_data.php');
+  list($query) = get_search_recent_image($term, 1, false);
   $default_class = " class='active'";
 }
 

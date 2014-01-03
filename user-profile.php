@@ -58,25 +58,9 @@ if ($user->ID == $c_user_id) {
   $same_user = true;
 }
 
-/*======================================
-构建WP_Query，选出当前 被 浏览用户保存的所有图片
-======================================*/
-$saved_record = $wpdb->get_col("
-    SELECT pic_id as p FROM pic_save
-    WHERE user_id = {$uid}
-  ");
-
-global $query;
-if (count($saved_record) == 0) {
-  $query = null;
-  $post_count = 0;
-}
-else{
-  $args = array("post__in" => $saved_record,
-                "posts_per_page" => 100);
-  $query = new WP_Query($args);
-  $post_count = $query->found_posts;
-}
+//获取用户保存的图片信息及对应的数量
+require('functions/get_data.php');
+list($query, $post_count) = get_user_saved_image($uid, 1, false);
 
 get_header();
 
@@ -150,15 +134,15 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
       </div>
     </div>
 
-<?php require('functions/get_pic_grid.php'); ?>
+    <?php require('functions/get_pic_grid.php'); ?>
 
     <div class="clear">
     </div>
 
-  </div>
+  </div><!-- images -->
   <div class="clear">
   </div>
-</div>
+</div><!-- page -->
 <div id="loader">
 </div>
 

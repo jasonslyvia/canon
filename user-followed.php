@@ -27,21 +27,9 @@ else{
 /*======================================
 构建WP_Query，选出当前被浏览用户关注的所有用户的照片
 ======================================*/
-global $query;
-global $wpdb;
-$follow_record = $wpdb->get_col("
-    SELECT follower_id FROM user_relation
-    WHERE followee_id = {$uid}
-  ");
-if (count($follow_record) > 0) {
-  //BUG 奇怪的wordpress bug，author__in没有正确返回参数
-  $query = new WP_Query("author=".implode(',', $follow_record));
-  $post_count = count($follow_record);
-}
-else{
-  $query = null;
-  $post_count = 0;
-}
+//获取用户保存的图片信息及对应的数量
+require('functions/get_data.php');
+list($query, $post_count, $follow_record) = get_user_followed_image($uid, 1, false);
 
 get_header();
 

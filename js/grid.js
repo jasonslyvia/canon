@@ -75,11 +75,21 @@ gbks.Polaroid = function () {
             //未登录情况下保存和喜欢按钮跳转逻辑
             $(".like, .save").live("click", function(e){
                 e.stopPropagation();
+                e.preventDefault();
 
                 var $this = $(this);
                 var imageId = $this.attr("data-id");
 
                 location.href = "/signup?next=" + encodeURIComponent("/?p="+imageId);
+            });
+
+            //未登录下点击关注按钮
+            $(".follow").live("click", function(e){
+                e.stopPropagation();
+                e.preventDefault();
+
+                var userId = $(this).attr("data-id");
+                location.href = "/signup?next=" + encodeURIComponent("/profile/"+userId);
             });
         }
         $(".imageLink", this.polaroids).live("click", $.proxy(this.onClickMagnify, this));
@@ -524,19 +534,20 @@ gbks.Tiles = function () {
         this.maxWidth = e.maxWidth || null;
         tiles = this;
         this.loader = $("#loader");
-        this.loadMoreUrl = "/bookmarks/loadMore";
-        this.currentPage = 0;
+        this.currentPage = 1;
         this.tiles = $(".tile");
+
         console.log("config", this.config);
+
         if (this.tiles.length > 0) {
             this.layout();
             if (this.tiles.length > 2) {
                 this.initAutoLayout();
-                this.config.type && this.startEndlessScroll()
+                this.config.type && this.startEndlessScroll();
             }
         }
         setTimeout($.proxy(this.tiles.show, this.tiles), 25);
-        this.fadeImages()
+        this.fadeImages();
     };
     this.fadeImages = function () {
         if (Modernizr.opacity && Modernizr.cssanimations) {
@@ -706,7 +717,7 @@ gbks.Tiles = function () {
         this.config.page = this.currentPage;
         var t = this.loadMoreUrl;
         $.ajax({
-            url: "/wp-content/themes/canon/js/test_loadmore.php",//t,
+            url: ABSPATH + "/functions/loadmore.php",
             data: this.config,
             success: $.proxy(this.onLoadMore, this),
             error: $.proxy(this.onLoadMoreError, this)
@@ -731,7 +742,7 @@ gbks.Tiles = function () {
             a && a.length > 0 ? f.insertBefore(a) : $("#images").append(f);
             u++
         }
-        return t
+        return t;
     };
     this.onLoadMore = function (e) {
         //若是广告
@@ -740,6 +751,7 @@ gbks.Tiles = function () {
             t && this.superAds.show();
         } else {
             $("#images").append(e);
+            pageConfig.page++;
         }
         this.fadeImages();
         $("#noMoreImages").length == 0 && this.startEndlessScroll();

@@ -27,21 +27,8 @@ else{
 /*======================================
 构建WP_Query，选出当前被浏览用户喜欢的所有图片
 ======================================*/
-global $query;
-global $wpdb;
-$like_record = $wpdb->get_col("
-    SELECT pic_id FROM pic_like
-    WHERE user_id = {$uid}
-  ");
-if (count($like_record) > 0) {
-  $args = array("post__in" => $like_record);
-  $query = new WP_Query($args);
-  $post_count = $query->found_posts;
-}
-else{
-  $query = null;
-  $post_count = 0;
-}
+require('functions/get_data.php');
+list($query, $post_count) = get_user_liked_image($uid, 1, false);
 
 get_header();
 

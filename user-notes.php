@@ -27,21 +27,8 @@ else{
 /*======================================
 构建WP_Query，选出当前被浏览用户评论的所有图片
 ======================================*/
-global $query;
-$comments = get_comments(array("user_id" => $uid));
-if (count($comments) > 0) {
-  $comment_post_array = array();
-  foreach ($comments as $comment) {
-    array_push($comment_post_array, $comment->comment_post_ID);
-  }
-  $args = array("post__in" => $comment_post_array);
-  $query = new WP_Query($args);
-  $post_count = count($comments);
-}
-else{
-  $query = null;
-  $post_count = 0;
-}
+require('functions/get_data.php');
+list($query, $post_count) = get_user_comment_image($uid, 1, false);
 
 get_header();
 

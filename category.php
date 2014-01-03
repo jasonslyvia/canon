@@ -22,10 +22,12 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
             <p class="description"><?php echo strip_tags(category_description()); ?></p>
         </div>
 
-<?php global $query;
-      $cat_id = get_cat_ID(single_cat_title('', false));
-      $query = new WP_Query('cat='.$cat_id);
-      require_once('functions/get_pic_grid.php');
+<?php
+    global $query;
+    global $cat_id;
+    $cat_id = get_cat_ID(single_cat_title('', false));
+    require_once('functions/get_data.php');
+    get_category_image($cat_id, 1, true);
 ?>
     </div>
 </div>
