@@ -326,7 +326,7 @@ echo $comment_html;
                     <div class="options">
                         <div class="followButton actionButton blueButton<?php echo $follow_class;?>"
                              data-id="<?php echo $author_id; ?>" data-type="1">
-                            <a href="#"><?php echo $follow_text; ?></a>
+                            <a href="javascript:;"><?php echo $follow_text; ?></a>
                         </div>
                     </div>
 <?php endif; ?>
