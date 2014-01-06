@@ -118,6 +118,17 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
                     </a>
                 </p>
             </div>
+            <div class="jiathis_style_32x32" id='sharePopup'>
+                <div class="arrow">
+                    <span class="up"></span>
+                    <span class="up-wrapper"></span>
+                </div>
+                <a class="jiathis_button_qzone">QQ空间</a>
+                <a class="jiathis_button_tsina">新浪微博</a>
+                <a class="jiathis_button_tqq">腾讯微博</a>
+                <a class="jiathis_button_renren">人人网</a>
+                <a class="jiathis_button_kaixin001">开心网</a>
+            </div>
             <div class="similar">
                 <ul class="clearfix">
 <?php

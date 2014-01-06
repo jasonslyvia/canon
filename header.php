@@ -116,7 +116,7 @@
         <a href="/help">帮助</a>
         <?php if (is_user_logged_in()):?>
         <a href="/settings">设置</a>
-        <a href="<?php echo wp_logout_url(home_url()); ?>">注销</a>
+        <a href="<?php echo wp_logout_url(home_url()); ?>">退出</a>
         <?php endif; ?>
       </p>
     </div>

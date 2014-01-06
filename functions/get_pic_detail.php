@@ -44,8 +44,11 @@ function get_pic_detail(){
     //链接
     $permalink = $post->post_name;
     //标题
-    $title = $post->post_title;
+    $title = $post->post_title ? $post->post_title : '无标题';
     $history = '';
+
+    //网站名词
+    $website_name = get_bloginfo();
 
 
     //若用户id不存在则设为0，模拟用户未登录情况
@@ -178,6 +181,17 @@ html;
                         </a>
                     </p>
                 </div>
+                <div class="jiathis_style_32x32" id='sharePopup'>
+                    <div class="arrow">
+                        <span class="up"></span>
+                        <span class="up-wrapper"></span>
+                    </div>
+                    <a class="jiathis_button_qzone">QQ空间</a>
+                    <a class="jiathis_button_tsina">新浪微博</a>
+                    <a class="jiathis_button_tqq">腾讯微博</a>
+                    <a class="jiathis_button_renren">人人网</a>
+                    <a class="jiathis_button_kaixin001">开心网</a>
+                </div>
             </div>
             <div class="lower">
                 <div class="similar">
@@ -229,6 +243,7 @@ html;
         </div>
     </div>
 </div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1373892207080614" charset="utf-8"></script>
 html;
 
 

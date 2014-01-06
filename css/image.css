@@ -52,6 +52,7 @@ float: left;
 }
 
 #details {
+  position: relative;
 float: right;
 width: 317px;
 margin: 0 0 0 0;

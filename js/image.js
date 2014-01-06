@@ -546,29 +546,33 @@ gbks.Image = function() {
   //   gbks.common.positionPopup(this.flagPopup);
   // };
 
+  //分享图片
   this.onClickShareImage = function(event) {
     event.preventDefault();
     event.stopPropagation();
-
-    this.track('Image', 'share', this.imageId);
 
     //var sharing = $('#details .sharing');
     var button = $('#shareImageButton');
     var isActive = button.hasClass('active');
 
-    if(this.sharePopup) {
-      this.sharePopup.hide();
-      this.sharePopup = null;
-    }
+    // if(this.sharePopup) {
+    //   this.sharePopup.hide();
+    //   this.sharePopup = null;
+    // }
 
     if(isActive) {
-      //sharing.removeClass('active');
       button.removeClass('active');
+      $("#sharePopup").fadeOut(200);
     } else {
-      //sharing.addClass('active');
       button.addClass('active');
-      this.sharePopup = new gbks.common.SharePopup();
-      this.sharePopup.display(this.imageId, button, $.proxy(this.onHideSharePopup, this));
+      $("#sharePopup").fadeIn(200);
+      $("#sharePopup").one("click", function(){
+          $(this).hide();
+          button.removeClass('active');
+      });
+
+      // this.sharePopup = new gbks.common.SharePopup();
+      // this.sharePopup.display(this.imageId, button, $.proxy(this.onHideSharePopup, this));
     }
   };
 

@@ -1,5 +1,5 @@
 /*
-Theme Name: Canon
+Theme Name: Canon:;
 Theme URI: http://xiaoshelang.ppios.com/
 Description: 小摄郎 Wordpress 主题
 Author: YangSen
@@ -2149,8 +2149,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .popupWrap {
   z-index: 1000;
   position: absolute;
-  top: 20px;
-  left: 20px;
+  left: 80px;
+  top: 70px;
   background-color: #ffffff;
   border: 2px solid #4b4b4b;
   -moz-box-shadow: 0 2px 12px rgba(0,0,0,.35);
@@ -2446,8 +2446,10 @@ only screen and (min-device-pixel-ratio: 1.5) {
 /** Share popup **/
 
 #sharePopup {
-  width: 128px;
+  display: none;
+  width: 150px;
   min-width: 0;
+  padding: 10px 5px;
 }
 
 #sharePopup li {
@@ -2771,3 +2773,7 @@ img.imageLoaded {
 #noMoreImages li.recent img { margin-left: -180px; }
 #noMoreImages li.categories img { margin-left: -360px; }
 #noMoreImages li.backup img { margin-left: -450px; }
+
+#sharePopup.jiathis_style_32x32 .arrow{
+  left: 70px !important;
+}

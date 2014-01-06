@@ -41,10 +41,10 @@ gbks.common.onWindowError = function (e, t, n) {
 gbks.common.wrapPopupContent = function (e, t, n) {
     var r = n ? " horizontal" : "",
         i = '<div id="' + e + '" class="popupWrap' + r + '">';
-    n ? i += '<div class="arrow"><img class="left" width="17" height="29" src="/assets/overlay-arrow-left.png"><img class="right" width="17" height="29" src="/assets/overlay-arrow-right.png"></div>' : i += '<div class="arrow"><img class="up" width="29" height="17" src="/assets/overlay-arrow-up.png"><img class="down" width="29" height="17" src="/assets/overlay-arrow-down.png"></div>';
+    n ? i += '<div class="arrow"><img class="left" width="17" height="29" src="'+ABSPATH+'/img/overlay-arrow-left.png"><img class="right" width="17" height="29" src="'+ABSPATH+'/img/overlay-arrow-right.png"></div>' : i += '<div class="arrow"><img class="up" width="29" height="17" src="'+ABSPATH+'/img/overlay-arrow-up.png"><img class="down" width="29" height="17" src="'+ABSPATH+'/img/overlay-arrow-down.png"></div>';
     i += t;
     i += "</div>";
-    return i
+    return i;
 };
 gbks.common.positionPopupHorizontal = function (e, t) {
     var n = $(window).height(),
@@ -827,7 +827,7 @@ gbks.common.Lightbox = function () {
     this.hideSharePopup = function () {
         if (this.sharePopup) {
             this.sharePopup.hide();
-            this.sharePopup = null
+            this.sharePopup = null;
         }
     };
     //点击分享按钮
@@ -839,11 +839,17 @@ gbks.common.Lightbox = function () {
         this.hidePopups("share");
         if (t.hasClass("active")) {
             t.removeClass("active");
-            this.onHideSharePopup()
+            $("#sharePopup").fadeOut(200);
+            // this.onHideSharePopup()
         } else {
             t.addClass("active");
-            this.sharePopup = new gbks.common.SharePopup;
-            this.sharePopup.display(n, t, $.proxy(this.onHideSharePopup, this))
+            $("#sharePopup").fadeIn(200);
+            $("#sharePopup").one("click", function(){
+                $(this).hide();
+                t.removeClass('active');
+            });
+            // this.sharePopup = new gbks.common.SharePopup;
+            // this.sharePopup.display(n, t, $.proxy(this.onHideSharePopup, this))
         }
     };
     this.hidePopups = function (e) {
@@ -853,9 +859,9 @@ gbks.common.Lightbox = function () {
     this.onHideSharePopup = function (e) {
         if (this.sharePopup) {
             this.sharePopup.hide();
-            this.sharePopup = null
+            this.sharePopup = null;
         }
-        $("#shareImageButton", this.canvas).removeClass("active")
+        $("#shareImageButton", this.canvas).removeClass("active");
     };
 
     /*******************************************
@@ -1218,6 +1224,7 @@ gbks.common.SharePopup = function () {
     this.target = null;
     this.hideCallback = !1;
     this.resizeMethod = $.proxy(this.updateLayout, this);
+
     this.display = function (e, t, n) {
         this.imageId = e;
         this.element = t;
@@ -1256,13 +1263,17 @@ gbks.common.SharePopup = function () {
             this.canvas.remove();
             this.canvas = null
         }
-        var e = '<ol class="options">';
-        e += '<li class="facebook"><a href="/share/facebook?imageId=' + this.imageId + '" target="_blank"><span><img src="/assets/icons/shareIcons.png" width="100" height="60" alt="Facebook"></span>Facebook</a></li>';
-        e += '<li class="pinterest"><a href="/share/pinterest?imageId=' + this.imageId + '" target="_blank"><span><img src="/assets/icons/shareIcons.png" width="100" height="60" alt="Pinterest"></span>Pinterest</a></li>';
-        e += '<li class="twitter"><a href="/share/twitter?imageId=' + this.imageId + '" target="_blank"><span><img src="/assets/icons/shareIcons.png" width="100" height="60" alt="Twitter"></span>Twitter</a></li>';
-        e += '<li class="tumblr"><a href="/share/tumblr?imageId=' + this.imageId + '" target="_blank"><span><img src="/assets/icons/shareIcons.png" width="100" height="60" alt="Tumblr"></span>Tumblr</a></li>';
-        e += '<li class="embed"><a href="/embed/image/' + this.imageId + '" target="_blank"><span><img src="/assets/icons/shareIcons.png" width="100" height="60" alt="Embed"></span>Embed</a></li>';
-        e += "</ol>";
+
+        var e= ''+
+'<div class="bdsharebuttonbox" data-tag="share_1">'+
+    '<a class="bds_mshare" data-cmd="mshare"></a>' +
+    '<a class="bds_qzone" data-cmd="qzone" href="#"></a>'+
+    '<a class="bds_tsina" data-cmd="tsina"></a>'+
+    '<a class="bds_baidu" data-cmd="baidu"></a>'+
+    '<a class="bds_renren" data-cmd="renren"></a>'+
+    '<a class="bds_tqq" data-cmd="tqq"></a>'+
+'</div>';
+
         e = gbks.common.wrapPopupContent("sharePopup", e, !1);
         this.canvas = $(e);
         $("body").append(this.canvas);

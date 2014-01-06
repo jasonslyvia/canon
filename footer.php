@@ -75,6 +75,7 @@
 
     <?php if (is_single()): ?>
     <script type="text/javascript" src="<?php echo URL;?>/js/image.js"></script>
+    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1373892207080614" charset="utf-8"></script>
     <?php endif ?>
 
     <?php if (is_edit()): ?>
