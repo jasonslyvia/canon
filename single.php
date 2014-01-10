@@ -32,6 +32,7 @@ $author_id = $post->post_author;
 $author_name = get_userdata($author_id)->display_name;
 $avatar = AVATAR.get_user_meta($author_id,'avatar_small', true);
 $image = $post->post_content;
+$whole_image_url = HOME. IMAGE_PATH . $author_id . '/' . $image;
 $thumb = preg_replace('/(\..{3,4})$/', '_200$1', $image);
 $width = get_post_meta($id, 'width', true);
 $height = get_post_meta($id, 'height', true);
@@ -94,7 +95,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
             <div class="image">
                 <a href="<?php echo $referer; ?>"
                    target="_blank" rel="nofollow">
-                   <img src="<?php echo IMAGE_PATH . $author_id . '/'. $image; ?>"
+                   <img src="<?php echo $whole_image_url; ?>"
                         alt="<?php the_title(); ?>" />
                 </a>
             </div>
@@ -237,8 +238,15 @@ echo $comment_html;
     <div id="moreImages" class="clearfix">
         <div class="werbung section">
             <div class="superAdContent">
-                <div id="lijit_region_229626">
-                </div>
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 文章末尾新 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-4883702208099244"
+     data-ad-slot="3416182537"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
             </div>
             <p>
                 赞助商广告

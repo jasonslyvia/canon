@@ -587,3 +587,23 @@ function return_no_result(){
     echo '<div id="noMoreImages"></div>';
     exit();
 }
+
+function insert_ad(){
+  $ad = <<<ad
+<div class="polaroid tile superad">
+<div class="superAdContent">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 测试小摄郎 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-4883702208099244"
+     data-ad-slot="3420700199"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<p>赞助商广告</p>
+</div>
+ad;
+
+  return $ad;
+}
