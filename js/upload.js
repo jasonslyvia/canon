@@ -32,6 +32,7 @@ gbks.common.uploadImage = function(){
 
             self.createPreview(result.filename);
             $('#file_upload').uploadify('settings','buttonText','重新选择');
+            $("#file_upload").uploadify('disable', true);
         }
     };
 
@@ -116,9 +117,23 @@ gbks.common.uploadImage = function(){
     self.onAddPicSuccess = function(result){
         self.ajaxFlag = false;
         if (result.message) {
-            $(".ajax-message").empty().append(result.message + "<br />"+
-                "<a href='javascript:location.reload();'>继续上传</a> "+
-                "<a href='/?p="+result.postId+"'>查看详情</a>");
+            var $parent = $(".preview").closest(".wrapSignupForm");
+            $(".preview").slideUp(500, function(){
+                //移除preview
+                $(this).remove();
+                $parent.append(
+                    '<div class="ajax-result">' +
+                        '<p class="tip">'+result.message + "</p>"+
+                        "<a class='actionButton blueButton resetUploadBtn'>继续上传</a> "+
+                        "<a class='actionButton' href='/?p="+result.postId+"'>查看详情</a>"+
+                    '</div>');
+
+                    $(".resetUploadBtn").one("click", function(){
+                        $("#file_upload").uploadify("settings", "buttonText", "上传");
+                        $("#file_upload").uploadify("disable", false);
+                        $(".ajax-result").remove();
+                    });
+                });
         }
     };
 
@@ -184,7 +199,6 @@ gbks.common.uploadImage = function(){
         }
     });
 
-
     /*
 
       工具函数区域
@@ -228,7 +242,7 @@ gbks.common.uploadImage = function(){
             "<div class='op'>"+
                 "<label for='referrer'>照片来源网址（原创则留空）</label><br />"+
                 "<input type='text' id='referrer' value='"+ referrer +"' />"+
-                "<label for='title'>照片标题（一句话形容这幅作品，必填）</label><br />"+
+                "<label for='title'>照片标题（一句话形容这幅作品）</label><br />"+
                 "<input type='text' id='title' />"+
                 "<label for='cat'>照片主题</label>"+
                 "<select id='picCat'>"+

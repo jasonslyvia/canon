@@ -2777,3 +2777,48 @@ img.imageLoaded {
 #sharePopup.jiathis_style_32x32 .arrow{
   left: 70px !important;
 }
+
+.profileImage{
+  position: relative;
+}
+
+.profileImage .tip{
+  position: absolute;
+  right: 3px;
+  top: 13px;
+  padding: 2px 4px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  color: #666;
+  background-color: #fefefe;
+  -o-transition: all .2s;
+  -moz-transition: all .2s;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+}
+
+.profileImage .tip:hover{
+  color: #fefefe;
+  background-color: #666;
+}
+
+.ajax-result{
+  margin: 30px 0 0;
+  padding: 20px 20px 30px;
+  border: 1px #ededed solid;
+  background-color: #fefefe;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  -webkit-box-shadow: 2px 2px 5px #eee;
+  -moz-box-shadow: 2px 2px 5px #eee;
+  box-shadow: 2px 2px 5px #eee;
+}
+
+.ajax-result .tip{
+  margin: 0 0 25px;
+  font-size: 16px;
+  line-height: 16px;
+  text-shadow: 1px 1px #eee;
+}

@@ -17,11 +17,11 @@ require('common.php');
 define(DEFAULT_WIDTH, 200);
 
 
-if (verify_ajax(array("filename", "title"), "post", true, "upload_pic")) {
+if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
 
     $filename = $_POST['filename'];
     $userId = get_current_user_id();
-    $title = $_POST['title'];
+    $title = $_POST['title'] ? $_POST['title'] : '无标题';
     $category = $_POST['category'];
 
     //若是远程图片，首先将其保存到本地
@@ -159,13 +159,13 @@ function create_thumb($filename, $thumbname, $target_width){
             switch ($extension) {
                 case 'jpg':
                 case 'jpeg':
-                    $new_pic = imagejpeg($dst, $thumbname .'jpg');
+                    $new_pic = imagejpeg($dst, $thumbname . $extension);
                     break;
                 case 'png':
-                    $new_pic = imagepng($dst, $thumbname .'png');
+                    $new_pic = imagepng($dst, $thumbname . $extension);
                     break;
                 case 'gif':
-                    $new_pic = imagegif($dst, $thumbname .'gif');
+                    $new_pic = imagegif($dst, $thumbname . $extension);
                     break;
                 default:
                     break;
