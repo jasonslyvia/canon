@@ -29,7 +29,7 @@ function get_pic_detail(){
     //作者头像
     $avatar = get_user_meta($author,'avatar_small', true);
     //图片地址
-    $pic = IMAGE_PATH . $author . '/' . $post->post_content;
+    $pic = HOME. IMAGE_PATH . $author . '/' . $post->post_content;
     //来源
     $referer = get_post_meta($image_id, 'referrer', true);
     if (!empty($referer) && trim($referer) != '') {

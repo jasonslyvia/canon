@@ -2,100 +2,83 @@ var gbks = gbks || {};
 gbks.imageInstance = null;
 gbks.Image = function() {
 
-    this.init = function() {
-        gbks.imageInstance = this;
+  this.init = function() {
+      gbks.imageInstance = this;
 
-        this.setup();
+      this.setup();
 
-        this.polaroid = new gbks.Polaroid();
-        this.polaroid.init();
+      this.polaroid = new gbks.Polaroid();
+      this.polaroid.init();
 
-        this.sharePopup = null;
-        this.flagPopup = null;
-        this.ctrlDown = false;
-        this.shiftDown = false;
-        this.imageLoadTimer = null;
+      this.sharePopup = null;
+      this.flagPopup = null;
+      this.ctrlDown = false;
+      this.shiftDown = false;
+      this.imageLoadTimer = null;
 
-        this.loader = $('#loader');
+      this.loader = $('#loader');
 
-        if(this.auth) {
-          //保存按钮
-          $('#details #tagOptions .saveButton').live('click', $.proxy(this.onClickAddImage, this));
-          //喜欢按钮
-          $('#details #likeImageButton').live('click', $.proxy(this.onClickLikeImage, this));
-          //关注按钮
-          $('.followButton').click($.proxy(this.onClickFollowButton, this));
+      if(this.auth) {
+        //保存按钮
+        $('#details #tagOptions .saveButton').live('click', $.proxy(this.onClickAddImage, this));
+        //喜欢按钮
+        $('#details #likeImageButton').live('click', $.proxy(this.onClickLikeImage, this));
+        //关注按钮
+        $('.followButton').click($.proxy(this.onClickFollowButton, this));
 
-          // $('#details #makePublicButton').live('click', $.proxy(this.onClickMakePublic, this));
-          // $('#details #makePrivateButton').live('click', $.proxy(this.onClickMakePrivate, this));
-          // $('#details #unlikeImageButton').live('click', $.proxy(this.onClickUnlikeImage, this));
+        // Add to group.
+        // $('#addToGroupsButton').live('click', $.proxy(this.onClickAddToGroup, this));
+        // //$('#formCreateGroup input').focus($.proxy(this.onFocusAddToGroupInput, this));
+        // //$('#formCreateGroup').submit($.proxy(this.onClickCreateGroup, this));
+        // $('#addToGroups li input[type=checkbox]').live('change', $.proxy(this.onToggleGroupCheckbox, this));
+      }
+      else{
+          //未登录single中评论按钮
+          $("#details #commentForm textarea").live("keyup", function(e){
+              e.stopPropagation();
 
-          // Add to group.
-          // $('#addToGroupsButton').live('click', $.proxy(this.onClickAddToGroup, this));
-          // //$('#formCreateGroup input').focus($.proxy(this.onFocusAddToGroupInput, this));
-          // //$('#formCreateGroup').submit($.proxy(this.onClickCreateGroup, this));
-          // $('#addToGroups li input[type=checkbox]').live('change', $.proxy(this.onToggleGroupCheckbox, this));
-        }
-        else{
-            //未登录single中评论按钮
-            $("#details #commentForm textarea").live("keyup", function(e){
-                e.stopPropagation();
+              var imageId = $(this).closest('#commentForm').attr("data-imageid");
+              location.href = "/signup?next=" + encodeURIComponent("/?p=" + imageId);
+          });
 
-                var imageId = $(this).closest('#commentForm').attr("data-imageid");
-                location.href = "/signup?next=" + encodeURIComponent("/?p=" + imageId);
-            });
+          //未登录single中喜欢与保存按钮
+          $("#details #likeImageButton, #details .saveButton").live("click", function(e){
+              e.stopPropagation();
 
-            //未登录single中喜欢与保存按钮
-            $("#details #likeImageButton, #details .saveButton").live("click", function(e){
-                e.stopPropagation();
+              var $this = $(this);
+              var imageId = $this.attr("data-id");
 
-                var $this = $(this);
-                var imageId = $this.attr("data-id");
+              location.href = "/signup?next=" + encodeURIComponent("/?p="+imageId);
+          });
 
-                location.href = "/signup?next=" + encodeURIComponent("/?p="+imageId);
-            });
+          //未登录single中关注按钮跳转
+          $(".followButton").live("click", function(e){
+              e.stopPropagation();
 
-            //未登录single中关注按钮跳转
-            $(".followButton").live("click", function(e){
-                e.stopPropagation();
+              var userId = $(this).attr("data-id");
+              location.href = "/signup?next=" + encodeURIComponent("/profile/" + userId);
+          });
+      }
 
-                var userId = $(this).attr("data-id");
-                location.href = "/signup?next=" + encodeURIComponent("/profile/" + userId);
-            });
-        }
+      $('#details #shareImageButton').live('click', $.proxy(this.onClickShareImage, this));
 
-        $('#details #shareImageButton').live('click', $.proxy(this.onClickShareImage, this));
+      $('.backup img').live('click', $.proxy(this.onClickScrollUp, this));
 
-        $('#details .palette .dropper').click($.proxy(this.onClickDropper, this));
+      $('#details .expander').click($.proxy(this.onClickExpand, this));
 
-        $('.backup img').live('click', $.proxy(this.onClickScrollUp, this));
-
-        $('#details .expander').click($.proxy(this.onClickExpand, this));
-
-    // if(gbks.common.history.supported()) {
-    //   $('.similar li a').live('click', $.proxy(this.onClickSimilarImage, this));
-    //   $('#moreImages li a').live('click', $.proxy(this.onClickMoreImage, this));
-    //   $('#nextImage a').live('click', $.proxy(this.onClickNextImage, this));
-
-    //   $(window).bind('popstate', $.proxy(this.onHistoryChange, this));
-
-    //   $(window).keydown($.proxy(this.onKeyDown, this));
-    //   $(window).keyup($.proxy(this.onKeyDown, this));
-    // }
-
-        this.updateImageSize();
-        $(window).resize($.proxy(this.resize, this));
+      this.updateImageSize();
+      $(window).resize($.proxy(this.resize, this));
 
 
-        this.commentKeyUpMethod = $.proxy(this.onCommentKeyUp, this);
-        this.commentForm = $('#commentForm', this.details);
-        this.commentInput = $('textarea', this.commentForm);
-        if(this.commentInput.length > 0) {
-          this.commentInput.focus($.proxy(this.onFocusCommentField, this));
-          this.commentInput.blur($.proxy(this.onBlurCommentField, this));
-        }
+      this.commentKeyUpMethod = $.proxy(this.onCommentKeyUp, this);
+      this.commentForm = $('#commentForm', this.details);
+      this.commentInput = $('textarea', this.commentForm);
+      if(this.commentInput.length > 0) {
+        this.commentInput.focus($.proxy(this.onFocusCommentField, this));
+        this.commentInput.blur($.proxy(this.onBlurCommentField, this));
+      }
 
-        this.fadeImages();
+      this.fadeImages();
   };
 
   //图片加载完成后渐显载入
@@ -173,7 +156,6 @@ gbks.Image = function() {
 
     clearTimeout(this.imageLoadTimer);
     this.imageLoadTimer = setTimeout($.proxy(this.onImageLoadTimer, this), 1000);
-
 
     $.ajax({
       url: link,
@@ -253,14 +235,6 @@ gbks.Image = function() {
     hidden.show();
   };
 
-  this.onClickDropper = function() {
-    this.track('Image', 'clickDropper', this.imageId);
-
-      var image = $('#image .image img').attr('src');
-      var url = 'http://www.imagecolorpalette.com/home/uploadfromurl?url='+encodeURIComponent(image);
-      window.open(url);
-    };
-
   this.resize = function() {
     clearTimeout(this.layoutTimer);
     this.layoutTimer = setTimeout($.proxy(this.updateImageSize, this), 500);
@@ -335,59 +309,6 @@ gbks.Image = function() {
   this.onRemoveImageComplete = function(event) {
     this.hideLoader();
   };
-
-  // // Privacy
-
-  // this.onClickMakePublic = function( event ) {
-  //   event.stopPropagation();
-  //   event.preventDefault();
-
-  //   var imageId = $(event.currentTarget).attr('data-id');
-  //   this.togglePrivateButton(true);
-
-  //   this.showLoader('Updating privacy');
-
-  //   $.ajax({
-  //     url: '/bookmark/setpublic',
-  //     type: 'POST',
-  //     data: {imageId:imageId},
-  //     success: $.proxy(this.hideLoader, this)
-  //   });
-  // };
-
-  // this.onClickMakePrivate = function( event ) {
-  //   event.stopPropagation();
-  //   event.preventDefault();
-
-  //   var imageId = $(event.currentTarget).attr('data-id');
-  //   this.toggleSaveButton(true);
-  //   this.togglePrivateButton(false);
-
-  //   this.showLoader('Updating privacy');
-
-  //   $.ajax({
-  //     url: '/bookmark/setprivate',
-  //     type: 'POST',
-  //     data: {imageId:imageId},
-  //     success: $.proxy(this.hideLoader, this)
-  //   });
-  // };
-
-  // Button toggles.
-
-  // this.togglePrivateButton = function(active) {
-  //   if(active === true) {
-  //     var button = $('#makePublicButton');
-  //     button.removeClass('active');
-  //     button.attr('id', 'makePrivateButton');
-  //     button.attr('title', 'Save privately');
-  //   } else {
-  //     var button = $('#makePrivateButton');
-  //     button.addClass('active');
-  //     button.attr('id', 'makePublicButton');
-  //     button.attr('title', 'Save publicly');
-  //   }
-  // };
 
   this.toggleSaveButton = function(active) {
     var saveButton = $('#details #tagOptions .saveButton');

@@ -384,6 +384,13 @@ gbks.common.Lightbox = function () {
     this.onClickLightbox = function (e) {
         var t = $(e.target),
             n = t.parents("#lightboxDetails").length > 0;
+
+        if ($("#sharePopup").is(":visible")) {
+            $("#sharePopup").fadeOut(100);
+            $(".shareButton").removeClass("active");
+            return false;
+        }
+
         if (!t.is("img") && !t.is("a") && !n) {
             e.preventDefault();
             e.stopPropagation();
@@ -1306,6 +1313,9 @@ gbks.common.Kaori = function () {
         this.resize();
 
         this.initSearch();
+
+        $(".profileImage img").hover($.proxy(this.onHoverAvatar, this));
+        $(".profileImage").bind("mouseleave", $.proxy(this.onLeaveAvatar, this));
     };
     this.onWindowResize = function (e) {
         clearTimeout(this.resizeTimer);
@@ -1373,6 +1383,14 @@ gbks.common.Kaori = function () {
                 }
             }
         });
+    };
+    this.onHoverAvatar = function(){
+        if ($(".profileImage .tip").length == 0) {
+            $("<a href='/settings' class='tip'>更改头像</a>").appendTo(".profileImage");
+        }
+    };
+    this.onLeaveAvatar = function(){
+        $(".profileImage .tip").remove();
     }
 };
 

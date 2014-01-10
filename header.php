@@ -52,7 +52,8 @@
       var ABSPATH = '<?php echo URL;?>';
     </script>
 </head>
-<body<?php if(is_user_logged_in()) echo " class='auth'";?>>
+<body class="<?php if(is_user_logged_in()) echo "auth";
+           if ($_COOKIE['hidenav'] == 'true') { echo " hidenav"; } ?>">
     <!--  导航栏   -->
     <div id="kaori" class="nodrag">
 

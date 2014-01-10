@@ -20,6 +20,8 @@ $c_liked_record = $wpdb->get_col("
   ");
 
 
+$show_ad = false;
+$i = 0;
 while ($query && $query->have_posts()) {
     $query->the_post();
 
@@ -48,6 +50,29 @@ while ($query && $query->have_posts()) {
     else{
       $like_class = "";
     }
+
+    ++$i;
+?>
+
+<?php if ($i > 5 && !$show_ad) {
+  echo <<<ad
+<div class="polaroid tile superad">
+<div class="superAdContent">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 测试小摄郎 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-4883702208099244"
+     data-ad-slot="3420700199"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<p>赞助商广告</p>
+</div>
+</div>
+ad;
+  $show_ad = true;
+}
 ?>
 
     <div class="polaroid tile saved" id="image_<?php echo $id; ?>"
