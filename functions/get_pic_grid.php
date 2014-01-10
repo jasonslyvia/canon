@@ -54,7 +54,7 @@ while ($query && $query->have_posts()) {
     ++$i;
 ?>
 
-<?php if ($i > 5 && !$show_ad) {
+<?php if ($i > 5 && !$show_ad && $query->ad) {
   echo <<<ad
 <div class="polaroid tile superad">
 <div class="superAdContent">

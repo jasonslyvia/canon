@@ -58,6 +58,7 @@ function get_index_popular_image($page = 1){
     $hot_ids = array_values(call_user_func_array('array_merge', $hot_result));
     $query = new WP_Query(array("post__in" => $hot_ids,
                                 "orderby" => "none"));
+    $query->ad = should_display_ad($page, "index");
     require('get_pic_grid.php');
 }
 
@@ -73,6 +74,8 @@ function get_index_recent_image($page = 1){
     if (!$query->have_posts()) {
         return_no_result();
     }
+
+    $query->ad = should_display_ad($page, "index");
     require('get_pic_grid.php');
 }
 
@@ -113,6 +116,7 @@ function get_user_saved_image($user_id, $page = 1, $display = true){
     }
 
     if ($display) {
+        $query->ad = should_display_ad($page, "user");
         require('get_pic_grid.php');
     }
     else{
@@ -149,6 +153,7 @@ function get_user_followed_image($user_id, $page = 1, $display = true){
     }
 
     if ($display) {
+        $query->ad = should_display_ad($page, "user");
         require('get_pic_grid.php');
     }
     else{
@@ -185,6 +190,7 @@ function get_user_following_image($user_id, $page = 1, $display = true){
     }
 
     if ($display) {
+        $query->ad = should_display_ad($page, "user");
         require('get_pic_grid.php');
     }
     else{
@@ -222,6 +228,7 @@ function get_user_liked_image($user_id, $page = 1, $display = true){
     }
 
     if ($display) {
+        $query->ad = should_display_ad($page, "user");
         require('get_pic_grid.php');
     }
     else{
@@ -259,6 +266,7 @@ function get_user_comment_image($user_id, $page = 1, $display = true){
     }
 
     if ($display) {
+        $query->ad = should_display_ad($page, "user");
         require('get_pic_grid.php');
     }
     else{
@@ -314,6 +322,7 @@ function get_search_popular_image($term, $page = 1, $display = true){
     }
 
     if ($display) {
+        $query->ad = should_display_ad($page, "search");
         require('get_pic_grid.php');
     }
     else{
@@ -352,6 +361,7 @@ function get_search_recent_image($term, $page = 1, $display = true){
     }
 
     if ($display) {
+        $query->ad = should_display_ad($page, "search");
         require('get_pic_grid.php');
     }
     else{
@@ -393,6 +403,7 @@ function get_search_my_image($term, $page = 1, $display = true){
     }
 
     if ($display) {
+        $query->ad = should_display_ad($page, "search");
         require('get_pic_grid.php');
     }
     else{
@@ -459,6 +470,7 @@ function get_category_image($category, $page = 1, $display = true){
     }
 
     if ($display) {
+        $query->ad = should_display_ad($page, "search");
         require_once('get_pic_grid.php');
     }
     else{
@@ -582,28 +594,25 @@ html;
     }
 }
 
-
+//当没有内容时返回的信息
 function return_no_result(){
     echo '<div id="noMoreImages"></div>';
     exit();
 }
 
-function insert_ad(){
-  $ad = <<<ad
-<div class="polaroid tile superad">
-<div class="superAdContent">
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 测试小摄郎 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:160px;height:600px"
-     data-ad-client="ca-pub-4883702208099244"
-     data-ad-slot="3420700199"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<p>赞助商广告</p>
-</div>
-ad;
-
-  return $ad;
+/*
+ *  根据内容的类型和数量判断是否显示广告
+ *
+ *  @param {int} page 当前显示的页数
+ *  @param {string} type 内容的类型
+ *  @return {bool}
+ */
+function should_display_ad($page = 1, $type = "index"){
+  $ads_arr = array("index", "search", "category");
+  if ($page % 2 == 0 && in_array($type, $ads_arr)) {
+    return true;
+  }
+  else{
+    return false;
+  }
 }
