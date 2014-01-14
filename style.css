@@ -2786,7 +2786,7 @@ img.imageLoaded {
   position: absolute;
   right: 3px;
   top: 13px;
-  padding: 2px 4px;
+  padding: 4px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -2822,3 +2822,47 @@ img.imageLoaded {
   line-height: 16px;
   text-shadow: 1px 1px #eee;
 }
+
+.logo-404{
+  position: absolute;
+  left: 200px;
+  top: 200px;
+  font-size: 300px;
+  font-weight: 900;
+  color: #999;
+  text-shadow: 2px 2px #fff;
+  opacity: .6;
+  cursor: default;
+
+  -webkit-animation: move_logo 8s ease-in-out 0s infinite alternate;
+     -moz-animation: move_logo 8s ease-in-out 0s infinite alternate;
+       -o-animation: move_logo 8s ease-in-out 0s infinite alternate;
+          animation: move_logo 8s ease-in-out 0s infinite alternate;
+}
+
+
+@-webkit-keyframes move_logo { from { left:200px; } to { left:600px; }  }
+   @-moz-keyframes move_logo { from { left:200px; } to { left:600px; }  }
+     @-o-keyframes move_logo { from { left:200px; } to { left:600px; }  }
+        @keyframes move_logo { from { left:200px; } to { left:600px; }  }
+
+
+.page-menu{
+  margin: 20px auto 10px;
+  width: 700px;
+  font-size: 16px;
+}
+.page-menu a{
+  color: #666;
+}
+.page-menu li{
+  float: left;
+  margin-left: 30px;
+}
+
+.page-menu a.active{
+  color: #000;
+  font-weight: bold;
+}
+
+
