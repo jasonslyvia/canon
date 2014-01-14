@@ -65,7 +65,7 @@
       <div class="profileImage">
       <a href="/profile/<?php echo $user->ID; ?>">
         <img src="<?php echo AVATAR.get_user_meta($user->ID, 'avatar_small', true);?>"
-              width="30" height="30" alt="<?php echo $user->display_name; ?>">
+              width="45" height="45" alt="<?php echo $user->display_name; ?>">
       </a>
       </div>
     <?php endif; ?>

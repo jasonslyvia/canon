@@ -97,8 +97,12 @@ function save_remote_image($url){
     $extension = $p_info["extension"];
 
     $image = file_get_contents($url);
+    list($width, $height) = getimagesize($image);
     if (strlen($image) > 5242880) {
         send_result(true, "远程图片大小超过限制！");
+    }
+    else if ($width < DEFAULT_WIDTH) {
+        send_result(true, "远程图片宽度不得小于200像素！");
     }
 
     $new_filename = md5($filename) . '.' . $extension;
