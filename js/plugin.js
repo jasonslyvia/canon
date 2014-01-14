@@ -119,7 +119,7 @@ wookmark.Bookmarklet = function () {
         n += "background: url('http://xiaoshelang.undefinedblog.com/wp-content/themes/canon/img/bk_shader.png'); font-size: 18px; text-shadow: 0 1px 3px rgba(0,0,0,.75); font-family: Helvetica, arial, sans-serif;";
         n += "-webkit-transition: all 0.2s ease-out; -moz-transition: all 0.2s ease-out; -ms-transition: all 0.2s ease-out; -o-transition: all 0.2s ease-out; transition: all 0.2s ease-out;";
         n += "cursor: pointer;";
-        d.innerHTML = "Save image";
+        d.innerHTML = "保存图片";
         d.title = i + "x" + s;
         this.setStyles(d, n);
         h.appendChild(p);
@@ -249,7 +249,6 @@ wookmark.Bookmarklet = function () {
             referer: e.src == location.href ? document.referrer : location.href,
             title: this.doc.title,
             alt: i,
-            video: s,
             description: o,
             token: this.getKeywords()
         }, a = [];
@@ -284,7 +283,7 @@ wookmark.Bookmarklet = function () {
             e.parentNode.removeChild(e);
         }
         this.data = {};
-        this.overlays = []
+        this.overlays = [];
     };
     this.getElementOffset = function (e) {
         var t = 0,
