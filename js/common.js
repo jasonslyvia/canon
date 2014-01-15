@@ -1316,6 +1316,7 @@ gbks.common.Kaori = function () {
 
         $(".profileImage img").hover($.proxy(this.onHoverAvatar, this));
         $(".profileImage").bind("mouseleave", $.proxy(this.onLeaveAvatar, this));
+
     };
     this.onWindowResize = function (e) {
         clearTimeout(this.resizeTimer);
@@ -1391,7 +1392,7 @@ gbks.common.Kaori = function () {
     };
     this.onLeaveAvatar = function(){
         $(".profileImage .tip").remove();
-    }
+    };
 };
 
 

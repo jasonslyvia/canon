@@ -27,6 +27,9 @@
 
   <div id="maincontent" class="center page-content" style="width:700px;">
       <?php
+        if (is_current_user_admin()) {
+            edit_post_link('编辑', '<p>', '</p>');
+        }
         while ( have_posts() ) : the_post();
           the_content();
         endwhile;

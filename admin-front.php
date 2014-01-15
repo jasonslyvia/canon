@@ -54,9 +54,15 @@ var nonce = '<?php echo wp_create_nonce("admin_".get_current_user_id()); ?>';
         <li<?php echo $default_class;?>>
           <a href="/admin-front/">审核图片（<span id="reviewCount"><?php echo $review_count;?></span>）</a>
         </li>
-      <!--   <li<?php echo $stat_class;?>>
-          <a href="/admin-front?type=stat">查看统计</a>
-        </li> -->
+        <li>
+          <a href="/wp-admin/edit.php">图片管理</a>
+        </li>
+        <li>
+          <a href="/wp-admin/edit.php?post_type=page">页面管理</a>
+        </li>
+        <li>
+          <a href="/wp-admin/users.php">用户管理</a>
+        </li>
       </ol>
     </div>
 

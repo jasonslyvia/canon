@@ -389,3 +389,31 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 }
 
 #picCat{margin-left: 0;}
+
+
+.preview img{
+  max-width: 620px;
+}
+
+#maincontent.page-content{
+    padding: 20px 40px;
+}
+
+#maincontent.page-content p{
+    margin: 15px 0;
+    line-height: 1.2;
+}
+
+#maincontent.page-content h2 {
+color: #000;
+font-size: 16px;
+font-weight: 900;
+margin: 25px 0 0;
+padding: 0;
+text-shadow: 1px 1px 5px #ccc;
+}
+
+a.post-edit-link{
+    text-decoration: underline;
+    color: #1988d6;
+}

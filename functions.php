@@ -135,4 +135,16 @@ function rw_title($title, $sep, $direction){
     return $title;
 }
 
+//隐藏部分后台设置选项
+function remove_menus(){
+  remove_menu_page( 'index.php' );                  //Dashboard
+  remove_menu_page( 'upload.php' );                 //Media
+  remove_menu_page( 'edit-comments.php' );          //Comments
+  remove_menu_page( 'themes.php' );                 //Appearance
+  remove_menu_page( 'plugins.php' );                //Plugins
+  remove_menu_page( 'users.php' );                  //Users
+  remove_menu_page( 'tools.php' );                  //Tools
+}
+add_action( 'admin_menu', 'remove_menus' );
+
 ?>
