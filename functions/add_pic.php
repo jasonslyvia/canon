@@ -17,6 +17,10 @@ require('common.php');
 define(DEFAULT_WIDTH, 200);
 
 
+$user = get_current_user_id();
+$target_folder = '../uploads/images/'.$user;
+
+
 if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
 
     $filename = $_POST['filename'];
@@ -31,12 +35,14 @@ if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
     }
 
     //在服务器端再次判断图片的长宽信息
-    if (isset($_POST['width']) && isset($_POST['height'])) {
+    if (isset($_POST['width']) && isset($_POST['height']) &&
+        intval($_POST['width']) && intval($_POST['height'])) {
         $width = $_POST['width'];
         $height = $_POST['height'];
     }
     else{
-        list($width, $height) = get_image_size($filename);
+        global $target_folder;
+        list($width, $height) = get_image_size($target_folder.'/'.$filename);
     }
 
     //根据用户所处的用户组，判断内容是否需要审核
@@ -92,8 +98,8 @@ if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
  *  @return {string} 返回新保存文件的文件名
  */
 function save_remote_image($url){
-    $user = get_current_user_id();
-    $target_folder = '../uploads/images/'.$user;
+    global $target_folder;
+
     //检查目标文件夹是否存在，若不存在则尝试创建
     if (!file_exists($target_folder)) {
         if(!@mkdir($target_folder) || !chmod($target_folder, 0755)){
@@ -107,17 +113,20 @@ function save_remote_image($url){
     $extension = $p_info["extension"];
 
     $image = file_get_contents($url);
-    list($width, $height) = getimagesize($image);
     if (strlen($image) > 5242880) {
         send_result(true, "远程图片大小超过限制！");
-    }
-    else if ($width < DEFAULT_WIDTH) {
-        send_result(true, "远程图片宽度不得小于200像素！");
     }
 
     $new_filename = md5($filename) . '.' . $extension;
     $target_file = $target_folder . '/' . $new_filename;
     if (file_put_contents($target_file, $image)) {
+
+        list($width) = getimagesize($target_file);
+        if ($width < DEFAULT_WIDTH) {
+            delete($target_file);
+            send_result(true, "远程图片宽度不得小于200像素！");
+        }
+
         $thumbname = $target_folder. '/' .md5($filename).'_200.';
         create_thumb($target_file, $thumbname, 200);
         return $new_filename;

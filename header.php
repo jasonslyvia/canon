@@ -53,7 +53,7 @@
     </script>
 </head>
 <body class="<?php if(is_user_logged_in()) echo "auth";
-           if ($_COOKIE['hidenav'] == 'true') { echo " hidenav"; } ?>">
+           if ($_COOKIE['hidenav'] == 'true' || is_plugin()) { echo " hidenav"; } ?>">
     <!--  导航栏   -->
     <div id="kaori" class="nodrag">
 

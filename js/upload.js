@@ -76,6 +76,8 @@ gbks.common.uploadImage = function(){
             }
 
             var filename = $("#filename").val();
+            var width = $("#picWidth").val();
+            var height = $("#picHeight").val();
             if (!filename) {
                 alert("获取照片信息失败！");
                 return false;
@@ -116,7 +118,7 @@ gbks.common.uploadImage = function(){
 
     self.onAddPicSuccess = function(result){
         self.ajaxFlag = false;
-        if (result.message) {
+        if (!result.error) {
             var $parent = $(".preview").closest(".wrapSignupForm");
             $(".preview").slideUp(500, function(){
                 //移除preview
@@ -134,6 +136,10 @@ gbks.common.uploadImage = function(){
                         $(".ajax-result").remove();
                     });
                 });
+        }
+        else{
+            alert(result.message);
+            $(".ajax-message").remove();
         }
     };
 
