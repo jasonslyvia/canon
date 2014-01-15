@@ -7,6 +7,9 @@
     <?php if(is_user_logged_in()): ?>
           userId: '<?php echo get_current_user_id(); ?>',
     <?php endif; ?>
+    <?php if(is_profile()): $view_user_id = preg_replace('/^.*?\/(\d+).*?$/', '$1', $_SERVER['REQUEST_URI']);?>
+          viewUserId: '<?php echo $view_user_id ?>',
+    <?php endif; ?>
           page: 2
         };
 

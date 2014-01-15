@@ -21,7 +21,7 @@ require_once('get_data.php');
 if (isset($_GET['type']) && isset($_GET['page'])) {
     $type = $_GET['type'];
     $page = $_GET['page'];
-    $user_id = $_GET['userId'];
+    $user_id = $_GET['viewUserId'];
 
     if (preg_match('/category/i', $type)) {
         $type = explode('_', $type);

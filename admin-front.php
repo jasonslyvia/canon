@@ -63,6 +63,9 @@ var nonce = '<?php echo wp_create_nonce("admin_".get_current_user_id()); ?>';
         <li>
           <a href="/wp-admin/users.php">用户管理</a>
         </li>
+        <li>
+          <a href="/wp-admin/edit-tags.php?taxonomy=category">主题管理</a>
+        </li>
       </ol>
     </div>
 
