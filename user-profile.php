@@ -60,7 +60,9 @@ if ($user->ID == $c_user_id) {
 
 //获取用户保存的图片信息及对应的数量
 require('functions/get_data.php');
-list($query, $post_count) = get_user_saved_image($uid, 1, false);
+list($query) = get_user_saved_image($uid, 1, false);
+
+$post_count = $wpdb->get_var("SELECT count(*) FROM pic_save WHERE user_id = {$c_user_id}");
 
 get_header();
 

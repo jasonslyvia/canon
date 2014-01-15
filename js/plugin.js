@@ -188,7 +188,7 @@ object.Bookmarklet = function () {
         var t = this.normalizeEventTarget(e),
             n = t.id,
             r = this.data[n],
-            i = e.shiftKey;
+            i = null;
         this.disableOverlay(t);
         this.save(r, i);
     };

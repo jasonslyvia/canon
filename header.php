@@ -103,9 +103,9 @@
           <a href="/categories" title="按照主题浏览">主题</a>
         </li>
 
-        <li class="colors">
+      <!--   <li class="colors">
           <a href="/colors">色彩</a>
-        </li>
+        </li> -->
       </ol>
 
       <?php if (!is_user_logged_in()):  ?>
