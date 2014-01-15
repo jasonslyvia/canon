@@ -1,5 +1,5 @@
-var wookmark = wookmark || {};
-wookmark.Bookmarklet = function () {
+var object = object || {};
+object.Bookmarklet = function () {
     this.init = function () {
 
         this.isie = 0 <= navigator.appName.indexOf("Internet Explorer");
@@ -141,7 +141,7 @@ wookmark.Bookmarklet = function () {
         t = "display: inline-block; float:left; line-height: 40px; background-color: transparent; text-indent: 0px;";
         t += "font-size: 20px; color: #ffffff; font-family: Helvetica, arial, sans-serif; font-weight: bold; padding: 0 10px 0 0; cursor: pointer;";
         this.setStyles(n, t);
-        n.innerHTML = "Wookmark";
+        n.innerHTML = "小摄郎";
         n.onclick = this.delegate(this.onClickLogo, this);
         var r = this.doc.createElement("span");
         t = "display: inline-block; float:left; line-height: 40px; background-color: transparent; text-indent: 0px; text-shadow: 0 1px 3px rgba(0,0,0,.75); ";
@@ -190,7 +190,7 @@ wookmark.Bookmarklet = function () {
             r = this.data[n],
             i = e.shiftKey;
         this.disableOverlay(t);
-        this.saveToWookmark(r, i);
+        this.save(r, i);
         e.shiftKey || this.cancel();
     };
     this.normalizeEventTarget = function (e) {
@@ -217,7 +217,7 @@ wookmark.Bookmarklet = function () {
     this.disableOverlay = function (e) {
         var t = e.getElementsByTagName("div"),
             n = t[1];
-        n.innerHTML = "Saved";
+        n.innerHTML = "已保存";
         n.style.opacity = 1;
         e.onclick = function () {};
         e.onmouseover = function () {};
@@ -228,7 +228,7 @@ wookmark.Bookmarklet = function () {
         0 < this.frames.length && (e = window[0].document);
         return e
     };
-    this.saveToWookmark = function (e, t) {
+    this.save = function (e, t) {
         if (e === null) return;
 
         var n = e.source && e.id,
@@ -237,7 +237,7 @@ wookmark.Bookmarklet = function () {
         if (n) {
             r = e.image;
             s = e.source + ":" + e.id;
-            i = e.title
+            i = e.title;
         } else {
             r = e.src;
             i = e.alt;
@@ -329,10 +329,6 @@ wookmark.Bookmarklet = function () {
             if (t in this && this[t] === e) return t;
         return -1
     });
-
-
-
-
 };
-wookmark.instance = new wookmark.Bookmarklet;
-wookmark.instance.init();
+object.instance = new object.Bookmarklet;
+object.instance.init();
