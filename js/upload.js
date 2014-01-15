@@ -131,9 +131,15 @@ gbks.common.uploadImage = function(){
                     '</div>');
 
                     $(".resetUploadBtn").one("click", function(){
-                        $("#file_upload").uploadify("settings", "buttonText", "上传");
-                        $("#file_upload").uploadify("disable", false);
-                        $(".ajax-result").remove();
+                        //若是普通上传页面
+                        if ($("#file_upload").length) {
+                            $("#file_upload").uploadify("settings", "buttonText", "上传");
+                            $("#file_upload").uploadify("disable", false);
+                            $(".ajax-result").remove();
+                        }
+                        else{
+                            window.close();
+                        }
                     });
                 });
         }
