@@ -24,9 +24,19 @@ if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
     $title = $_POST['title'] ? $_POST['title'] : '无标题';
     $category = $_POST['category'];
 
+
     //若是远程图片，首先将其保存到本地
     if (preg_match('/^https?:\/\//i', $filename)) {
         $filename = save_remote_image($filename);
+    }
+
+    //在服务器端再次判断图片的长宽信息
+    if (isset($_POST['width']) && isset($_POST['height'])) {
+        $width = $_POST['width'];
+        $height = $_POST['height'];
+    }
+    else{
+        list($width, $height) = get_image_size($filename);
     }
 
     //根据用户所处的用户组，判断内容是否需要审核
@@ -59,8 +69,8 @@ if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
         //增加文章信息
         add_post_meta($post_id, 'like_count', 0);
         add_post_meta($post_id, 'save_count', 1);
-        add_post_meta($post_id, 'width', $_POST['width']);
-        add_post_meta($post_id, 'height', $_POST['height']);
+        add_post_meta($post_id, 'width', $width);
+        add_post_meta($post_id, 'height', $height);
         add_post_meta($post_id, 'referrer', $_POST['referrer']);
         add_post_meta($post_id, 'post_view', 0);
 
@@ -180,4 +190,14 @@ function create_thumb($filename, $thumbname, $target_width){
     }
 }
 
+
+/*
+ *  获取图片的长宽
+ *
+ *  @param {string} url 图片地址或图片文件完整路径
+ *  @return {array}
+ */
+function get_image_size($url){
+    return getimagesize($url);
+}
  ?>

@@ -27,13 +27,23 @@ if ($_POST) {
         $login_error = $user->get_error_message();
     }
     else{
-        //登录成功
-        wp_redirect('/profile/'.$user->ID);
-        exit();
+        //登录成功后，若有下一步操作跳转到下一步url
+        if (isset($_POST['next'])) {
+            wp_redirect("{$_POST['next']}".
+                "?url={$_POST['url']}".
+                "&title={$_POST['title']}".
+                "&referer={$_POST['referer']}");
+            exit();
+        }
+        //否则跳转到用户主页
+        else{
+            wp_redirect('/profile/'.$user->ID);
+            exit();
+        }
     }
 }
 
- get_header();?>
+get_header();?>
 
 
 <div id="luka">
@@ -44,7 +54,6 @@ if ($_POST) {
 <div id="page">
 
   <div class="headerSpacer"></div>
-
   <div id="maincontent" class="center">
 
     <h1>欢迎回来</h1>
@@ -66,6 +75,13 @@ if ($_POST) {
         <input type="password" name="user_password" value="" /> <br />
 
         <input type="submit" name="send" value="登录" />
+
+<?php //若登录后有下一步操作，保存相关表单参数
+if (isset($_GET['next'])) {
+    foreach ($_GET as $key => $value) {
+        echo "<input type='hidden' name='{$key}' value='{$value}' />";
+    }
+} ?>
 
       </form>
     </div>

@@ -30,7 +30,7 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="<?php echo URL;?>/style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="<?php echo URL;?>/css/home.css" type="text/css" media="all" />
-    <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit()): ?>
+    <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit() || is_plugin()): ?>
     <link rel="stylesheet" href="<?php echo URL;?>/css/login.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_profile() && !is_activity()): ?>
@@ -82,7 +82,7 @@
           <a href="/profile/<?php echo $user->ID; ?>/activity" title="看看大家最近在干什么">动态</a>
         </li>
         <?php if (is_current_user_admin()): ?>
-        <li class="admin<?php if(is_admin_front()) echo ' active';?>"">
+        <li class="admin<?php if(is_admin_front()) echo ' active';?>">
           <a href="/admin-front/">管理</a>
         </li>
         <?php endif ?>
