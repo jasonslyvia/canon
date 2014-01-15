@@ -191,13 +191,12 @@ object.Bookmarklet = function () {
             i = e.shiftKey;
         this.disableOverlay(t);
         this.save(r, i);
-        e.shiftKey || this.cancel();
     };
     this.normalizeEventTarget = function (e) {
         window.event && (e = window.event);
         var t = e.currentTarget ? e.currentTarget : e.srcElement;
         while (t.className != "wkGridImage" && t.parentNode) t = t.parentNode;
-        return t
+        return t;
     };
     this.onMouseOverDiv = function (e) {
         var t = this.normalizeEventTarget(e),
@@ -205,7 +204,7 @@ object.Bookmarklet = function () {
             r = t.getElementsByTagName("div"),
             i = r[1];
         this.selectedImage = n;
-        i.style.opacity = 1
+        i.style.opacity = 1;
     };
     this.onMouseOutDiv = function (e) {
         var t = this.normalizeEventTarget(e),
@@ -226,7 +225,7 @@ object.Bookmarklet = function () {
     this.getDocument = function () {
         var e = document;
         0 < this.frames.length && (e = window[0].document);
-        return e
+        return e;
     };
     this.save = function (e, t) {
         if (e === null) return;
@@ -271,7 +270,7 @@ object.Bookmarklet = function () {
             this.setStyles(l, c);
             this.container.appendChild(l);
         } else {
-            var h = "status=no,resizable=yes,scrollbars=no,personalbar=no,directories=no,location=no,toolbar=no,menubar=no,width=600,height=575,left=0,top=0";
+            var h = "status=no,resizable=yes,scrollbars=no,personalbar=no,directories=no,location=no,toolbar=no,menubar=no,width=700,height=600,left=0,top=0";
             window.open(a.join(""), "小摄郎", h);
         }
         return !1;
