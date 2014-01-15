@@ -2865,4 +2865,8 @@ img.imageLoaded {
   font-weight: bold;
 }
 
+.preview img{
+  max-width: 620px;
+}
+
 

@@ -8,9 +8,9 @@ if (!is_user_logged_in()) {
     exit();
 }
 
- get_header();
+get_header();
 
- ?>
+?>
 
 <script type="text/javascript">
   var nonce = '<?php echo wp_create_nonce("upload_pic_".get_current_user_id()); ?>';
