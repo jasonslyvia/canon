@@ -34,6 +34,7 @@ function themes_dir_add_rewrites() {
     'signup/?$' => 'wp-content/themes/'. $theme_name . '/signup.php',
     'login/?$' => 'wp-content/themes/'. $theme_name . '/login.php',
     'forgetpassword/?$' => 'wp-content/themes/'. $theme_name . '/forget-password.php',
+    'plugin/.*$' => 'wp-content/themes/'. $theme_name . '/plugin.php',
     'upload/?$' => 'wp-content/themes/'. $theme_name . '/upload.php',
     'edit' => 'wp-content/themes/'. $theme_name . '/edit.php',
     'admin-front/?$' => 'wp-content/themes/'. $theme_name . '/admin-front.php',
@@ -87,6 +88,9 @@ function is_custom_category(){
 }
 function is_admin_front(){
     return preg_match('/^\/admin-front\/?$/i', $_SERVER['REQUEST_URI']);
+}
+function is_plugin(){
+    return preg_match('/^\/plugin.*$/i', $_SERVER['REQUEST_URI']);
 }
 
 

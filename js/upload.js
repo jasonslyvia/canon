@@ -68,7 +68,7 @@ gbks.common.uploadImage = function(){
     };
 
     self.addPic = function(){
-        $("#publishNewBtn").bind("click", function(e){
+        $("#publishNewBtn").live("click", function(e){
             e.preventDefault();
 
             if (self.ajaxFlag) {
@@ -78,7 +78,7 @@ gbks.common.uploadImage = function(){
             var filename = $("#filename").val();
             var width = $("#picWidth").val();
             var height = $("#picHeight").val();
-            if (!filename || !width || !height) {
+            if (!filename) {
                 alert("获取照片信息失败！");
                 return false;
             }
@@ -113,10 +113,12 @@ gbks.common.uploadImage = function(){
             });
         });
     };
+    //方便插件页面上传图片
+    self.addPic();
 
     self.onAddPicSuccess = function(result){
         self.ajaxFlag = false;
-        if (result.message) {
+        if (!result.error) {
             var $parent = $(".preview").closest(".wrapSignupForm");
             $(".preview").slideUp(500, function(){
                 //移除preview
@@ -129,11 +131,21 @@ gbks.common.uploadImage = function(){
                     '</div>');
 
                     $(".resetUploadBtn").one("click", function(){
-                        $("#file_upload").uploadify("settings", "buttonText", "上传");
-                        $("#file_upload").uploadify("disable", false);
-                        $(".ajax-result").remove();
+                        //若是普通上传页面
+                        if ($("#file_upload").length) {
+                            $("#file_upload").uploadify("settings", "buttonText", "上传");
+                            $("#file_upload").uploadify("disable", false);
+                            $(".ajax-result").remove();
+                        }
+                        else{
+                            window.close();
+                        }
                     });
                 });
+        }
+        else{
+            alert(result.message);
+            $(".ajax-message").remove();
         }
     };
 
@@ -227,7 +239,6 @@ gbks.common.uploadImage = function(){
 
     //为单幅图片添加信息、发布按钮
     function createPreview(image, container){
-        console.log("createPreview called! ");
         $(".preview").remove();
 
         var referrer = "";
@@ -238,7 +249,7 @@ gbks.common.uploadImage = function(){
         var selectHTML = $("#category select").html();
 
         $("<div class='preview'>"+
-            "<img src='"+ image +"' width='620' />"+
+            "<img src='"+ image +"' />"+
             "<div class='op'>"+
                 "<label for='referrer'>照片来源网址（原创则留空）</label><br />"+
                 "<input type='text' id='referrer' value='"+ referrer +"' />"+

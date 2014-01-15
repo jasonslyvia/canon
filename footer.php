@@ -60,7 +60,7 @@
 
     <script type="text/javascript" src="<?php echo URL;?>/js/common.js"> </script>
     <script type="text/javascript" src="<?php echo URL;?>/js/grid.js"> </script>
-    <?php if (is_upload()): ?>
+    <?php if (is_upload() || is_plugin()): ?>
     <script type="text/javascript" src="<?php echo URL;?>/js/jquery.uploadify.js"></script>
     <script type="text/javascript" src="<?php echo URL;?>/js/upload.js"></script>
     <?php endif ?>
