@@ -134,10 +134,6 @@ html;
 
 
 
-
-
-
-
     //heredoc 常数
     $AVATAR = AVATAR;
     //渲染内容
@@ -208,6 +204,34 @@ html;
             "</a>";
     }
 
+    //处理广告
+
+    //图片高度
+    $data_height = get_post_meta($image_id, 'height', true);
+    //相关图片数量
+    $similar_image_count = floor($query->post_count / 3);
+    //评论数量
+    $comment_count = count($comments);
+
+    if ($data_height - $similar_image_count * 80 - $comment_count * 40 > 500) {
+        $ad_html = '<div class="promote">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- 新侧边栏顶部 -->
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:300px;height:250px"
+                     data-ad-client="ca-pub-4883702208099244"
+                     data-ad-slot="8388227524"></ins>
+                <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                </div>';
+    }
+    else{
+        $ad_html = "";
+    }
+
+
+
     $html .= <<<html
                     </ul>
                 </div>
@@ -239,6 +263,7 @@ html;
                         </div>
                     </div><!-- 相关评论结束-->
                 </div><!-- 图片相关信息结束 -->
+                {$ad_html}
             </div>
         </div>
     </div>

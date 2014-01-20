@@ -8,6 +8,14 @@ gbks.common.uploadImage = function(){
 
     var self = gbks.common.uploadImage;
 
+    //检测flash支持
+    if (!(typeof swfobject !== 'undefined' && swfobject.getFlashPlayerVersion().major !== 0)) {
+        if (confirm("您的浏览器不支持Flash，无法使用上传功能。是否现在下载Flash插件？")) {
+            location.assign("http://get.adobe.com/cn/flashplayer/");
+        }
+        return false;
+    }
+
     if (typeof ABSPATH === undefined || typeof pageConfig === undefined) {
         console.log("获取全局信息错误！");
         return false;
