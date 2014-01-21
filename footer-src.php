@@ -60,8 +60,8 @@
 ?>
     </script>
 
-    <script type="text/javascript" src="/js/common.js"> </script>
-    <script type="text/javascript" src="/js/grid.js"> </script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/grid.js"></script>
 
     <?php if (is_upload() || is_plugin()): ?>
     <script type="text/javascript" src="js/uploadify.js"></script>

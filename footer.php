@@ -1,5 +1,5 @@
 
-    <script src="/wp-content/themes/canon/js/jquery.min.41a99f3b.js"> </script>
+    <script src="/wp-content/themes/canon/js-dist/jquery.min.41a99f3b.js"> </script>
 
     <script type="text/javascript">
     //全局设置对象
@@ -60,32 +60,32 @@
 ?>
     </script>
 
-    <script type="text/javascript" src="/wp-content/themes/canon/js/common.min.5530ef40.js"> </script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js/grid.min.42d11713.js"> </script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/main.min.5be4fddd.js"></script>
+    
 
     <?php if (is_upload() || is_plugin()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js/uploadify.min.41206d0c.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js/upload.min.8104d3e0.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.min.41206d0c.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/upload.min.8104d3e0.js"></script>
     <?php endif ?>
     <?php if (is_settings()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js/uploadify.min.41206d0c.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js/settings.min.ffeb2ea9.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.min.41206d0c.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/settings.min.ffeb2ea9.js"></script>
     <?php endif ?>
 
     <?php if (is_profile()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js/user.min.39de4e0f.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/user.min.39de4e0f.js"></script>
     <?php endif ?>
 
     <?php if (is_single()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js/image.min.a515edfd.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/image.min.a515edfd.js"></script>
     <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1373892207080614" charset="utf-8"></script>
     <?php endif ?>
 
     <?php if (is_edit()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js/edit.min.9a69d028.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/edit.min.9a69d028.js"></script>
     <?php endif ?>
     <?php if (is_admin_front()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js/admin.min.c8e74b91.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/admin.min.c8e74b91.js"></script>
     <?php endif ?>
     <?php if (is_activity()): ?>
     <script type="text/javascript">
