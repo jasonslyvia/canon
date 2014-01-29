@@ -62,7 +62,7 @@ if ($user->ID == $c_user_id) {
 require('functions/get_data.php');
 list($query) = get_user_saved_image($uid, 1, false);
 
-$post_count = $wpdb->get_var("SELECT count(*) FROM pic_save WHERE user_id = {$c_user_id}");
+$post_count = $wpdb->get_var("SELECT count(*) FROM pic_save WHERE user_id = {$uid}");
 
 get_header();
 

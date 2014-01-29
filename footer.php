@@ -61,7 +61,7 @@
     </script>
 
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/main.min.5be4fddd.js"></script>
-    
+
 
     <?php if (is_upload() || is_plugin()): ?>
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.min.41206d0c.js"></script>

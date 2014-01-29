@@ -3,33 +3,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    filerev: {
-        js: {
-          src: '.tmp/js/*.js',
-          dest: 'js-dist'
-        },
-        css: {
-          src: ['.tmp/css/*.css'],
-          dest: 'css-dist'
-        }
-    },
-
-    copy: {
-      dist: {
-        files: [
-        {
-          expand: true,
-          src: ["css/*.css"],
-          dest: ".tmp"
-        },
-        {
-          expand: true,
-          src: ["js/*.js", "!js/common.js", "!js/grid.js"],
-          dest: ".tmp"
-        }]
-      }
-    },
-
     concat: {
       dist: {
         src: ['js/common.js', 'js/grid.js'],
@@ -81,10 +54,31 @@ module.exports = function(grunt) {
       }
     },
 
-    clean: {
-      beforeBuild: ['js-dist',
-                    'css-dist'],
-      afterBuild: ['.tmp']
+    filerev: {
+        js: {
+          src: '.tmp/js/*.js',
+          dest: 'js-dist'
+        },
+        css: {
+          src: ['.tmp/css/*.css'],
+          dest: 'css-dist'
+        }
+    },
+
+    copy: {
+      dist: {
+        files: [
+        {
+          expand: true,
+          src: ["css/*.css"],
+          dest: ".tmp"
+        },
+        {
+          expand: true,
+          src: ["js/*.js", "!js/common.js", "!js/grid.js"],
+          dest: ".tmp"
+        }]
+      }
     },
 
     wpreplace: {
@@ -100,6 +94,12 @@ module.exports = function(grunt) {
           }]
         }
       }
+    },
+
+    clean: {
+      beforeBuild: ['js-dist',
+                    'css-dist'],
+      afterBuild: ['.tmp']
     }
 
 
@@ -125,8 +125,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['clean',
                                 'copy',
                                 'filerev',
-                                'linkRev']);
+                                'wpreplace']);
 
-  grunt.registerTask('clean-all', ['clean']);
 
 };
