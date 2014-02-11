@@ -99,7 +99,7 @@ module.exports = function(grunt) {
     clean: {
       beforeBuild: ['js-dist',
                     'css-dist'],
-      afterBuild: ['.tmp']
+      afterBuild: ['.tmp', "style.min.*"]
     }
 
 

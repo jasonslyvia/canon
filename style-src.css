@@ -110,7 +110,6 @@ button {
   background-image: -ms-linear-gradient(top, #ffffff, #f4f4f4);
   background-image: -o-linear-gradient(top, #ffffff, #f4f4f4);
   background-image: linear-gradient(top, #ffffff, #f4f4f4);
-  filter: progid :DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#f4f4f4');
   -moz-transition: all 0.1s ease-out;
   -o-transition: all 0.1s ease-out;
   -webkit-transition: all 0.1s ease-out;
@@ -327,15 +326,14 @@ font-weight: 700;
 
 
 #kaori li.active a {
-
 display: block;
-background-color: #ffffff;
 padding: 0 0 3px 0;
-color: #122b3b;
+color: #fff;
 font-size: 14px;
 line-height: 33px;
-border-radius: 3px;
 font-weight: 700;
+border-left: 4px #fff solid;
+margin-left: -4px;
 }
 
 #kaori li a,
@@ -607,7 +605,13 @@ height: 60px;
   width: 150px;
   font-size: 18px;
   line-height: 36px;
-padding: 0 0 3px 0;
+  padding: 0 0 3px 0;
+}
+.ie8 .actionButton,
+.ie7 .actionButton,
+.ie8 .signupButton,
+.ie7 .signupButton{
+  filter: progid :DXImageTransform.Microsoft.gradient(startColorStr='#1988d6', EndColorStr='#1988d6');
 }
 .ie6 #header {
   position: relative;

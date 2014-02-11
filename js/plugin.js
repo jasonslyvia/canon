@@ -46,7 +46,7 @@ object.Bookmarklet = function () {
         var e = this.doc.createElement("div"),
             t = this.getDocHeight(),
             n = "height: " + t + "px; position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index:4294967295;";
-        n += "background: rgba(0,0,0,.8) url('http://xiaoshelang.undefinedblog.com/wp-content/themes/canon/img/bg-texture-80.png');";
+        n += "background-image: url('http://xiaoshelang.undefinedblog.com/wp-content/themes/canon/img/bg-texture-80.png');";
         this.setStyles(e, n);
         this.container = e;
         this.createHeader();
@@ -270,8 +270,8 @@ object.Bookmarklet = function () {
             this.setStyles(l, c);
             this.container.appendChild(l);
         } else {
-            var h = "status=no,resizable=yes,scrollbars=no,personalbar=no,directories=no,location=no,toolbar=no,menubar=no,width=700,height=600,left=0,top=0";
-            window.open(a.join(""), "小摄郎", h);
+            var h = "status=no,resizable=yes,scrollbars=yes,personalbar=no,directories=no,location=no,toolbar=no,menubar=no,width=700,left=0,top=0";
+            window.open(a.join(""), "小摄郎", null);
         }
         return !1;
     };

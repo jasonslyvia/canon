@@ -28,7 +28,7 @@
 
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="stylesheet" href="/wp-content/themes/canon/style.min.24d9acb5.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/style.min.664f2be8.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/home.min.1590418c.css" type="text/css" media="all" />
     <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit() || is_plugin()): ?>
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/login.min.8da26365.css" type="text/css" media="all" />
