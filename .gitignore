@@ -13,3 +13,7 @@
 uploads/
 settings.php
 TODO
+css-dist/
+js-dist/
+style.*.css
+js/main.js

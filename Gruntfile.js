@@ -66,8 +66,12 @@ module.exports = function(grunt) {
     },
 
     copy: {
-      dist: {
+      build: {
         files: [
+        {
+          src: "style-src.css",
+          dest: ".tmp/css/style.css"
+        },
         {
           expand: true,
           src: ["css/*.css"],
@@ -75,31 +79,42 @@ module.exports = function(grunt) {
         },
         {
           expand: true,
-          src: ["js/*.js", "!js/common.js", "!js/grid.js"],
+          src: ["js/*.js"],
           dest: ".tmp"
         }]
       }
     },
 
     wpreplace: {
+      options: {
+        templatePath: '/wp-content/themes/canon/',
+        jsPath: 'js-dist',
+        cssPath: 'css-dist',
+        concat: []
+      },
+
       dist: {
         src: ['header-src.php', 'footer-src.php'],
         options: {
-          templatePath: '/wp-content/themes/canon/',
-          jsPath: 'js-dist',
-          cssPath: 'css-dist',
           concat: [{
             src: ['common.js', 'grid.js'],
             dest: ['main.js']
           }]
         }
+      },
+
+      build: {
+        src: ['header-src.php', 'footer-src.php']
       }
     },
 
     clean: {
       beforeBuild: ['js-dist',
-                    'css-dist'],
-      afterBuild: ['.tmp', "style.min.*"]
+                    'css-dist',
+                    'js/main.js',
+                    "style*.css",
+                    "!style-src.css"],
+      afterBuild: ['.tmp']
     }
 
 
@@ -119,13 +134,14 @@ module.exports = function(grunt) {
                                  'cssmin',
                                  'filerev',
                                  'clean:afterBuild',
-                                 'wpreplace'
+                                 'wpreplace:dist'
                                  ]);
 
-  grunt.registerTask('build', ['clean',
-                                'copy',
+  grunt.registerTask('build', ['clean:beforeBuild',
+                                'copy:build',
                                 'filerev',
-                                'wpreplace']);
+                                'wpreplace:build',
+                                'clean:afterBuild']);
 
 
 };

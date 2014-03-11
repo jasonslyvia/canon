@@ -26,8 +26,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-    <link rel="shortcut icon" href="/favicon.ico"/>
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" href="<?php echo URL;?>/favicon.ico"/>
+
     <link rel="stylesheet" href="style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="css/home.css" type="text/css" media="all" />
     <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit() || is_plugin()): ?>
