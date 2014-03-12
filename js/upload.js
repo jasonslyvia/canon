@@ -37,8 +37,17 @@ gbks.common.uploadImage = function(){
             $("#filename").val(result.filename);
             $("#picWidth").val(result.width);
             $("#picHeight").val(result.height);
+            $("#picColor").val(result.color);
 
             self.createPreview(result.filename);
+            //初始化color picker
+            $("#color").colorPicker({
+                pickerDefault: result.color.slice(1),
+                onColorChange: function(id, newColor){
+                    $("#picColor").val(newColor);
+                }
+            });
+
             $('#file_upload').uploadify('settings','buttonText','重新选择');
             $("#file_upload").uploadify('disable', true);
         }
@@ -86,6 +95,7 @@ gbks.common.uploadImage = function(){
             var filename = $("#filename").val();
             var width = $("#picWidth").val();
             var height = $("#picHeight").val();
+            var color = $("#picColor").val();
             if (!filename) {
                 alert("获取照片信息失败！");
                 return false;
@@ -114,6 +124,7 @@ gbks.common.uploadImage = function(){
                     referrer: referrer,
                     title: title,
                     category: category,
+                    color: color,
                     userId: USER_ID,
                     nonce: nonce
                 },
@@ -191,6 +202,13 @@ gbks.common.uploadImage = function(){
                 removeAjaxMessage();
                 createPreview(image.src, $parent);
 
+                //初始化color picker
+                $("#color").colorPicker({
+                    onColorChange: function(id, newColor){
+                        $("#picColor").val(newColor);
+                    }
+                });
+
                 $("#filename").val(url);
                 $("#picWidth").val(image.naturalWidth || image.width);
                 $("#picHeight").val(image.naturalHeight || image.height);
@@ -267,6 +285,8 @@ gbks.common.uploadImage = function(){
                 "<select id='picCat'>"+
                 selectHTML +
                 "</select>" + "<br />"+
+                "<label for='color'>照片颜色</label>"+
+                "<input id='color' type='text' name='color' />"+
                 "<a href='javascript:;' class='actionButton blueButton'"+
                 " id='publishNewBtn'>发布新照片</a>"+
             "</div>"+
@@ -341,11 +361,21 @@ gbks.common.uploadImage = function(){
         isAllPreviewLoaded();
     }
 
-    //点击小图预览后的回到方法
+    //点击小图预览后的回调方法
     function clickPreview(d){
         var target = d.target || d.srcElement;
         var imageSrc = target.src;
+
         createPreview(imageSrc, $("#crawlDiv"));
+
+
+        //初始化color picker
+        $("#color").colorPicker({
+            onColorChange: function(id, newColor){
+                $("#picColor").val(newColor);
+            }
+        });
+
 
         $("#picHeight").val(target.getAttribute('data-height'));
         $("#picWidth").val(target.getAttribute('data-width'));

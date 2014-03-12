@@ -12,6 +12,7 @@
  *    user_activity:用户动态
  *    category_x:主题x
           x为category id
+      color:颜色hex值，无#
  *  @param {int} page 页数
  */
 
@@ -33,6 +34,8 @@ if (isset($_GET['type']) && isset($_GET['page'])) {
         $term = $type[2];
         $type = $type[0] . '_' . $type[1];
     }
+
+    $color = $_GET['hex'];
 
     switch ($type) {
         case 'index_popular':{
@@ -85,6 +88,10 @@ if (isset($_GET['type']) && isset($_GET['page'])) {
         break;
         case 'category':{
             get_category_image($cat_id, $page, true);
+        }
+        break;
+        case 'color':{
+            get_color_image($color, $page, true);
         }
         break;
         //类型均不符合，按照无更多内容返回

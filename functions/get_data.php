@@ -594,6 +594,40 @@ html;
     }
 }
 
+
+/***************************************************
+ *  颜色
+ **************************************************/
+
+function get_color_image($color, $page = 1, $display = true){
+    global $wpdb;
+
+    $args = array(
+     'meta_query' => array(
+         array(
+             'key' => 'color',
+             'value' => $color,
+             'compare' => 'LIKE',
+         )
+     ),
+      "posts_per_page" => PAGE_SIZE,
+      "offset" => --$page * PAGE_SIZE
+    );
+    $query = new WP_Query($args);
+
+    if (!$query->have_posts() && $display) {
+        return_no_result();
+    }
+
+    if ($display) {
+        require_once('get_pic_grid.php');
+    }
+    else{
+        return $query;
+    }
+}
+
+
 //当没有内容时返回的信息
 function return_no_result(){
     echo '<div id="noMoreImages"></div>';

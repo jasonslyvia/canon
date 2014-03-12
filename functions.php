@@ -39,6 +39,7 @@ function themes_dir_add_rewrites() {
     'edit' => 'wp-content/themes/'. $theme_name . '/edit.php',
     'admin-front/?$' => 'wp-content/themes/'. $theme_name . '/admin-front.php',
     'categories/?$' => 'wp-content/themes/'. $theme_name . '/category-all.php',
+    'color/?$' => 'wp-content/themes/'. $theme_name . '/color-all.php',
     'profile/\d+/?$' => 'wp-content/themes/' . $theme_name . '/user-profile.php',
     'profile/\d+/notes/?$' => 'wp-content/themes/' . $theme_name . '/user-notes.php',
     'profile/\d+/likes/?$' => 'wp-content/themes/' . $theme_name . '/user-likes.php',
@@ -91,6 +92,9 @@ function is_admin_front(){
 }
 function is_plugin(){
     return preg_match('/^\/plugin.*$/i', $_SERVER['REQUEST_URI']);
+}
+function is_color(){
+    return preg_match('/^\/color\/?$/i', $_SERVER['REQUEST_URI']);
 }
 
 

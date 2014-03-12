@@ -417,3 +417,73 @@ a.post-edit-link{
     text-decoration: underline;
     color: #1988d6;
 }
+.colorPicker-picker {
+  height: 16px;
+  width: 16px;
+  padding: 0 !important;
+  border: 1px solid #ccc;
+  background: url(arrow.gif) no-repeat top right;
+  cursor: pointer;
+  line-height: 16px;
+  font-size:0.75em;
+  font-weight:bold;
+  text-align: center;
+}
+.colorPicker-palette {
+  width: 110px;
+  position: absolute;
+  border: 1px solid #598FEF;
+  background-color: #EFEFEF;
+  padding: 2px;
+  z-index: 9999;
+}
+.colorPicker_hexWrap {width: 100%; float:left }
+.colorPicker_hexWrap label {font-size: 95%; color: #2F2F2F; margin: 5px 2px; width: 25%}
+.colorPicker_hexWrap input {margin: 5px 2px; padding: 0; font-size: 95%; border: 1px solid #000; width: 65%; }
+.colorPicker-swatch {
+  height: 12px;
+  width: 12px;
+  border: 1px solid #000;
+  margin: 2px;
+  float: left;
+  cursor: pointer;
+  line-height: 12px;
+}
+
+#colorsTile {
+width: 384px;
+margin: 0 auto 25px auto;
+background-color: #ffffff;
+padding: 10px;
+border: 1px solid #dedede;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+}
+#colorsTile ol {
+width: 384px;
+list-style: none;
+}
+#colorsTile li {
+width: 24px;
+height: 16px;
+float: left;
+display: block;
+cursor: pointer;
+}
+#colorsTile li span {
+display: block;
+height: 14px;
+}
+
+#images #clue h2 {
+color: #999;
+font-size: 18px;
+margin: 25px auto 25px auto;
+text-align: center;
+font-weight: normal;
+text-shadow: 0 1px 0 white;
+}
+#colorsTile li.active span {
+border: 1px solid black;
+}

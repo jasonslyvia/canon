@@ -66,6 +66,7 @@
     <?php if (is_upload() || is_plugin()): ?>
     <script type="text/javascript" src="js/uploadify.js"></script>
     <script type="text/javascript" src="js/upload.js"></script>
+    <script type="text/javascript" src="js/color-picker.js"></script>
     <?php endif ?>
     <?php if (is_settings()): ?>
     <script type="text/javascript" src="js/uploadify.js"></script>
@@ -86,6 +87,9 @@
     <?php endif ?>
     <?php if (is_admin_front()): ?>
     <script type="text/javascript" src="js/admin.js"></script>
+    <?php endif ?>
+    <?php if (is_color()): ?>
+    <script type="text/javascript" src="js/color.js"></script>
     <?php endif ?>
     <?php if (is_activity()): ?>
     <script type="text/javascript">

@@ -30,8 +30,8 @@
 
     <link rel="stylesheet" href="/wp-content/themes/canon/style.e0fa0f4c.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/home.92f350b0.css" type="text/css" media="all" />
-    <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit() || is_plugin()): ?>
-    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/login.1555b1e7.css" type="text/css" media="all" />
+    <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit() || is_plugin() || is_color()): ?>
+    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/login.deaaf5b7.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_profile() && !is_activity()): ?>
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/user.99e456e7.css" type="text/css" media="all" />
@@ -102,9 +102,9 @@
           <a href="/categories" title="按照主题浏览">主题</a>
         </li>
 
-      <!--   <li class="colors">
-          <a href="/colors">色彩</a>
-        </li> -->
+        <li class="color<?php if(is_color()) echo ' active';?>">
+          <a href="/color" title="按照颜色浏览">色彩</a>
+        </li>
       </ol>
 
       <?php if (!is_user_logged_in()):  ?>

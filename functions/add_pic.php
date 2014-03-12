@@ -7,6 +7,7 @@
  *  @param {int} userId 用户id
  *  @param {int} width 图片宽
  *  @param {int} height 图片高
+ *  @param {string} color 图片颜色（hex，含#）
  *  @param {string} optional referrer 图片图片来源
  *  @param {string} optional title 图片标题
  *  @param {string} optional category 图片所属主题
@@ -16,10 +17,8 @@ header('Content-Type: application/json');
 require('common.php');
 define(DEFAULT_WIDTH, 200);
 
-
 $user = get_current_user_id();
 $target_folder = '../uploads/images/'.$user;
-
 
 if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
 
@@ -27,7 +26,6 @@ if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
     $userId = get_current_user_id();
     $title = $_POST['title'] ? $_POST['title'] : '无标题';
     $category = $_POST['category'];
-
 
     //若是远程图片，首先将其保存到本地
     if (preg_match('/^https?:\/\//i', $filename)) {
@@ -79,6 +77,7 @@ if (verify_ajax(array("filename"), "post", true, "upload_pic")) {
         add_post_meta($post_id, 'height', $height);
         add_post_meta($post_id, 'referrer', $_POST['referrer']);
         add_post_meta($post_id, 'post_view', 0);
+        add_post_meta($post_id, 'color', $_POST['color']);
 
         global $wpdb;
         $save_record = $wpdb->insert('pic_save',

@@ -37,7 +37,7 @@ get_header();
       <input type="hidden" id="filename" />
       <input type="hidden" id="picWidth" />
       <input type="hidden" id="picHeight" />
-
+      <input type="hidden" id="picColor" />
     </div>
 
 

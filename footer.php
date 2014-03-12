@@ -65,7 +65,8 @@
 
     <?php if (is_upload() || is_plugin()): ?>
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.f475f873.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/upload.e9ff7228.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/upload.ea669de6.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/color-picker.96383e8d.js"></script>
     <?php endif ?>
     <?php if (is_settings()): ?>
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.f475f873.js"></script>
@@ -86,6 +87,9 @@
     <?php endif ?>
     <?php if (is_admin_front()): ?>
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/admin.f6426cc1.js"></script>
+    <?php endif ?>
+    <?php if (is_color()): ?>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/color.7bca0de2.js"></script>
     <?php endif ?>
     <?php if (is_activity()): ?>
     <script type="text/javascript">
