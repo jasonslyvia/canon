@@ -61,12 +61,12 @@
     </script>
 
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/common.deefc0c5.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/grid.de0955e1.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/grid.3a42959f.js"></script>
 
     <?php if (is_upload() || is_plugin()): ?>
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.f475f873.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/upload.ea669de6.js"></script>
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/color-picker.96383e8d.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/upload.de3cee3b.js"></script>
     <?php endif ?>
     <?php if (is_settings()): ?>
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.f475f873.js"></script>

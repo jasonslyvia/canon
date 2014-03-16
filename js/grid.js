@@ -611,10 +611,10 @@ gbks.Tiles = function () {
             o = Math.round((n - (s * r - i)) / 2) + t;
         o = 0;
         var u = this.itemWidth;
-        if (s == this.columnCount && this.baseOffset == o && this.itemCount == e.length) {
-            this.columnLayout();
-            return
-        }
+        // if (s == this.columnCount && this.baseOffset == o && this.itemCount == e.length) {
+        //     this.columnLayout();
+        //     return
+        // }
         this.itemCount = e.length;
         this.columnCount = s;
         this.baseOffset = o;

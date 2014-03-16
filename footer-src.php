@@ -65,8 +65,8 @@
 
     <?php if (is_upload() || is_plugin()): ?>
     <script type="text/javascript" src="js/uploadify.js"></script>
-    <script type="text/javascript" src="js/upload.js"></script>
     <script type="text/javascript" src="js/color-picker.js"></script>
+    <script type="text/javascript" src="js/upload.js"></script>
     <?php endif ?>
     <?php if (is_settings()): ?>
     <script type="text/javascript" src="js/uploadify.js"></script>

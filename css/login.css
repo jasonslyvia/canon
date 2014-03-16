@@ -422,7 +422,7 @@ a.post-edit-link{
   width: 16px;
   padding: 0 !important;
   border: 1px solid #ccc;
-  background: url(arrow.gif) no-repeat top right;
+  background: url(../img/arrow.gif) no-repeat top right;
   cursor: pointer;
   line-height: 16px;
   font-size:0.75em;
@@ -430,7 +430,7 @@ a.post-edit-link{
   text-align: center;
 }
 .colorPicker-palette {
-  width: 110px;
+  width: 288px;
   position: absolute;
   border: 1px solid #598FEF;
   background-color: #EFEFEF;

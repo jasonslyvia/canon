@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="/wp-content/themes/canon/style.e0fa0f4c.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/home.92f350b0.css" type="text/css" media="all" />
     <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit() || is_plugin() || is_color()): ?>
-    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/login.deaaf5b7.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/login.806266c8.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_profile() && !is_activity()): ?>
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/user.99e456e7.css" type="text/css" media="all" />
