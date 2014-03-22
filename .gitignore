@@ -10,7 +10,8 @@
 *.json
 *.xmind
 *.min.*
-uploads/
+uploads/images/
+uploads/avatars/
 settings.php
 TODO
 css-dist/
