@@ -12,7 +12,7 @@
 define('PAGE_SIZE', 10);
 define('WP_USE_THEMES', false);
 require_once('settings.php');
-require_once(ABSPATH.'wp-load.php');
+require_once(CANON_ABSPATH.'wp-load.php');
 
 $page_size = PAGE_SIZE;
 
@@ -431,7 +431,7 @@ function get_search_user($term, $page = 1, $display = true){
         if (count($user_result)) {
             foreach ($user_result as $user) {
                 $uid = $user["ID"];
-                $avatar = AVATAR. get_user_meta($uid, "avatar", true);
+                $avatar = canon_get_avatar($uid, "avatar");
                 echo <<<html
             <div class="usertile tile">
               <h4>{$user["display_name"]}</h4>
@@ -539,17 +539,14 @@ function get_activity($user_id, $page = 1, $display = true, $ajax = false){
         if (count($activity_result) != 0) {
           foreach ($activity_result as $activity) {
             $uid = $activity->uid;
+            $pid = $activity->pid;
 
             //常量heredoc
-            $IMAGE_PATH = IMAGE_PATH;
-            $AVATAR = AVATAR;
+            $activity->avatar = canon_get_avatar($uid, 'avatar_small');
 
         if ($activity->event != "关注") {
 
-            $image = $IMAGE_PATH.$user_id.'/'.
-                        preg_replace('/(\..{3,4})$/',
-                                      '_200$1',
-                                      $activity->content);
+            $image = canon_get_image($pid, true);
             $message = <<<message
 <span class="event">{$activity->event}</span>了你的图片
 <div class="image-preview">
@@ -568,7 +565,7 @@ message;
         echo <<<html
 <div class="wrapSignupForm">
   <a href="/profile/{$uid}" class="avatar">
-       <img src="{$AVATAR}{$activity->avatar}"
+       <img src="{$activity->avatar}"
        width="30" height="30" />
   </a>
   <span class="date">{$time}前</span>

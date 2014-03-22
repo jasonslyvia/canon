@@ -28,27 +28,27 @@
 
     <link rel="shortcut icon" href="<?php echo URL;?>/favicon.ico"/>
 
-    <link rel="stylesheet" href="/wp-content/themes/canon/style.e0fa0f4c.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/home.92f350b0.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/style.min.34249535.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/home.min.1590418c.css" type="text/css" media="all" />
     <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit() || is_plugin() || is_color()): ?>
-    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/login.806266c8.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/login.min.d45f953e.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_profile() && !is_activity()): ?>
-    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/user.99e456e7.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/user.min.25a2fa15.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_single()): ?>
-    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/image.da7013af.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/image.min.77658f6f.css" type="text/css" media="all" />
     <?php endif ?>
     <?php if (is_custom_category()): ?>
-    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/overview.1a96f5e0.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/overview.min.af803dcb.css" type="text/css" media="all" />
     <?php endif ?>
     <?php if (is_search() || is_admin_front()): ?>
-    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/search.daf569c6.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/search.min.f864ab2c.css" type="text/css" media="all" />
     <?php endif; ?>
 
-    <script src="/wp-content/themes/canon/js-dist/modernizr.cf69c6f2.js"></script>
+    <script src="/wp-content/themes/canon/js-dist/modernizr.min.a8b68605.js"></script>
     <script type="text/javascript">
-      var ABSPATH = '<?php echo URL;?>';
+      var CANON_ABSPATH = '<?php echo URL;?>';
     </script>
 </head>
 <body class="<?php if(is_user_logged_in()) echo "auth";
@@ -63,7 +63,7 @@
       <?php if (is_user_logged_in()): $user = wp_get_current_user(); ?>
       <div class="profileImage">
       <a href="/profile/<?php echo $user->ID; ?>">
-        <img src="<?php echo AVATAR.get_user_meta($user->ID, 'avatar_small', true);?>"
+        <img src="<?php echo canon_get_avatar($user->ID, 'avatar_small');?>"
               width="45" height="45" alt="<?php echo $user->display_name; ?>">
       </a>
       </div>
@@ -111,6 +111,9 @@
       <a href="/login" class="login">登录</a>
       <?php endif; ?>
 
+      <div class="qr-code">
+        <img src="<?php echo URL;?>/img/qr-code.png" width="150" height="150" alt="摄影圈二维码" />
+      </div>
 
       <p class="bottom">
         <a href="/help">帮助</a>

@@ -4,7 +4,7 @@
  */
 
 require('functions/settings.php');
-require(ABSPATH . '/wp-load.php');
+require(CANON_ABSPATH . '/wp-load.php');
 
 
 //若是提交重置密码的请求

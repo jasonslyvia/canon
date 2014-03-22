@@ -30,10 +30,10 @@ $id = get_the_ID();
 $post = get_post($id);
 $author_id = $post->post_author;
 $author_name = get_userdata($author_id)->display_name;
-$avatar = AVATAR.get_user_meta($author_id,'avatar_small', true);
-$image = $post->post_content;
-$whole_image_url = HOME. IMAGE_PATH . $author_id . '/' . $image;
-$thumb = preg_replace('/(\..{3,4})$/', '_200$1', $image);
+$avatar = canon_get_avatar($author_id, 'avatar_small');
+
+$whole_image_url = canon_get_image($id);
+
 $width = get_post_meta($id, 'width', true);
 $height = get_post_meta($id, 'height', true);
 
@@ -83,7 +83,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
     <?php if(!is_user_logged_in()): ?>
     <!--  欢迎语   -->
     <div id="siteIntro">
-        <h2>欢迎来到小摄郎，在这里发现并分享美丽的影与像。</h2>
+        <h2>欢迎来到摄影圈，在这里发现并分享美丽的影与像。</h2>
         <a href="/signup" class="actionButton blueButton">现在加入</a>
     </div>
     <?php endif; ?>
@@ -137,6 +137,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
     $i = 0;
     while ($query->have_posts()) {
         $query->the_post();
+        $id = get_the_ID();
         if ($i++ % 3 == 0) {
             $li_class = " class='first'";
         }
@@ -144,8 +145,8 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
             $li_class = "";
         }
         echo "<li{$li_class}>".
-            "<a href='" . get_permalink() . "' data-id='" . get_the_ID() . "'>".
-                "<img src='".get_thumb(get_the_content(), $author_id, true)."'
+            "<a href='" . get_permalink() . "' data-id='" . $id . "'>".
+                "<img src='".canon_get_image($id, true)."'
                       style='min-width:105px;min-height:79px;' />".
             "</a>";
     }
@@ -175,13 +176,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
     //评论内容
     $comments = get_comments(array("post_id" => $id));
     //当前用户头像
-    $c_avatar = get_user_meta(get_current_user_id(),
-                                    'avatar_small',
-                                    true);
-    if (!$c_avatar) {
-        $c_avatar = "default_avatar_small.png";
-    }
-    $c_avatar = AVATAR.$c_avatar;
+    $c_avatar = canon_get_avatar('', 'avatar_small');
 
 
     if (count($comments) == 0) {
@@ -192,7 +187,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
     }
     $comment_html = '<div id="comments"><div class="comments'.$comment_class.'">';
     foreach ($comments as $c) {
-        $comment_avatar = AVATAR.get_user_meta($c->user_id, 'avatar_small', true);
+        $comment_avatar = canon_get_avatar($c->user_id, 'avatar_small');
         $comment_author = get_userdata($c->user_id)->display_name;
         $c_html = <<<c_html
 <div id="comment_{$c->comment_ID}" class="comment clearfix"
@@ -238,15 +233,7 @@ echo $comment_html;
     <div id="moreImages" class="clearfix">
         <div class="werbung section">
             <div class="superAdContent">
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 文章末尾新 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:728px;height:90px"
-     data-ad-client="ca-pub-4883702208099244"
-     data-ad-slot="3416182537"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+           <script charset="gbk" src="http://p.tanx.com/ex?i=mm_44751182_5976304_20916771"></script>
             </div>
             <p>
                 赞助商广告
@@ -277,6 +264,7 @@ echo $comment_html;
     $i = 0;
     while ($query->have_posts()) {
         $query->the_post();
+        $id = get_the_ID();
         if ($i ++ == 0) {
             $li_class = " class='first'";
         }
@@ -286,7 +274,7 @@ echo $comment_html;
 ?>
         <li <?php echo $li_class; ?>>
             <a href="<?php the_permalink(); ?>">
-                <img src="<?php echo IMAGE_PATH.get_the_author_meta('ID').'/'.get_the_content(); ?>"
+                <img src="<?php echo canon_get_image($id,true); ?>"
                      alt="<?php the_title(); ?>"
                      width="200" height="150">
             </a>
@@ -361,6 +349,7 @@ echo $comment_html;
     $i = 0;
     while ($author_query->have_posts()) {
         $author_query->the_post();
+        $id = get_the_ID();
         if ($i ++ == 0) {
             $li_class = " class='first'";
         }
@@ -370,7 +359,7 @@ echo $comment_html;
 ?>
         <li <?php echo $li_class; ?>>
             <a href="<?php the_permalink(); ?>">
-                <img src="<?php echo IMAGE_PATH.get_the_author_meta('ID').'/'.get_the_content(); ?>"
+                <img src="<?php echo canon_get_image($id, true); ?>"
                      alt="<?php the_title(); ?>"
                      width="200" height="150">
             </a>

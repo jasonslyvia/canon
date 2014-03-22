@@ -6,7 +6,7 @@
  */
 
 require('functions/settings.php');
-require(ABSPATH . '/wp-load.php');
+require(CANON_ABSPATH . '/wp-load.php');
 
 if (!is_user_logged_in()) {
     wp_redirect('/');
@@ -25,8 +25,7 @@ if ($post == null || $uid != $author_id) {
 
 //获取需要回填的内容
 $title = $post->post_title;
-$image_file = $post->post_content;
-$image = IMAGE_PATH.$uid.'/'.$image_file;
+$image = canon_get_image($pid);
 $referrer = get_post_meta($pid, 'referrer', true);
 $category = get_the_category($pid);
 $category = $category[0]->cat_ID;

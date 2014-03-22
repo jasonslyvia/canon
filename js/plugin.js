@@ -46,7 +46,7 @@ object.Bookmarklet = function () {
         var e = this.doc.createElement("div"),
             t = this.getDocHeight(),
             n = "height: " + t + "px; position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index:4294967295;";
-        n += "background-image: url('http://xiaoshelang.undefinedblog.com/wp-content/themes/canon/img/bg-texture-80.png');";
+        n += "background-image: url('http://www.sheyingquan.net/wp-content/themes/canon/img/bg-texture-80.png');";
         this.setStyles(e, n);
         this.container = e;
         this.createHeader();
@@ -116,7 +116,7 @@ object.Bookmarklet = function () {
         p.title = i + "x" + s;
         var d = this.doc.createElement("div");
         n = "width: " + o + "px; height: " + u + "px; position: absolute; top: " + c + "px; left: " + l + "px; opacity: 0; line-height: " + u + "px; text-align: center; font-weight: bold; color:#ffffff;";
-        n += "background: url('http://xiaoshelang.undefinedblog.com/wp-content/themes/canon/img/bk_shader.png'); font-size: 18px; text-shadow: 0 1px 3px rgba(0,0,0,.75); font-family: Helvetica, arial, sans-serif;";
+        n += "background: url('http://www.sheyingquan.net/wp-content/themes/canon/img/bk_shader.png'); font-size: 18px; text-shadow: 0 1px 3px rgba(0,0,0,.75); font-family: Helvetica, arial, sans-serif;";
         n += "-webkit-transition: all 0.2s ease-out; -moz-transition: all 0.2s ease-out; -ms-transition: all 0.2s ease-out; -o-transition: all 0.2s ease-out; transition: all 0.2s ease-out;";
         n += "cursor: pointer;";
         d.innerHTML = "保存图片";
@@ -141,13 +141,13 @@ object.Bookmarklet = function () {
         t = "display: inline-block; float:left; line-height: 40px; background-color: transparent; text-indent: 0px;";
         t += "font-size: 20px; color: #ffffff; font-family: Helvetica, arial, sans-serif; font-weight: bold; padding: 0 10px 0 0; cursor: pointer;";
         this.setStyles(n, t);
-        n.innerHTML = "小摄郎";
+        n.innerHTML = "摄影圈";
         n.onclick = this.delegate(this.onClickLogo, this);
         var r = this.doc.createElement("span");
         t = "display: inline-block; float:left; line-height: 40px; background-color: transparent; text-indent: 0px; text-shadow: 0 1px 3px rgba(0,0,0,.75); ";
         t += "font-size: 13px; color: #ffffff; font-family: Helvetica, arial, sans-serif; font-weight: normal; padding: 3px 0 0 0;";
         this.setStyles(r, t);
-        r.innerHTML = "点击图片将其保存至小摄郎";
+        r.innerHTML = "点击图片将其保存至摄影圈";
         var i = this.doc.createElement("p");
         t = "display: inline-block; float:left; line-height: 40px; background-color: transparent;";
         t += "font-size: 20px; color: #ffffff; font-family: Helvetica, arial, sans-serif; font-weight: bold; padding: 6px 0 0 20px; cursor: pointer;";
@@ -155,7 +155,7 @@ object.Bookmarklet = function () {
         i.appendChild(r);
         e.appendChild(i);
         var s = this.doc.createElement("p");
-        t = "display: inline-block; float:right; width: 38px; height: 38px; background: url('http://xiaoshelang.undefinedblog.com/wp-content/themes/canon/img/bk_close.png') no-repeat center center;";
+        t = "display: inline-block; float:right; width: 38px; height: 38px; background: url('http://www.sheyingquan.net/wp-content/themes/canon/img/bk_close.png') no-repeat center center;";
         t += "margin: 10px 10px 0 0; cursor: pointer; padding: 0;";
         this.setStyles(s, t);
         s.onclick = this.delegate(this.cancel, this);
@@ -169,7 +169,7 @@ object.Bookmarklet = function () {
         window.scrollTo(this.scrollPosition.x, this.scrollPosition.y);
     };
     this.onClickLogo = function () {
-        var e = "http://xiaoshelang.undefinedblog.com";
+        var e = "http://www.sheyingquan.net";
         window.open(e);
     };
     this.getDocHeight = function () {
@@ -251,7 +251,7 @@ object.Bookmarklet = function () {
             description: o,
             token: this.getKeywords()
         }, a = [];
-        a.push("http://xiaoshelang.undefinedblog.com/plugin/add");
+        a.push("http://www.sheyingquan.net/plugin/add");
         a.push("?");
 
         for (var f in u) {
@@ -271,7 +271,7 @@ object.Bookmarklet = function () {
             this.container.appendChild(l);
         } else {
             var h = "status=no,resizable=yes,scrollbars=yes,personalbar=no,directories=no,location=no,toolbar=no,menubar=no,width=700,left=0,top=0";
-            window.open(a.join(""), "小摄郎", null);
+            window.open(a.join(""), "摄影圈", null);
         }
         return !1;
     };

@@ -1,7 +1,7 @@
 <?php
 
 require('functions/settings.php');
-require(ABSPATH . '/wp-load.php');
+require(CANON_ABSPATH . '/wp-load.php');
 
 //登录用户直接转向个人主页
 if (is_user_logged_in()) {
@@ -11,12 +11,10 @@ if (is_user_logged_in()) {
 
 //若是注册
 if ($_POST) {
-
     //进行基本的数据校验
     $display_name = $_POST['display_name'];
     $user_email = $_POST['user_email'];
     $user_password = $_POST['user_password'];
-
 
     $is_error = false;
 
@@ -87,9 +85,15 @@ if ($_POST) {
         }
     }
 }
-
 get_header();?>
 
+<!--新浪微博登录-->
+<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=906691435" type="text/javascript" charset="utf-8"></script>
+<!--腾讯微博登录-->
+<script src="http://mat1.gtimg.com/app/openjs/openjs.js"></script>
+<script type="text/javascript">
+var nonce = '<?php echo wp_create_nonce("social"); ?>';
+</script>
 
 <div id="luka">
   <div class="hamburger"></div>
@@ -97,9 +101,7 @@ get_header();?>
 </div>
 
 <div id="page">
-
   <div class="headerSpacer"></div>
-
   <div id="maincontent" class="center">
 
     <h1>欢迎加入<?php echo get_bloginfo(); ?></h1>
@@ -128,7 +130,7 @@ get_header();?>
         <input type="password" name="user_password" placeholder="设置您的密码"
                 id="passWord" />
 
-        <input type="hidden" name="next" value="<?php echo $_GET['next']; ?>" />
+        <input type="hidden" name="next" value="<?php echo $_GET['next']; ?>" id="next" />
 
         <input type="submit" name="send" class="actionButton blueButton signupButton"
                 value="马上体验<?php echo get_bloginfo(); ?>" />
@@ -137,15 +139,14 @@ get_header();?>
     </div>
 
     <div class="social clearfix signup-social">
-        <h2>或使用社交网络帐号注册</h2>
+        <h2>或使用社交网络帐号直接登录</h2>
         <div class="weibo-login-div">
-            <a href="#" class="actionButton weibo-login">新浪微博</a>
+            <a href="#" class="actionButton weibo-login" id="sinaSignupBtn">新浪微博</a>
         </div>
         <div class="qq-login-div">
-            <a href="#" class="actionButton qq-login">腾讯微博</a>
+            <a href="#" class="actionButton qq-login" id="qqSignupBtn">腾讯微博</a>
         </div>
     </div>
-
   </div>
 </div>
 

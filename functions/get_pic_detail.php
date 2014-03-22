@@ -2,7 +2,7 @@
 
 require_once('common.php');
 define('WP_USE_THEMES', false);
-require_once(ABSPATH.'wp-load.php');
+require_once(CANON_ABSPATH.'wp-load.php');
 
 if (isset($_GET['imageId'])) {
     header('Content-Type: application/json');
@@ -27,9 +27,9 @@ function get_pic_detail(){
     //作者昵称
     $author_name = get_userdata($author)->display_name;
     //作者头像
-    $avatar = get_user_meta($author,'avatar_small', true);
+    $avatar = canon_get_avatar($author, 'avatar_small');
     //图片地址
-    $pic = HOME. IMAGE_PATH . $author . '/' . $post->post_content;
+    $pic = canon_get_image($image_id);
     //来源
     $referer = get_post_meta($image_id, 'referrer', true);
     if (!empty($referer) && trim($referer) != '') {
@@ -73,7 +73,7 @@ function get_pic_detail(){
     }
     $comment_html = '<div id="comments"><div class="comments'.$comment_class.'">';
     foreach ($comments as $c) {
-        $comment_avatar = AVATAR.get_user_meta($c->user_id, 'avatar_small', true);
+        $comment_avatar = canon_get_avatar($c->user_id, 'avatar_small');
         $comment_author = get_userdata($c->user_id)->display_name;
         $c_html = <<<c_html
 <div id="comment_{$c->comment_ID}" class="comment clearfix"
@@ -95,10 +95,7 @@ c_html;
     }
     $comment_html .= '</div></div>';
     //当前用户头像
-    $c_avatar = get_user_meta(get_current_user_id(), 'avatar_small', true);
-    if (!$c_avatar) {
-        $c_avatar = "default_avatar_small.png";
-    }
+    $c_avatar = canon_get_avatar(null, 'avatar_small');
 
     //处理关注按钮
     if ($user_id == $author) {
@@ -134,8 +131,6 @@ html;
 
 
 
-    //heredoc 常数
-    $AVATAR = AVATAR;
     //渲染内容
     $html = <<<html
 <div class="image" style="background-color: #000000">
@@ -197,9 +192,11 @@ html;
     $query = new WP_Query("author={$author}&posts_per_page=9");
     while ($query->have_posts()) {
         $query->the_post();
+        $id = get_the_ID();
+
         $html .= "<li>".
-            "<a href='" . get_permalink() . "' data-id='" . get_the_ID() . "'>".
-                "<img src='".get_thumb(get_the_content(), $author, true)."'
+            "<a href='" . get_permalink() . "' data-id='" . $id . "'>".
+                "<img src='".canon_get_image($id, true)."'
                       style='min-width:105px;min-height:79px;' />".
             "</a>";
     }
@@ -215,15 +212,7 @@ html;
 
     if ($data_height - $similar_image_count * 80 - $comment_count * 40 > 500) {
         $ad_html = '<div class="promote">
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- 新侧边栏顶部 -->
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:300px;height:250px"
-                     data-ad-client="ca-pub-4883702208099244"
-                     data-ad-slot="8388227524"></ins>
-                <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+            <script charset="gbk" src="http://p.tanx.com/ex?i=mm_44751182_5976304_20914811"></script>
                 </div>';
     }
     else{
@@ -239,7 +228,7 @@ html;
                     <div class="finder clearfix">
                         <div class="userPic">
                             <a href="/profile/{$author}">
-                                <img src="{$AVATAR}{$avatar}"
+                                <img src="{$avatar}"
                                     width="40" height="40" alt=""/>
                             </a>
                         </div>
@@ -256,7 +245,7 @@ html;
                         {$comment_html}
                         <div id="commentForm" data-imageid="{$image_id}">
                             <div class="userPic">
-                                <img src="{$AVATAR}{$c_avatar}" width="30"
+                                <img src="{$c_avatar}" width="30"
                                      height="30" alt=""/>
                             </div>
                             <textarea name="comment" placeholder="按回车键发表评论">按回车键发表评论</textarea>

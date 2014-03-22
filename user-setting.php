@@ -1,7 +1,7 @@
 <?php
 
 require('functions/settings.php');
-require(ABSPATH . '/wp-load.php');
+require(CANON_ABSPATH . '/wp-load.php');
 
 if (!is_user_logged_in()) {
     wp_redirect('/');
@@ -15,8 +15,8 @@ else{
     $user = get_user_by('id', $uid);
     $name = $user->display_name;
     $email = $user->user_email;
-    $avatar = get_user_meta($uid, 'avatar', true);
-    $avatar_small = get_user_meta($uid, 'avatar_small', true);
+    $avatar = canon_get_avatar($uid, 'avatar');
+    $avatar_small = canon_get_avatar($uid, 'avatar_small');
 }
 
  get_header();
@@ -44,9 +44,9 @@ else{
       <h2>头像</h2>
       <label>当前头像</label>
       <div class="avatar-preview">
-        <img src="<?php echo $AVATAR.$avatar; ?>" class="large"
+        <img src="<?php echo $avatar; ?>" class="large"
              width="200" height="200"/>
-        <img src="<?php echo $AVATAR.$avatar_small; ?>" class="small"
+        <img src="<?php echo $avatar_small; ?>" class="small"
              width="45" height="45" />
       </div>
       <input type="file" name="file_upload" id="file_upload" />

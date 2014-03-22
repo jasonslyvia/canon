@@ -41,7 +41,7 @@ gbks.common.onWindowError = function (e, t, n) {
 gbks.common.wrapPopupContent = function (e, t, n) {
     var r = n ? " horizontal" : "",
         i = '<div id="' + e + '" class="popupWrap' + r + '">';
-    n ? i += '<div class="arrow"><img class="left" width="17" height="29" src="'+ABSPATH+'/img/overlay-arrow-left.png"><img class="right" width="17" height="29" src="'+ABSPATH+'/img/overlay-arrow-right.png"></div>' : i += '<div class="arrow"><img class="up" width="29" height="17" src="'+ABSPATH+'/img/overlay-arrow-up.png"><img class="down" width="29" height="17" src="'+ABSPATH+'/img/overlay-arrow-down.png"></div>';
+    n ? i += '<div class="arrow"><img class="left" width="17" height="29" src="'+CANON_ABSPATH+'/img/overlay-arrow-left.png"><img class="right" width="17" height="29" src="'+CANON_ABSPATH+'/img/overlay-arrow-right.png"></div>' : i += '<div class="arrow"><img class="up" width="29" height="17" src="'+CANON_ABSPATH+'/img/overlay-arrow-up.png"><img class="down" width="29" height="17" src="'+CANON_ABSPATH+'/img/overlay-arrow-down.png"></div>';
     i += t;
     i += "</div>";
     return i;
@@ -704,7 +704,7 @@ gbks.common.Lightbox = function () {
     this.loadDetails = function () {
         this.canvas.addClass("loading");
         $.ajax({
-            url: ABSPATH + '/functions/get_pic_detail.php?imageId='+this.imageId+
+            url: CANON_ABSPATH + '/functions/get_pic_detail.php?imageId='+this.imageId+
                 '&userId='+ pageConfig.userId,
             dataType: "json",
             type: "POST",
@@ -889,7 +889,7 @@ gbks.common.Lightbox = function () {
         t.addClass("loading");
 
         $.ajax({
-            url: ABSPATH + "/functions/save_pic.php",
+            url: CANON_ABSPATH + "/functions/save_pic.php",
             type: "POST",
             data: {userId: pageConfig.userId, imageId: n, nonce: nonce},
             dataType: "json",
@@ -936,7 +936,7 @@ gbks.common.Lightbox = function () {
         t.addClass("loading");
 
         $.ajax({
-            url: ABSPATH + "/functions/like_pic.php",
+            url: CANON_ABSPATH + "/functions/like_pic.php",
             data: {
                 imageId: n,
                 userId: pageConfig.userId || USER_ID,
@@ -973,7 +973,7 @@ gbks.common.Lightbox = function () {
             i = t.hasClass("active");
 
         if (r) {
-            var s = ABSPATH + "/functions/follow_user.php",
+            var s = CANON_ABSPATH + "/functions/follow_user.php",
                 o = "已关注",
                 data = {
                     targetId: r,
@@ -1055,7 +1055,7 @@ gbks.common.Lightbox = function () {
         if (i) {
             n.attr("disabled", "disabled");
             $.ajax({
-                url: ABSPATH + "/functions/add_comment.php",
+                url: CANON_ABSPATH + "/functions/add_comment.php",
                 data: {
                     imageId: this.imageId,
                     comment: e,
@@ -1166,7 +1166,7 @@ gbks.common.SavePopup = function () {
     this.unsaveImage = function () {
 
         $.ajax({
-            url: ABSPATH + "/functions/save_pic.php",
+            url: CANON_ABSPATH + "/functions/save_pic.php",
             type: "POST",
             data: {
                 userId: pageConfig.userId,

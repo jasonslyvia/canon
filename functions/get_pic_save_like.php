@@ -10,7 +10,7 @@ function get_pic_save_like($image_id, $user_id){
 
     require_once('common.php');
     define('WP_USE_THEMES', false);
-    require_once(ABSPATH.'wp-load.php');
+    require_once(CANON_ABSPATH.'wp-load.php');
 
     $like_arr = get_pic_op($image_id, $user_id, "like");
     $save_arr = get_pic_op($image_id, $user_id, "save");

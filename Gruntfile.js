@@ -40,7 +40,7 @@ module.exports = function(grunt) {
           banner: '/*\n'+
                       'Theme Name: Canon\n'+
                       'Theme URI: http://xiaoshelang.ppios.com/\n'+
-                      'Description: 小摄郎 Wordpress 主题\n'+
+                      'Description: 摄影圈 Wordpress 主题\n'+
                       'Author: YangSen\n'+
                       'Author URI: http://undefinedblog.com/\n'+
                       'Version: 1.0\n'+

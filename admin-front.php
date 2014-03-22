@@ -7,7 +7,7 @@
  */
 
 require_once('functions/settings.php');
-require_once(ABSPATH . '/wp-load.php');
+require_once(CANON_ABSPATH . '/wp-load.php');
 
 $type = $_GET['type'];
 

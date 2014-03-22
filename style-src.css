@@ -1,7 +1,7 @@
 /*
 Theme Name: Canon
 Theme URI: http://xiaoshelang.ppios.com/
-Description: 小摄郎 Wordpress 主题
+Description: 摄影圈 Wordpress 主题
 Author: YangSen
 Author URI: http://undefinedblog.com/
 Version: 1.0
@@ -344,6 +344,10 @@ display: block;
 font-weight: 200;
 letter-spacing: 5px;
 padding: 7px 0 7px 0;
+}
+
+#kaori .profile a{
+  letter-spacing: 0;
 }
 
 #kaori li:hover {
@@ -1547,7 +1551,7 @@ body.fadeSaved .polaroid.saved:hover .groups {
   bottom: 0;
   right: 0;
   overflow: hidden;
-  z-index: 105;
+  z-index: 1000;
   opacity: 1;
   -moz-transition: opacity 0.15s ease-out;
   -o-transition: opacity 0.25s ease-out;
@@ -1692,7 +1696,7 @@ background: transparent url('./img/lightbox-arrow-right.png') no-repeat center c
   margin: 0;
   position: relative;
   display: block;
-  z-index: 104;
+  z-index: 1001;
 }
 
 #lightbox .details {
@@ -1703,7 +1707,7 @@ background: transparent url('./img/lightbox-arrow-right.png') no-repeat center c
   bottom: 0;
   display: block;
   height: 100%;
-  z-index: 103;
+  z-index: 1010;
 background-color: #ffffff;
 border-top-right-radius: 3px;
 border-bottom-right-radius: 3px;
@@ -2876,3 +2880,9 @@ img.imageLoaded {
   right: 9px;
 }
 
+.qr-code{
+position: absolute;
+bottom: 40px;
+left: 15px;
+width: 150px;
+}

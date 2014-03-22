@@ -22,7 +22,7 @@ $(".options").each(function(i,v){
 
         var pid = $save.attr("data-id");
         $.ajax({
-            url: ABSPATH + '/functions/admin_review_pic.php',
+            url: CANON_ABSPATH + '/functions/admin_review_pic.php',
             type: 'POST',
             data: {
                 imageId: pid,

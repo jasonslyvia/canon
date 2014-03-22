@@ -1,7 +1,7 @@
 <?php
 
 require('functions/settings.php');
-require(ABSPATH . '/wp-load.php');
+require(CANON_ABSPATH . '/wp-load.php');
 
 if (!is_user_logged_in()) {
     wp_redirect('/');

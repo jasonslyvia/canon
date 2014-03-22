@@ -5,7 +5,7 @@
 
 require_once('settings.php');
 define('WP_USE_THEMES', false);
-require_once(ABSPATH.'wp-load.php');
+require_once(CANON_ABSPATH.'wp-load.php');
 
 /*
  *  验证ajax请求是否合理
@@ -119,22 +119,5 @@ function send_result($error, $message, $extra = array(), $only_extra = false){
     exit();
 }
 
-
-/*
- *  获取缩略图地址
- *
- *  @param {string} pic 原始图像文件名
- *  @param {int} optional uid 用户id
- *  @param {bool} optional prefix 是否加上完整路径
- *  @return {string}
- */
-function get_thumb($pic, $uid = null, $prefix = null){
-    if ($prefix) {
-        return IMAGE_PATH. $uid.'/'.preg_replace('/(\..{3,4})$/', '_200$1', $pic);
-    }
-    else{
-        return preg_replace('/(\..{3,4})$/', '_200$1', $pic);
-    }
-}
 
 ?>

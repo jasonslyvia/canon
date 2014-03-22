@@ -18,12 +18,12 @@ $("#updateBtn").bind("click", function(e){
 
     $(".ajax-message").remove();
     $("#updateDiv .op").append("<div class='ajax-message'>"+
-                              "<img src='" + ABSPATH + "/img/loader.gif' />"+
+                              "<img src='" + CANON_ABSPATH + "/img/loader.gif' />"+
                               "<span>信息更新中……</span>"+
                           "</div>");
 
     $.ajax({
-        url: ABSPATH + '/functions/update_pic.php',
+        url: CANON_ABSPATH + '/functions/update_pic.php',
         type: 'post',
         dataType: 'json',
         data: {

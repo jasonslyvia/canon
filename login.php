@@ -4,7 +4,8 @@
  */
 
 require('functions/settings.php');
-require(ABSPATH . '/wp-load.php');
+require(CANON_ABSPATH . '/wp-load.php');
+
 
 //若是登录
 if ($_POST) {
@@ -45,6 +46,13 @@ if ($_POST) {
 
 get_header();?>
 
+<!--新浪微博登录-->
+<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=906691435" type="text/javascript" charset="utf-8"></script>
+<!--腾讯微博登录-->
+<script src="http://mat1.gtimg.com/app/openjs/openjs.js"></script>
+<script type="text/javascript">
+var nonce = '<?php echo wp_create_nonce("social"); ?>';
+</script>
 
 <div id="luka">
   <div class="hamburger"></div>
@@ -85,6 +93,17 @@ if (isset($_GET['next'])) {
 
       </form>
     </div>
+
+    <div class="social clearfix signup-social">
+        <h2>或使用社交网络帐号登录</h2>
+        <div class="weibo-login-div">
+            <a href="#" class="actionButton weibo-login" id="sinaLoginBtn">新浪微博</a>
+        </div>
+        <div class="qq-login-div">
+            <a href="#" class="actionButton qq-login" id="qqLoginBtn">腾讯微博</a>
+        </div>
+    </div>
+
     <div class="resetPassword">
       <p><a href="/forgetpassword">忘记密码</a> - <a href="/signup">注册</a></p>
     </div>

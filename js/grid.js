@@ -184,7 +184,7 @@ gbks.Polaroid = function () {
         }
 
         $.ajax({
-            url: ABSPATH + "/functions/like_pic.php",
+            url: CANON_ABSPATH + "/functions/like_pic.php",
             data: {
                 imageId: o,
                 userId: pageConfig.userId || USER_ID,
@@ -258,7 +258,7 @@ gbks.Polaroid = function () {
         this.shiftDown ? f = null : t.addClass("loading");
 
         $.ajax({
-            url: ABSPATH + "/functions/save_pic.php",
+            url: CANON_ABSPATH + "/functions/save_pic.php",
             type: "POST",
             data: {userId: pageConfig.userId || USER_ID, imageId: u, nonce: nonce},
             dataType: "json",
@@ -611,10 +611,14 @@ gbks.Tiles = function () {
             o = Math.round((n - (s * r - i)) / 2) + t;
         o = 0;
         var u = this.itemWidth;
-        // if (s == this.columnCount && this.baseOffset == o && this.itemCount == e.length) {
-        //     this.columnLayout();
-        //     return
-        // }
+        //dirty hack
+        //在色彩页面不应用该逻辑
+        if (s == this.columnCount && this.baseOffset == o && this.itemCount == e.length) {
+            this.columnLayout();
+            if ($("#colorTile").length !== 0) {
+                return true;
+            }
+        }
         this.itemCount = e.length;
         this.columnCount = s;
         this.baseOffset = o;
@@ -717,7 +721,7 @@ gbks.Tiles = function () {
         this.config.page = this.currentPage;
         var t = this.loadMoreUrl;
         $.ajax({
-            url: ABSPATH + "/functions/loadmore.php",
+            url: CANON_ABSPATH + "/functions/loadmore.php",
             data: this.config,
             success: $.proxy(this.onLoadMore, this),
             error: $.proxy(this.onLoadMoreError, this)

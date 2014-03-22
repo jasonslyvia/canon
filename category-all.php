@@ -1,7 +1,7 @@
 <?php
 //列出所有的主题
 require_once('functions/settings.php');
-require_once(ABSPATH . '/wp-load.php');
+require_once(CANON_ABSPATH . '/wp-load.php');
 
 get_header();
 ?>
@@ -18,7 +18,7 @@ get_header();
           <?php if(!is_user_logged_in()): ?>
       <!--  欢迎语   -->
       <div id="siteIntro">
-          <h2>欢迎来到小摄郎，在这里发现并分享美丽的影与像。</h2>
+          <h2>欢迎来到摄影圈，在这里发现并分享美丽的影与像。</h2>
           <a href="/signup" class="actionButton blueButton">现在加入</a>
       </div>
       <?php endif; ?>
@@ -36,8 +36,7 @@ get_header();
             $cat_post = new WP_Query('cat='.$category_id.'&posts_per_page=1');
             if ($cat_post->have_posts()) {
                 $cat_post->the_post();
-                $image = get_the_content();
-                $thumb = IMAGE_PATH.get_the_author_meta('ID').'/'.preg_replace('/(\..{3,4})$/', '_200$1', $image);
+                $thumb = canon_get_image(get_the_ID(), true);
 ?>
             <li> <h3><a href="<?php echo $cat_url; ?>"><?php echo $cat_name; ?></a></h3>
             <p>
@@ -53,4 +52,6 @@ get_header();
         </ul>
     </div><!-- overview 结束 -->
 </div>
+
+
 <?php get_footer(); ?>

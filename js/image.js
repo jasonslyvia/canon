@@ -283,7 +283,7 @@ gbks.Image = function() {
     $('#details #tagOptions .saveButton').addClass('loading');
 
     $.ajax({
-      url:  ABSPATH + "/functions/save_pic.php",
+      url:  CANON_ABSPATH + "/functions/save_pic.php",
       type: 'POST',
       data: {imageId: imageId, nonce: nonce},
       dataType: 'json',
@@ -332,7 +332,7 @@ gbks.Image = function() {
     this.showLoader('发送喜欢请求……');
 
     $.ajax({
-      url: ABSPATH + "/functions/like_pic.php",
+      url: CANON_ABSPATH + "/functions/like_pic.php",
       data: {imageId:imageId, nonce: nonce},
       type: 'POST',
       success: $.proxy(this.hideLoader, this)
@@ -623,7 +623,7 @@ gbks.Image = function() {
     var isFollowing = target.hasClass('active');
 
     if(userId) {
-      var url = ABSPATH + "/functions/follow_user.php";
+      var url = CANON_ABSPATH + "/functions/follow_user.php";
       var text = '取消关注';
 
       if(isFollowing) {
@@ -689,7 +689,7 @@ gbks.Image = function() {
     if (isGood) {
         this.commentInput.attr("disabled", "disabled");
         $.ajax({
-            url: ABSPATH + "/functions/add_comment.php",
+            url: CANON_ABSPATH + "/functions/add_comment.php",
             data: {
                 imageId: this.imageId,
                 comment: comment,

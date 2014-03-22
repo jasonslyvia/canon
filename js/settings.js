@@ -20,8 +20,8 @@ $(function(){
 
     //绑定头像上传功能
     $("#file_upload").uploadify({
-        swf: ABSPATH + '/uploads/uploadify.swf',
-        uploader: ABSPATH + '/uploads/uploadify.php',
+        swf: CANON_ABSPATH + '/uploads/uploadify.swf',
+        uploader: CANON_ABSPATH + '/uploads/uploadify.php',
         buttonText: '上传',
         fileSizeLimit: '5MB',
         formData: data,
@@ -39,9 +39,9 @@ $(function(){
 
     //更新上传后的头像
     function updatePreview(large, small){
-        $(".avatar-preview .large").attr("src", ABSPATH + "/uploads/avatar/"+
+        $(".avatar-preview .large").attr("src", CANON_ABSPATH + "/uploads/avatar/"+
                                         large);
-        $(".avatar-preview .small").attr("src", ABSPATH + "/uploads/avatar/"+
+        $(".avatar-preview .small").attr("src", CANON_ABSPATH + "/uploads/avatar/"+
                                         small);
     }
 
@@ -83,7 +83,7 @@ $(function(){
         }
 
         $.ajax({
-            url: ABSPATH + '/functions/update_user_info.php',
+            url: CANON_ABSPATH + '/functions/update_user_info.php',
             type: 'POST',
             data: {
                 name: name,
@@ -133,7 +133,7 @@ $(function(){
 
         //发送请求
         $.ajax({
-            url: ABSPATH + '/functions/update_user_info.php',
+            url: CANON_ABSPATH + '/functions/update_user_info.php',
             type: 'POST',
             dataType: 'json',
             data: {

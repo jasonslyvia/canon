@@ -8,7 +8,7 @@
  */
 
 require('functions/settings.php');
-require_once(ABSPATH . '/wp-load.php');
+require_once(CANON_ABSPATH . '/wp-load.php');
 
 //首先判断用户是否已登录
 if (!is_user_logged_in()) {
@@ -59,6 +59,9 @@ get_header();
                 <?php wp_dropdown_categories(array("hide_empty" => false,
                                                   "id" => "picCat")); ?>
                 <br />
+                <label for='color'>照片颜色</label>
+                <input id='color' type='text' name='color' />
+                <input type="hidden" id="picColor" />
                 <input type="hidden" id="filename" value="<?php echo $url; ?>" />
                 <a href="javascript:;" class="actionButton blueButton" id="publishNewBtn">发布新照片</a>
             </div>

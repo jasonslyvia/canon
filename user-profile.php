@@ -8,7 +8,7 @@
  */
 
 require_once('functions/settings.php');
-require_once(ABSPATH . '/wp-load.php');
+require_once(CANON_ABSPATH . '/wp-load.php');
 
 /*======================================
 获取当前 被 浏览的用户信息
@@ -21,7 +21,7 @@ if ( $user == false) {
 }
 else{
   $name = $user->display_name;
-  $avatar = get_user_meta($uid, 'avatar', true);
+  $avatar = canon_get_avatar($uid, 'avatar');
 }
 
 //获取当前 被 浏览用户的保存数、赞同数、关注数和评论数
@@ -83,7 +83,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
     <?php if(!is_user_logged_in()): ?>
       <!--  欢迎语   -->
       <div id="siteIntro">
-          <h2>欢迎来到小摄郎，在这里发现并分享美丽的影与像。</h2>
+          <h2>欢迎来到摄影圈，在这里发现并分享美丽的影与像。</h2>
           <a href="/signup" class="actionButton blueButton">现在加入</a>
       </div>
       <?php endif; ?>
@@ -94,7 +94,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_{$c_user_id}"); ?>';
       <h1><b><a href="/profile/<?php echo $uid; ?>"><?php echo $name; ?></a></b></h1>
       <div class="picture">
         <a href="/profile/<?php echo $uid; ?>">
-          <img src="<?php echo AVATAR.$avatar;?>"
+          <img src="<?php echo $avatar;?>"
                 width="200" height="200"
                 alt="<?php echo $name; ?>">
         </a>

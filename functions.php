@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(0);
 
 /****************************************\
@@ -15,8 +14,31 @@ define("AVATAR", '/wp-content/themes/canon/uploads/avatar/');
 define('IMAGE_PATH', '/wp-content/themes/canon/uploads/images/');
 
 
+function canon_get_avatar($user_id, $type){
+    if (!$user_id) {
+        $user_id = get_current_user_id();
+    }
+    $avatar = get_user_meta($user_id, $type, true);
+    if (preg_match('/^http/i', $avatar)) {
+        return $avatar;
+    }
+    else if(count($avatar) > 0 && !empty($avatar) && $avatar != ''){
+        return AVATAR.$avatar;
+    }
+    else{
+        return AVATAR.'/default_'.$type.'.png';
+    }
+}
 
-
+function canon_get_image($image_id, $small = false){
+    $post = get_post($image_id);
+    $image = $post->post_content;
+    if ($small) {
+        $image = preg_replace('/(\..{3,4})$/', '_200$1', $image);
+    }
+    $author = $post->post_author;
+    return HOME.IMAGE_PATH.$author.'/'.$image;
+}
 
 /****************************************\
 

@@ -17,7 +17,7 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
       <?php if(!is_user_logged_in()): ?>
       <!--  欢迎语   -->
       <div id="siteIntro">
-          <h2>欢迎来到小摄郎，在这里发现并分享美丽的影与像。</h2>
+          <h2>欢迎来到摄影圈，在这里发现并分享美丽的影与像。</h2>
           <a href="/signup" class="actionButton blueButton">现在加入</a>
       </div>
       <?php endif; ?>

@@ -1,5 +1,5 @@
 
-    <script src="/wp-content/themes/canon/js-dist/jquery.380ba709.js"> </script>
+    <script src="/wp-content/themes/canon/js-dist/jquery.min.41a99f3b.js"> </script>
 
     <script type="text/javascript">
     //全局设置对象
@@ -60,36 +60,49 @@
 ?>
     </script>
 
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/common.deefc0c5.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/grid.3a42959f.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/main.min.2ba550ec.js"></script>
+    
 
     <?php if (is_upload() || is_plugin()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.f475f873.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/color-picker.96383e8d.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/upload.de3cee3b.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.min.41206d0c.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/color-picker.min.d738a299.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/upload.min.43e0d0df.js"></script>
+    <script type="text/javascript">
+    if($("#color").length){
+        //初始化color picker
+        $("#color").colorPicker({
+            onColorChange: function(id, newColor){
+                $("#picColor").val(newColor);
+            }
+        });
+    }
+    </script>
     <?php endif ?>
     <?php if (is_settings()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.f475f873.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/settings.8c55b9d4.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/uploadify.min.41206d0c.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/settings.min.7c3f5f3c.js"></script>
     <?php endif ?>
 
     <?php if (is_profile()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/user.e0dbde52.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/user.min.d995e575.js"></script>
     <?php endif ?>
 
     <?php if (is_single()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/image.88484f09.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/image.min.4d3ee894.js"></script>
     <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1373892207080614" charset="utf-8"></script>
     <?php endif ?>
 
     <?php if (is_edit()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/edit.3541a4d3.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/edit.min.43ad4966.js"></script>
     <?php endif ?>
     <?php if (is_admin_front()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/admin.f6426cc1.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/admin.min.3c33347f.js"></script>
     <?php endif ?>
     <?php if (is_color()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/color.7bca0de2.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/color.min.a8333fa4.js"></script>
+    <?php endif ?>
+    <?php if (is_login() || is_signup()): ?>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/social.min.5e214ce6.js"></script>
     <?php endif ?>
     <?php if (is_activity()): ?>
     <script type="text/javascript">
@@ -104,7 +117,7 @@
       if ((documentHeight - scrollTop < 500) && !ajaxFlag && !noMore) {
         ajaxFlag = true;
         $.ajax({
-          url: ABSPATH +　'/functions/loadmore.php',
+          url: CANON_ABSPATH +　'/functions/loadmore.php',
           data: pageConfig,
           type: 'GET',
           success: function(html){

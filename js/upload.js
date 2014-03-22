@@ -16,7 +16,7 @@ gbks.common.uploadImage = function(){
         return false;
     }
 
-    if (typeof ABSPATH === undefined || typeof pageConfig === undefined) {
+    if (typeof CANON_ABSPATH === undefined || typeof pageConfig === undefined) {
         console.log("获取全局信息错误！");
         return false;
     }
@@ -24,9 +24,23 @@ gbks.common.uploadImage = function(){
     var USER_ID = pageConfig.userId;
 
     //为color picker初始化颜色
-      $.fn.colorPicker.defaults.colors = [
-      'EE99AA','EEAACC','CCAACC','BBAACC','AAAACC','AAAACC','AABBDD','BBDDEE','BBDDCC','BBDDAA','BBDDAA','DDDD99','FFEE88','FFCC99','EE9999','EE9999','EE5577','DD77AA','BB88AA','9988AA','7788BB','7788BB','7799CC','88CCDD','99CCBB','99CC88','99CC77','BBCC77','EEDD55','EEAA66','EE7766','EE6666','EE2255','CC4488','996699','776699','556699','446699','5588BB','66BBCC','77BB99','77AA55','77BB55','AACC44','EECC22','EE8822','EE4433','DD3344','AA2244','993366','774466','554477','444477','334477','336688','558899','558877','558844','668833','889933','BB9911','BB6622','AA3322','AA2233','771122','662244','553344','443344','223355','223355','224455','336666','335555','335533','445522','556622','776611','774411','772211','771122','331111','331122','221122','221122','111122','111122','112233','223333','223322','223311','223311','333311','443300','442211','331111','331111','000000','111111','222222','333333','444444','555555','666666','777777','888888','888888','999999','AAAAAA','BBBBBB','CCCCCC','DDDDDD','EEEEEE'
-      ];
+    $.fn.colorPicker.defaults.colors = [
+    'EE99AA','EEAACC','CCAACC','BBAACC','AAAACC','AAAACC','AABBDD','BBDDEE',
+    'BBDDCC','BBDDAA','BBDDAA','DDDD99','FFEE88','FFCC99','EE9999','EE9999',
+    'EE5577','DD77AA','BB88AA','9988AA','7788BB','7788BB','7799CC','88CCDD',
+    '99CCBB','99CC88','99CC77','BBCC77','EEDD55','EEAA66','EE7766','EE6666',
+    'EE2255','CC4488','996699','776699','556699','446699','5588BB','66BBCC',
+    '77BB99','77AA55','77BB55','AACC44','EECC22','EE8822','EE4433','DD3344',
+    'AA2244','993366','774466','554477','444477','334477','336688','558899',
+    '558877','558844','668833','889933','BB9911','BB6622','AA3322','AA2233',
+    '771122','662244','553344','443344','223355','223355','224455','336666',
+    '335555','335533','445522','556622','776611','774411','772211','771122',
+    '331111','331122','221122','221122','111122','111122','112233','223333',
+    '223322','223311','223311','333311','443300','442211','331111','331111',
+    '000000','111111','222222','333333','444444','555555','666666','777777',
+    '888888','888888','999999','AAAAAA','BBBBBB','CCCCCC','DDDDDD','EEEEEE',
+    'FF0000','FFFF00','FFFFFF','FF00FF','00FFFF','00FF00','0000FF'
+    ];
 
     //防止表单重复提交
     self.ajaxFlag = false;
@@ -69,8 +83,8 @@ gbks.common.uploadImage = function(){
         }
 
         $("#file_upload").uploadify({
-            swf: ABSPATH + '/uploads/uploadify.swf',
-            uploader: ABSPATH + '/uploads/uploadify.php',
+            swf: CANON_ABSPATH + '/uploads/uploadify.swf',
+            uploader: CANON_ABSPATH + '/uploads/uploadify.php',
             buttonText: '上传',
             fileSizeLimit: '5MB',
             formData: data,
@@ -83,7 +97,7 @@ gbks.common.uploadImage = function(){
         //避免重新选择时内容重复
         $(".preview").remove();
 
-        var imageSrc = ABSPATH +"/uploads/images/"+ USER_ID+"/"+ filename;
+        var imageSrc = CANON_ABSPATH +"/uploads/images/"+ USER_ID+"/"+ filename;
         createPreview(imageSrc, $("#uploadDiv"));
 
         self.addPic();
@@ -119,7 +133,7 @@ gbks.common.uploadImage = function(){
             appendAjaxMessage("上传中，请稍候", $(".op"));
 
             $.ajax({
-                url: ABSPATH + '/functions/add_pic.php',
+                url: CANON_ABSPATH + '/functions/add_pic.php',
                 type: 'post',
                 dataType: 'json',
                 data: {
@@ -133,7 +147,12 @@ gbks.common.uploadImage = function(){
                     userId: USER_ID,
                     nonce: nonce
                 },
-                success: self.onAddPicSuccess
+                success: self.onAddPicSuccess,
+                error: function(){
+                    self.removeAjaxMessage();
+                    self.ajaxFlag = false;
+                    alert("无法远程保存该图片，请将该图片保存至本地后再上传！");
+                }
             });
         });
     };
@@ -230,7 +249,7 @@ gbks.common.uploadImage = function(){
 
             self.ajaxFlag = true;
             $.ajax({
-                url: ABSPATH +　"/functions/get_remote_image.php",
+                url: CANON_ABSPATH +　"/functions/get_remote_image.php",
                 type: "post",
                 data: {url: url, nonce: nonce},
                 dataType: "json",
@@ -257,7 +276,7 @@ gbks.common.uploadImage = function(){
         else{
             $(".ajax-message").remove();
             container.append("<div class='ajax-message'>"+
-                                "<img src='" + ABSPATH + "/img/loader.gif' />"+
+                                "<img src='" + CANON_ABSPATH + "/img/loader.gif' />"+
                                 "<span>"+message+"</span>"+
                             "</div>");
         }
@@ -400,7 +419,6 @@ gbks.common.uploadImage = function(){
             }
         }
     }
-
 };
 
 gbks.common.uploadImage();

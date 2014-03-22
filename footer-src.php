@@ -67,6 +67,16 @@
     <script type="text/javascript" src="js/uploadify.js"></script>
     <script type="text/javascript" src="js/color-picker.js"></script>
     <script type="text/javascript" src="js/upload.js"></script>
+    <script type="text/javascript">
+    if($("#color").length){
+        //初始化color picker
+        $("#color").colorPicker({
+            onColorChange: function(id, newColor){
+                $("#picColor").val(newColor);
+            }
+        });
+    }
+    </script>
     <?php endif ?>
     <?php if (is_settings()): ?>
     <script type="text/javascript" src="js/uploadify.js"></script>
@@ -91,6 +101,9 @@
     <?php if (is_color()): ?>
     <script type="text/javascript" src="js/color.js"></script>
     <?php endif ?>
+    <?php if (is_login() || is_signup()): ?>
+    <script type="text/javascript" src="js/social.js"></script>
+    <?php endif ?>
     <?php if (is_activity()): ?>
     <script type="text/javascript">
     //dirty hack for activity lazy load
@@ -104,7 +117,7 @@
       if ((documentHeight - scrollTop < 500) && !ajaxFlag && !noMore) {
         ajaxFlag = true;
         $.ajax({
-          url: ABSPATH +　'/functions/loadmore.php',
+          url: CANON_ABSPATH +　'/functions/loadmore.php',
           data: pageConfig,
           type: 'GET',
           success: function(html){

@@ -39,7 +39,7 @@ gbks.User = function() {
     var isFollowing = button.hasClass('active');
 
     if(userId) {
-      var url = ABSPATH + "/functions/follow_user.php";
+      var url = CANON_ABSPATH + "/functions/follow_user.php";
       var text = '已关注';
       var data =  {
         targetId: userId,

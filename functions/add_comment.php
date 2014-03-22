@@ -17,7 +17,7 @@ if(verify_ajax(array("imageId", "comment"),
     $image_id = $_POST['imageId'];
     $user_id = get_current_user_id();
     $user_name = get_userdata($user_id)->display_name;
-    $user_avatar = get_user_meta($user_id, 'avatar_small', true);
+    $user_avatar = canon_get_avatar($user_id, 'avatar_small');
     $comment = $_POST['comment'];
 
     if (strlen($comment) < 2) {
@@ -42,12 +42,11 @@ if(verify_ajax(array("imageId", "comment"),
     $comment_id = wp_insert_comment($data);
 
     $URL = URL;
-    $AVATAR = AVATAR;
 $html = <<<html
 <div id="comment_{$comment_id}" class="comment clearfix" data-imageid="{$image_id}">
     <div class="userPic">
         <a href="/profile/{$user_id}">
-            <img src="{$AVATAR}{$user_avatar}"
+            <img src="{$user_avatar}"
                  width="30" height="30" alt=""/>
         </a>
     </div>

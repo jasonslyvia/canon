@@ -48,7 +48,7 @@
 
     <script src="js/modernizr.js"></script>
     <script type="text/javascript">
-      var ABSPATH = '<?php echo URL;?>';
+      var CANON_ABSPATH = '<?php echo URL;?>';
     </script>
 </head>
 <body class="<?php if(is_user_logged_in()) echo "auth";
@@ -63,7 +63,7 @@
       <?php if (is_user_logged_in()): $user = wp_get_current_user(); ?>
       <div class="profileImage">
       <a href="/profile/<?php echo $user->ID; ?>">
-        <img src="<?php echo AVATAR.get_user_meta($user->ID, 'avatar_small', true);?>"
+        <img src="<?php echo canon_get_avatar($user->ID, 'avatar_small');?>"
               width="45" height="45" alt="<?php echo $user->display_name; ?>">
       </a>
       </div>
@@ -111,6 +111,9 @@
       <a href="/login" class="login">登录</a>
       <?php endif; ?>
 
+      <div class="qr-code">
+        <img src="<?php echo URL;?>/img/qr-code.png" width="150" height="150" alt="摄影圈二维码" />
+      </div>
 
       <p class="bottom">
         <a href="/help">帮助</a>
