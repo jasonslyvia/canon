@@ -270,8 +270,8 @@ object.Bookmarklet = function () {
             this.setStyles(l, c);
             this.container.appendChild(l);
         } else {
-            var h = "status=no,resizable=yes,scrollbars=yes,personalbar=no,directories=no,location=no,toolbar=no,menubar=no,width=700,left=0,top=0";
-            window.open(a.join(""), "摄影圈", null);
+            var h = "status=no,resizable=yes,scrollbars=1,personalbar=no,directories=no,location=no,toolbar=no,menubar=no,width=700,left=0,top=0";
+            window.open(a.join(""), "摄影圈", h);
         }
         return !1;
     };

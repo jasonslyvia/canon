@@ -13,9 +13,11 @@
  *  @param {string} optional category 图片所属主题
  *  @return {json}
  */
+error_reporting(0);
+
 header('Content-Type: application/json');
 require('common.php');
-define(DEFAULT_WIDTH, 200);
+define('DEFAULT_WIDTH', 200);
 
 $user = get_current_user_id();
 $target_folder = '../uploads/images/'.$user;

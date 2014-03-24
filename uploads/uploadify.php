@@ -11,8 +11,8 @@
  *
  */
 
-define(FILESIZE, 5242880);
-define(DEFAULT_WIDTH, 200);
+define('FILESIZE', 5242880);
+define('DEFAULT_WIDTH', 200);
 
 header('Content-Type: application/json');
 

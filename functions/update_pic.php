@@ -11,7 +11,7 @@
  */
 header('Content-Type: application/json');
 require('common.php');
-define(DEFAULT_WIDTH, 200);
+define('DEFAULT_WIDTH', 200);
 
 
 if (verify_ajax(array("pid"), "post", true, "upload_pic")) {

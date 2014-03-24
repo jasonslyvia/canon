@@ -211,9 +211,14 @@ html;
     $comment_count = count($comments);
 
     if ($data_height - $similar_image_count * 80 - $comment_count * 40 > 500) {
-        $ad_html = '<div class="promote">
-            <script charset="gbk" src="http://p.tanx.com/ex?i=mm_44751182_5976304_20914811"></script>
-                </div>';
+        $ad_html = '<div class="promote"></div>';
+
+$ad_html .= <<<ad_script
+<script type="text/javascript">
+var _ad = $("#alimama-300-250 ins").length ? $("#alimama-300-250 ins") : $("#alimama-300-250 div");
+$(".promote").html(_ad.html());
+</script>
+ad_script;
     }
     else{
         $ad_html = "";
