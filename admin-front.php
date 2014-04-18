@@ -23,7 +23,7 @@ if ($type === "stat") {
 
 //审核图片
 else{
-  $args = array("post_status" => "draft");
+  $args = array("post_status" => "draft", "posts_per_page" => -1);
   $query = new WP_Query($args);
   $review_count = $query->found_posts;
 

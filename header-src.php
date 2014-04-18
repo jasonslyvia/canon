@@ -26,6 +26,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
+    <title>摄影圈 有趣的摄影</title>
+    <meta name="description" content="摄影圈网是最有趣的摄影作品分享与交流类网站，简单、有趣,精选，是摄影爱好者和专业摄影师们最信任的作品展示，讨论分享的摄影社区；同时摄影圈网也参与并支持民间公益事业">
+    <meta name="keywords" content="摄影圈网、专业摄影社区、器材、外拍、模特、中国摄影、纪实、胶片、日系摄影、建筑摄影、旅游摄影、运动摄影、人像、婚纱摄影、大视代视觉摄影网">
+
     <link rel="shortcut icon" href="<?php echo URL;?>/favicon.ico"/>
 
     <link rel="stylesheet" href="style.css" type="text/css" media="all" />

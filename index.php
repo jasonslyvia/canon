@@ -4,21 +4,6 @@
 var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()); ?>';
 </script>
 
-<!-- ugly fix for loading alimama ad -->
-<div id="alimama-300-250" style="display:none">
-<script type="text/javascript">
-     document.write('<a style="display:none!important" id="tanx-a-mm_44751182_5976304_20914811"></a>');
-     tanx_s = document.createElement("script");
-     tanx_s.type = "text/javascript";
-     tanx_s.charset = "gbk";
-     tanx_s.id = "tanx-s-mm_44751182_5976304_20914811";
-     tanx_s.async = true;
-     tanx_s.src = "http://p.tanx.com/ex?i=mm_44751182_5976304_20914811";
-     tanx_h = document.getElementsByTagName("head")[0];
-     if(tanx_h)tanx_h.insertBefore(tanx_s,tanx_h.firstChild);
-</script>
-</div>
-
   <!--  顶栏    -->
     <div id="luka">
       <div class="hamburger"></div>

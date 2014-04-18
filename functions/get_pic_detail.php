@@ -215,9 +215,10 @@ html;
 
 $ad_html .= <<<ad_script
 <script type="text/javascript">
-var _ad = $("#alimama-300-250 ins").length ? $("#alimama-300-250 ins") : $("#alimama-300-250 div");
-$(".promote").html(_ad.html());
+/*300*250，创建于2014-4-11*/
+var cpro_id = "u1518821";
 </script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
 ad_script;
     }
     else{

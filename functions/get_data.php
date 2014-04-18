@@ -639,8 +639,7 @@ function return_no_result(){
  *  @return {bool}
  */
 function should_display_ad($page = 1, $type = "index"){
-  //首页只显示一个广告
-  if ($page > 0 && $type == "index") {
+  if ($page == 0 && $type == "index") {
     return false;
   }
   $ads_arr = array("index", "search", "category");

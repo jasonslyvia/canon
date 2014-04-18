@@ -58,7 +58,11 @@ while ($query && $query->have_posts()) {
   echo <<<ad
 <div class="polaroid tile superad">
 <div class="superAdContent">
-<script charset="gbk" src="http://p.tanx.com/ex?i=mm_44751182_5976304_20910905"></script>
+<script type="text/javascript">
+/*160*600，创建于2014-4-16*/
+var cpro_id = "u1524335";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
 <p>赞助商广告</p>
 </div>
 </div>
