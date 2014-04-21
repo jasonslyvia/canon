@@ -57,15 +57,13 @@ while ($query && $query->have_posts()) {
 <?php if ($i > 5 && !$show_ad && $query->ad) {
   echo <<<ad
 <div class="polaroid tile superad">
-<div class="superAdContent">
-<script type="text/javascript">
-/*160*600，创建于2014-4-16*/
-var cpro_id = "u1524335";
-</script>
-<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<div class="superAdContent" id="ad-{$i}">
 <p>赞助商广告</p>
 </div>
 </div>
+<script type="text/javascript">
+\$("#ad-{$i}").html(\$("#ad-160-600 div").html());
+</script>
 ad;
   $show_ad = true;
 }

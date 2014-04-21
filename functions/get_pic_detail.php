@@ -215,10 +215,8 @@ html;
 
 $ad_html .= <<<ad_script
 <script type="text/javascript">
-/*300*250，创建于2014-4-11*/
-var cpro_id = "u1518821";
+\$(".promote").html(\$("#ad-300-250 div").html());
 </script>
-<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
 ad_script;
     }
     else{

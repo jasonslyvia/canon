@@ -4,6 +4,22 @@
 var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()); ?>';
 </script>
 
+<!-- ugly fix for loading ad -->
+<div id="ad-300-250" style="display:none">
+  <script type="text/javascript">
+  /*300*250，创建于2014-4-11*/
+  var cpro_id = "u1518821";
+  </script>
+  <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+</div>
+<div id="ad-160-600" style="display:none">
+  <script type="text/javascript">
+  /*160*600，创建于2014-4-11*/
+  var cpro_id = "u1518847";
+  </script>
+  <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+</div>
+
   <!--  顶栏    -->
     <div id="luka">
       <div class="hamburger"></div>
