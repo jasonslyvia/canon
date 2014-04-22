@@ -8,6 +8,36 @@ get_header();
 var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()); ?>';
 </script>
 
+<!-- ugly fix for loading ad -->
+<div id="ad-300-250" style="display:none">
+  <script type="text/javascript">
+  /*300*250，创建于2014-4-11*/
+  var cpro_id = "u1518821";
+  </script>
+  <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+</div>
+<div id="ad-160-600" style="display:none">
+  <script type="text/javascript">
+  /*160*600，创建于2014-4-11*/
+  var cpro_id = "u1518847";
+  </script>
+  <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+</div>
+<div id="ad-160-600-2" style="display:none">
+  <script type="text/javascript">
+     document.write('<a style="display:none!important" id="tanx-a-mm_44751182_5976304_20910905"></a>');
+     tanx_s = document.createElement("script");
+     tanx_s.type = "text/javascript";
+     tanx_s.charset = "gbk";
+     tanx_s.id = "tanx-s-mm_44751182_5976304_20910905";
+     tanx_s.async = true;
+     tanx_s.src = "http://p.tanx.com/ex?i=mm_44751182_5976304_20910905";
+     tanx_h = document.getElementsByTagName("head")[0];
+     if(tanx_h)tanx_h.insertBefore(tanx_s,tanx_h.firstChild);
+  </script>
+</div>
+
+
 <div id="luka">
   <div class="hamburger"> </div>
   <p> <a href="#"> <?php single_cat_title();?> - <?php echo get_bloginfo(); ?> </a> </p>

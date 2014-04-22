@@ -60,7 +60,7 @@
 ?>
     </script>
 
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/main.min.2ba550ec.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/main.min.e5b03737.js"></script>
     
 
     <?php if (is_upload() || is_plugin()): ?>

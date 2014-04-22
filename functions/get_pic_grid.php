@@ -55,14 +55,16 @@ while ($query && $query->have_posts()) {
 ?>
 
 <?php if ($i > 5 && !$show_ad && $query->ad) {
+  $random_id = rand(1000, 100000);
+  $id_prefix = $random_id % 2 === 0 ? '-2' : '';
   echo <<<ad
 <div class="polaroid tile superad">
-<div class="superAdContent" id="ad-{$i}">
+<div class="superAdContent" id="ad-{$random_id}">
 <p>赞助商广告</p>
 </div>
 </div>
 <script type="text/javascript">
-\$("#ad-{$i}").html(\$("#ad-160-600 div").html());
+\$("#ad-{$random_id}").html(\$("#ad-160-600{$id_prefix} div").html());
 </script>
 ad;
   $show_ad = true;

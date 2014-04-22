@@ -673,17 +673,15 @@ gbks.common.Lightbox = function () {
         if (t.length > 0) {
             var n = t.position(),
                 r = n.top + t.height();
-            console.log("offset", n);
-            console.log("bottom", r);
-            if (r > e) {
+            // if (r > e) {
                 var i = e - n.top;
                 console.log("newHeight", i);
                 t.css("height", i - 11 + "px");
                 t.addClass("scrollable")
-            } else {
-                t.css("height", "");
-                t.removeClass("scrollable")
-            }
+            // } else {
+            //     t.css("height", "");
+            //     t.removeClass("scrollable")
+            // }
         }
     };
     this.positionImage = function () {
@@ -1080,6 +1078,7 @@ gbks.common.Lightbox = function () {
             var r = $("#commentForm", this.canvas);
             $(e.html).insertBefore(r).hide().fadeIn();
             r.remove();
+            this.updateActivityScrolling();
         }
     }
 };
