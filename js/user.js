@@ -12,6 +12,7 @@ gbks.User = function() {
 
     $('#userInfo .expand').click($.proxy(this.onClickExpand, this));
     $('#userInfo .following .hider').click($.proxy(this.viewAllFollowing, this));
+    $(".more-follow-area .more-btn").one("click", $.proxy(this.loadMoreFollowList, this));
 
     setTimeout(function(){$('#userNav').show();}, 25);
   };
@@ -84,7 +85,7 @@ gbks.User = function() {
     expand.hide();
     hidden.show();
 
-    this.layout.layout();
+    grid.layout.resize();
   };
 
   this.showLoader = function(message) {
@@ -117,6 +118,27 @@ gbks.User = function() {
 
   this.onHideLoader = function(event) {
     this.loader.hide();
+  };
+
+  this.loadMoreFollowList = function(e){
+    e.preventDefault();
+    var $btn = $(".more-follow-area .more-btn");
+    var $data = $btn.parent().data("more");
+    if (!$data) {
+      return false;
+    }
+    else{
+      var html = '';
+      for (var i = 0; i < $data.length; i++) {
+        var name = $data[i].display_name;
+        var id = $data[i].follower_id || $data[i].followee_id;
+        html += '<li><a href="/profile/'+id+'">'+name+'</a></li>';
+      }
+      $btn.parent().parent().append(html);
+      $btn.parent().remove();
+
+      grid.layout.resize();
+    }
   };
 
 };

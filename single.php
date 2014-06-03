@@ -269,14 +269,13 @@ echo $comment_html;
             $li_class = " class='first'";
         }
         else{
-            $like_class = "";
+            $li_class = "";
         }
 ?>
         <li <?php echo $li_class; ?>>
             <a href="<?php the_permalink(); ?>">
                 <img src="<?php echo canon_get_image($id,true); ?>"
-                     alt="<?php the_title(); ?>"
-                     width="200" height="150">
+                     alt="<?php the_title(); ?>">
             </a>
         </li>
 <?php }
@@ -350,18 +349,17 @@ echo $comment_html;
     while ($author_query->have_posts()) {
         $author_query->the_post();
         $id = get_the_ID();
-        if ($i ++ == 0) {
+        if ($i++ == 0) {
             $li_class = " class='first'";
         }
         else{
-            $like_class = "";
+            $li_class = "";
         }
 ?>
         <li <?php echo $li_class; ?>>
             <a href="<?php the_permalink(); ?>">
                 <img src="<?php echo canon_get_image($id, true); ?>"
-                     alt="<?php the_title(); ?>"
-                     width="200" height="150">
+                     alt="<?php the_title(); ?>">
             </a>
         </li>
 <?php }

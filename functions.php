@@ -69,6 +69,7 @@ function themes_dir_add_rewrites() {
     'profile/\d+/followed/?$' => 'wp-content/themes/' . $theme_name . '/user-followed.php',
     'profile/\d+/activity/?$' => 'wp-content/themes/' . $theme_name . '/user-activity.php',
     'settings/?$' => 'wp-content/themes/' . $theme_name . '/user-setting.php',
+    'clear-evil-images' => 'wp-content/themes/' . $theme_name . '/functions/clear-evil-images.php',
   );
   $wp_rewrite->non_wp_rules += $new_non_wp_rules;
 }

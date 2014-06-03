@@ -32,7 +32,7 @@
 
     <link rel="shortcut icon" href="<?php echo URL;?>/favicon.ico"/>
 
-    <link rel="stylesheet" href="/wp-content/themes/canon/style.min.d23684b0.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/style.min.403afc70.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/home.min.1590418c.css" type="text/css" media="all" />
     <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit() || is_plugin() || is_color()): ?>
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/login.min.d45f953e.css" type="text/css" media="all" />
@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/user.min.25a2fa15.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_single()): ?>
-    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/image.min.77658f6f.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/image.min.f19fd8a0.css" type="text/css" media="all" />
     <?php endif ?>
     <?php if (is_custom_category()): ?>
     <link rel="stylesheet" href="/wp-content/themes/canon/css-dist/overview.min.af803dcb.css" type="text/css" media="all" />

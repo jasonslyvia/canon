@@ -44,3 +44,13 @@ $(".options").each(function(i,v){
         });
     }
 });
+
+$(".evil-clear-btn").bind("click", function(e){
+    var $btn = $(this);
+    $btn.text("清理中……");
+
+    $.post("/clear-evil-images", function(data){
+        alert(data.message);
+        $btn.text("一键清理垃圾信息");
+    });
+});

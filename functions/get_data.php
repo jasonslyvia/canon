@@ -129,19 +129,20 @@ function get_user_followed_image($user_id, $page = 1, $display = true){
     global $query;
     global $wpdb;
 
-    $page_size = PAGE_SIZE;
-    $limit = --$page * $page_size;
-
-    $follow_record = $wpdb->get_col("
-        SELECT follower_id FROM user_relation
+    $follow_record = $wpdb->get_results("
+        SELECT ur.follower_id, wu.display_name
+        FROM user_relation ur
+        LEFT JOIN wp_users wu ON wu.ID = follower_id
         WHERE followee_id = {$user_id}
-        LIMIT {$limit},{$page_size}
-      ");
+      ", ARRAY_A);
 
     if (count($follow_record) > 0) {
-      $query = new WP_Query(array("author__in" => $follow_record,
-                                  "posts_per_page" => PAGE_SIZE));
       $post_count = count($follow_record);
+      $query = new WP_Query(array("author__in" => array_map(function($el){
+                                    return $el['follower_id'];
+                                  }, $follow_record),
+                                  "posts_per_page" => PAGE_SIZE,
+                                  "offset" => --$page * PAGE_SIZE));
     }
     else{
       $query = null;
@@ -166,19 +167,20 @@ function get_user_following_image($user_id, $page = 1, $display = true){
     global $query;
     global $wpdb;
 
-    $page_size = PAGE_SIZE;
-    $limit = --$page * PAGE_SIZE;
-
-    $follow_record = $wpdb->get_col("
-        SELECT followee_id FROM user_relation
+    $follow_record = $wpdb->get_results("
+        SELECT ur.followee_id, wu.display_name
+        FROM user_relation ur
+        LEFT JOIN wp_users wu ON wu.ID = ur.followee_id
         WHERE follower_id = {$user_id}
-        LIMIT {$limit},{$page_size}
-      ");
+      ", ARRAY_A);
 
     if (count($follow_record) > 0) {
-      $query = new WP_Query(array("author__in" => $follow_record,
-                                  "posts_per_page" => PAGE_SIZE));
       $post_count = count($follow_record);
+      $query = new WP_Query(array("author__in" => array_map(function($el){
+                                    return $el['followee_id'];
+                                  }, $follow_record),
+                                  "posts_per_page" => PAGE_SIZE,
+                                  "offset" => --$page * PAGE_SIZE));
     }
     else{
       $query = null;

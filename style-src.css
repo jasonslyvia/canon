@@ -2886,3 +2886,11 @@ bottom: 40px;
 left: 15px;
 width: 150px;
 }
+
+.more-follow-area .more-follow-list{
+  display: none;
+}
+
+.more-follow-area .more-follow-list li{
+  list-style: initial;
+}

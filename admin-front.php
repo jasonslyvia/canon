@@ -66,6 +66,9 @@ var nonce = '<?php echo wp_create_nonce("admin_".get_current_user_id()); ?>';
         <li>
           <a href="/wp-admin/edit-tags.php?taxonomy=category">主题管理</a>
         </li>
+        <li>
+          <a href="#" class="evil-clear-btn">一键清理垃圾信息</a>
+        </li>
       </ol>
     </div>
 

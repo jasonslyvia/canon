@@ -84,7 +84,7 @@
     <?php endif ?>
 
     <?php if (is_profile()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/user.min.d995e575.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/user.min.08d2399e.js"></script>
     <?php endif ?>
 
     <?php if (is_single()): ?>
@@ -96,7 +96,7 @@
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/edit.min.43ad4966.js"></script>
     <?php endif ?>
     <?php if (is_admin_front()): ?>
-    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/admin.min.3c33347f.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/canon/js-dist/admin.min.73722275.js"></script>
     <?php endif ?>
     <?php if (is_color()): ?>
     <script type="text/javascript" src="/wp-content/themes/canon/js-dist/color.min.a8333fa4.js"></script>

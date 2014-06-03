@@ -30,7 +30,6 @@ else{
 //获取用户保存的图片信息及对应的数量
 require('functions/get_data.php');
 list($query, $post_count, $follow_record) = get_user_followed_image($uid, 1, false);
-
 get_header();
 
 ?>
@@ -61,11 +60,17 @@ var nonce = '<?php echo wp_create_nonce("user_pic_action_".get_current_user_id()
       <div class="plain-stat">
         <p>共有 <?php echo $post_count;?> 位用户关注 <?php echo($name); ?></p>
         <ul class="followees">
-          <?php foreach ($follow_record as $followee) { ?>
-            <li><a href="/profile/<?php echo $followee; ?>"><?php
-              echo get_userdata($followee)->display_name; ?></a>
+          <?php $follow_arr = array_slice($follow_record, 0, 10);?>
+          <?php foreach ($follow_arr as $el) { ?>
+            <li><a href="/profile/<?php echo $el['follower_id']; ?>"><?php
+              echo $el['display_name']; ?></a>
             </li>
           <?php } ?>
+          <?php if (count($follow_record) > 10): ?>
+            <li class="more-follow-area" data-more='<?php echo json_encode(array_slice($follow_record, 10)); ?>'>
+              <a class="more-btn" href="#">查看全部</a>
+            </li>
+          <?php endif ?>
         </ul>
       </div>
     </div>

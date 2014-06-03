@@ -1020,8 +1020,10 @@ padding-left: 15px;
 #moreImages li a img {
   -webkit-transition: -webkit-filter .15s ease-out;
   -webkit-backface-visibility: hidden;
-  a-webkit-filter: contrast(101%) saturate(101%);
-display: block;
+  -webkit-filter: contrast(101%) saturate(101%);
+  display: block;
+  min-width: 200px;
+  min-height: 150px;
 }
 
 #moreImages li a:hover img {
@@ -1079,6 +1081,9 @@ margin: 0 auto;
 
 #moreImages ul li {
   position: relative;
+  overflow: hidden;
+  width: 200px;
+  height: 150px;
 }
 
 #moreImages .images li .videoIcon {
