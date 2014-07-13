@@ -34,7 +34,8 @@
 
     <link rel="stylesheet" href="style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="css/home.css" type="text/css" media="all" />
-    <?php if(is_login() || is_upload() || is_signup() || is_settings() || is_activity() || is_page() || is_edit() || is_plugin() || is_color()): ?>
+    <?php if(is_login() || is_upload() || is_signup() || is_settings() ||
+              is_activity() || is_page() || is_edit() || is_plugin() || is_color()): ?>
     <link rel="stylesheet" href="css/login.css" type="text/css" media="all" />
     <?php endif; ?>
     <?php if (is_profile() && !is_activity()): ?>

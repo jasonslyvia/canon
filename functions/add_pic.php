@@ -111,7 +111,7 @@ function save_remote_image($url){
     $path = preg_replace('/^https?:\//i', '', $url);
     $p_info = pathinfo($path);
     $filename = $p_info["filename"];
-    $extension = $p_info["extension"];
+    $extension = strtolower($p_info["extension"]);
 
     $image = file_get_contents($url);
     if (strlen($image) > 5242880) {

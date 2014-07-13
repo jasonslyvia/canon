@@ -142,7 +142,7 @@ function create_thumb($filename, $thumbname, $target_width){
 	$target_width = $target_width ? $target_width : DEFAULT_WIDTH;
 
 	$extension = pathinfo($filename);
-	$extension = $extension['extension'];
+	$extension = strtolower($extension['extension']);
 
 	if ($width > $target_width) {
 		//创建宽度为 target_width 的缩略图

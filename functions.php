@@ -173,4 +173,28 @@ function remove_menus(){
 }
 add_action( 'admin_menu', 'remove_menus' );
 
+//过滤掉所有无关的内容
+function santitize_content($post_id){
+    $post = get_post($post_id);
+    $content = $post->post_content;
+
+    preg_match('/^([a-zA-Z0-9]{32})\.([a-z]{3,4})/', $content, $matches);
+
+    $ext = array('jpg', 'jpeg', 'png', 'bmp', 'gif');
+    //如果匹配出的后缀名不在允许的后缀名里，则删除该文章
+    if (!in_array(strtolower($matches[2]), $ext)) {
+        remove_action('save_post', 'santitize_content');
+        wp_delete_post($post_id);
+        add_action('save_post', 'santitize_content');
+    }
+    else{
+        remove_action('save_post', 'santitize_content');
+        wp_update_post(array('ID' => $post_id, 'post_content' => $matches[1].'.'.$matches[2]));
+        add_action('save_post', 'santitize_content');
+    }
+
+}
+add_action('save_post', 'santitize_content');
+
+
 ?>
